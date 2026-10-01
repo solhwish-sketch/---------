@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="전주와 도쿄의 일상을 나누는 하루핀">
+  <title>하루핀 ハルピン</title>
+
+  <!-- 지도 표시를 위해 Leaflet 기본 스타일을 CDN에서 불러옵니다. -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <!-- 앱의 화면 디자인을 담당할 CSS 파일입니다. -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- 지도 기능을 제공하는 Leaflet 라이브러리입니다. -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+  <!-- 앱의 동작을 작성할 JavaScript 파일입니다. -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- 앱 이름과 언어 전환 버튼이 있는 상단 영역입니다. -->
+  <header>
+    <h1>하루핀 ハルピン</h1>
+    <nav aria-label="언어 선택">
+      <button type="button" lang="ko" aria-pressed="true">한국어</button>
+      <button type="button" lang="ja" aria-pressed="false">日本語</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 현재 둘러볼 지역을 선택하는 버튼입니다. -->
+    <section aria-labelledby="region-heading">
+      <h2 id="region-heading">지역 선택</h2>
+      <div role="group" aria-label="지역 선택">
+        <button type="button" aria-pressed="true">전주</button>
+        <button type="button" aria-pressed="false">도쿄</button>
+      </div>
+    </section>
+
+    <!-- 선택한 지역의 지도와 게시글 위치를 보여줄 자리입니다. -->
+    <section aria-labelledby="map-heading">
+      <h2 id="map-heading">동네 지도</h2>
+      <div id="map" role="region" aria-label="전주와 도쿄의 게시글 지도">
+        <!-- JavaScript에서 이 영역에 Leaflet 지도를 표시합니다. -->
+      </div>
+    </section>
+
+    <!-- 동네의 장소와 일상을 공유하는 게시글 작성 양식입니다. -->
+    <section aria-labelledby="write-heading">
+      <h2 id="write-heading">동네 이야기 나누기</h2>
+      <form id="post-form">
+        <label for="nickname">닉네임</label>
+        <input id="nickname" name="nickname" type="text" required>
+
+        <label for="post-region">거주 지역</label>
+        <select id="post-region" name="region" required>
+          <option value="">지역을 선택하세요</option>
+          <option value="jeonju">전주</option>
+          <option value="tokyo">도쿄</option>
+        </select>
+
+        <label for="place">장소 이름</label>
+        <input id="place" name="place" type="text" required>
+
+        <label for="category">카테고리</label>
+        <select id="category" name="category" required>
+          <option value="">카테고리를 선택하세요</option>
+          <option value="school">학교생활</option>
+          <option value="cafe">동네 카페</option>
+          <option value="food">숨은 맛집</option>
+          <option value="walk">산책로</option>
+        </select>
+
+        <label for="photo">사진</label>
+        <input id="photo" name="photo" type="file" accept="image/*">
+
+        <label for="story">짧은 글</label>
+        <textarea id="story" name="story" rows="4" required></textarea>
+
+        <button type="submit">게시글 올리기</button>
+      </form>
+    </section>
+
+    <!-- 게시글을 카드 형태로 모아 보여줄 영역입니다. -->
+    <section aria-labelledby="feed-heading">
+      <h2 id="feed-heading">동네 피드</h2>
+      <div id="post-list" aria-live="polite">
+        <!-- JavaScript에서 게시글 카드를 이곳에 추가합니다. -->
+      </div>
+    </section>
+  </main>
+
+  <!-- 내 프로필과 내가 쓴 글을 확인하는 마이페이지 버튼입니다. -->
+  <footer>
+    <button type="button" id="mypage-button">마이페이지</button>
+  </footer>
+</body>
+</html>
