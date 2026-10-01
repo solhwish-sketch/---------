@@ -2,96 +2,173 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="전주와 도쿄의 일상을 나누는 하루핀">
-  <title>하루핀 ハルピン</title>
-
-  <!-- 지도 표시를 위해 Leaflet 기본 스타일을 CDN에서 불러옵니다. -->
+  <title>Haru Pin ハルピン</title>
+  <!-- 지도와 앱 화면 스타일, 기능을 불러옵니다. -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <!-- 앱의 화면 디자인을 담당할 CSS 파일입니다. -->
   <link rel="stylesheet" href="style.css">
-
-  <!-- 지도 기능을 제공하는 Leaflet 라이브러리입니다. -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
-  <!-- 앱의 동작을 작성할 JavaScript 파일입니다. -->
   <script src="script.js" defer></script>
 </head>
-<body>
-  <!-- 앱 이름과 언어 전환 버튼이 있는 상단 영역입니다. -->
-  <header>
-    <h1>하루핀 ハルピン</h1>
-    <nav aria-label="언어 선택">
-      <button type="button" lang="ko" aria-pressed="true">한국어</button>
-      <button type="button" lang="ja" aria-pressed="false">日本語</button>
-    </nav>
-  </header>
+<body class="welcome-mode">
+  <!-- 앱을 처음 열었을 때 보이는 언어 선택과 로그인 화면입니다. -->
+  <main class="welcome-screen" id="welcome-screen">
+    <section class="welcome-card" aria-labelledby="brand-title">
+      <div class="brand-mark" aria-hidden="true"><span>H</span><i>●</i></div>
+      <p class="brand-caption">하루의 장소와 이야기를 잇다</p>
+      <h1 id="brand-title">Haru Pin <span>ハルピン</span></h1>
 
-  <main>
-    <!-- 현재 둘러볼 지역을 선택하는 버튼입니다. -->
-    <section aria-labelledby="region-heading">
-      <h2 id="region-heading">지역 선택</h2>
-      <div role="group" aria-label="지역 선택">
-        <button type="button" aria-pressed="true">전주</button>
-        <button type="button" aria-pressed="false">도쿄</button>
-      </div>
-    </section>
+      <section class="language-section" aria-labelledby="language-heading">
+        <h2 id="language-heading">언어 설정</h2>
+        <div class="language-options" role="group" aria-label="언어 선택">
+          <button class="language-card is-selected" type="button" data-language="ko" aria-pressed="true">
+            <span class="language-flag" aria-hidden="true">🇰🇷</span>
+            <span class="language-name">한국어</span>
+            <span class="language-check" aria-hidden="true">✓</span>
+          </button>
+          <button class="language-card" type="button" data-language="ja" aria-pressed="false">
+            <span class="language-flag" aria-hidden="true">🇯🇵</span>
+            <span class="language-name">日本語 <small>(にほんご)</small></span>
+            <span class="language-check" aria-hidden="true">✓</span>
+          </button>
+        </div>
+      </section>
 
-    <!-- 선택한 지역의 지도와 게시글 위치를 보여줄 자리입니다. -->
-    <section aria-labelledby="map-heading">
-      <h2 id="map-heading">동네 지도</h2>
-      <div id="map" role="region" aria-label="전주와 도쿄의 게시글 지도">
-        <!-- JavaScript에서 이 영역에 Leaflet 지도를 표시합니다. -->
-      </div>
-    </section>
-
-    <!-- 동네의 장소와 일상을 공유하는 게시글 작성 양식입니다. -->
-    <section aria-labelledby="write-heading">
-      <h2 id="write-heading">동네 이야기 나누기</h2>
-      <form id="post-form">
-        <label for="nickname">닉네임</label>
-        <input id="nickname" name="nickname" type="text" required>
-
-        <label for="post-region">거주 지역</label>
-        <select id="post-region" name="region" required>
-          <option value="">지역을 선택하세요</option>
-          <option value="jeonju">전주</option>
-          <option value="tokyo">도쿄</option>
-        </select>
-
-        <label for="place">장소 이름</label>
-        <input id="place" name="place" type="text" required>
-
-        <label for="category">카테고리</label>
-        <select id="category" name="category" required>
-          <option value="">카테고리를 선택하세요</option>
-          <option value="school">학교생활</option>
-          <option value="cafe">동네 카페</option>
-          <option value="food">숨은 맛집</option>
-          <option value="walk">산책로</option>
-        </select>
-
-        <label for="photo">사진</label>
-        <input id="photo" name="photo" type="file" accept="image/*">
-
-        <label for="story">짧은 글</label>
-        <textarea id="story" name="story" rows="4" required></textarea>
-
-        <button type="submit">게시글 올리기</button>
+      <!-- 데모용 닉네임과 비밀번호 입력 폼입니다. -->
+      <form id="auth-form" class="auth-form">
+        <h2 id="auth-heading">로그인</h2>
+        <label for="auth-nickname">닉네임</label>
+        <input id="auth-nickname" name="nickname" type="text" autocomplete="username" required>
+        <label for="auth-password">비밀번호</label>
+        <input id="auth-password" name="password" type="password" autocomplete="current-password" required>
+        <button class="primary-auth-button" type="submit" id="login-button">로그인</button>
+        <button class="signup-button" type="button" id="signup-button">처음이에요 / 회원가입</button>
+        <p id="auth-status" role="status" aria-live="polite"></p>
       </form>
-    </section>
-
-    <!-- 게시글을 카드 형태로 모아 보여줄 영역입니다. -->
-    <section aria-labelledby="feed-heading">
-      <h2 id="feed-heading">동네 피드</h2>
-      <div id="post-list" aria-live="polite">
-        <!-- JavaScript에서 게시글 카드를 이곳에 추가합니다. -->
-      </div>
+      <p class="demo-note" id="demo-note">현재는 이 브라우저에만 계정 정보가 저장됩니다.</p>
+      <!-- 게시글 공유 링크도 localStorage 데이터를 사용하므로 현재는 같은 브라우저에서만 열립니다. Firebase 도입 후 서버 저장으로 전환합니다. -->
     </section>
   </main>
 
-  <!-- 내 프로필과 내가 쓴 글을 확인하는 마이페이지 버튼입니다. -->
-  <footer>
-    <button type="button" id="mypage-button">마이페이지</button>
-  </footer>
+  <!-- 로그인 뒤에 보이는 메인 지도 화면입니다. -->
+  <div id="app-shell" hidden>
+    <header class="app-header">
+      <h1>Haru Pin <span>ハルピン</span></h1>
+      <nav class="app-language-switch" aria-label="언어 선택">
+        <button type="button" lang="ko" aria-pressed="true">한국어</button>
+        <button type="button" lang="ja" aria-pressed="false">日本語</button>
+      </nav>
+      <div class="user-actions">
+        <span id="signed-in-name" aria-live="polite"></span>
+        <button type="button" id="profile-open-button">프로필</button>
+      </div>
+    </header>
+
+    <main class="map-screen">
+      <!-- Leaflet 지도가 헤더 아래 화면을 채웁니다. -->
+      <div id="map" role="region" aria-label="하루핀 동네 지도"></div>
+
+      <!-- 세계 장소 검색과 도시 이동 버튼입니다. -->
+      <div class="map-controls">
+        <form id="place-search" role="search">
+          <label class="visually-hidden" for="search-input">장소 검색</label>
+          <input id="search-input" name="q" type="search" autocomplete="off" placeholder="카페, 맛집, 관광지 검색">
+          <button type="submit" aria-label="검색">⌕</button>
+        </form>
+        <p id="search-status" role="status" aria-live="polite"></p>
+        <div class="city-switch" role="group" aria-label="지역 선택">
+          <button type="button" data-region="jeonju" aria-pressed="true">전주</button>
+          <button type="button" data-region="tokyo" aria-pressed="false">도쿄</button>
+        </div>
+      </div>
+
+      <!-- 아래에서 올라오는 게시글 피드입니다. -->
+      <section class="feed-sheet" id="feed-sheet" aria-labelledby="feed-heading">
+        <button class="sheet-handle" id="feed-toggle" type="button" aria-expanded="true" aria-controls="post-list">
+          <span class="handle-bar" aria-hidden="true"></span>
+          <span id="feed-heading">동네 피드</span>
+          <span class="sheet-chevron" aria-hidden="true">⌃</span>
+        </button>
+        <div id="post-list" aria-live="polite"></div>
+        <button type="button" id="mypage-button">마이페이지</button>
+      </section>
+
+      <!-- 빨간색 + 버튼으로 게시글 쓰기를 시작합니다. -->
+      <button type="button" id="compose-button" aria-label="새 게시글 작성">+</button>
+
+      <!-- 게시글 작성 폼은 지도 위에 펼쳐집니다. -->
+      <section class="compose-sheet" id="compose-panel" aria-labelledby="write-heading" hidden>
+        <div class="compose-heading">
+          <h2 id="write-heading">동네 이야기 나누기</h2>
+          <button type="button" id="close-compose" aria-label="닫기">×</button>
+        </div>
+        <form id="post-form">
+          <label for="nickname">닉네임</label>
+          <input id="nickname" name="nickname" type="text" required readonly>
+          <label for="post-region">거주 지역</label>
+          <select id="post-region" name="region" required>
+            <option value="">지역을 선택하세요</option>
+            <option value="jeonju">전주</option>
+            <option value="tokyo">도쿄</option>
+          </select>
+          <label for="place">장소 이름</label>
+          <input id="place" name="place" type="text" required>
+          <label for="category">카테고리</label>
+          <select id="category" name="category" required>
+            <option value="">카테고리를 선택하세요</option>
+            <option value="school">학교생활</option>
+            <option value="cafe">동네 카페</option>
+            <option value="food">숨은 맛집</option>
+            <option value="walk">산책로</option>
+          </select>
+          <label for="photo">사진</label>
+          <input id="photo" name="photo" type="file" accept="image/*">
+          <label for="story">짧은 글</label>
+          <textarea id="story" name="story" rows="3" required></textarea>
+          <button type="submit">게시글 올리기</button>
+        </form>
+      </section>
+    </main>
+    <!-- 회원가입 직후 닉네임과 사진을 등록하는 화면입니다. -->
+    <main class="profile-setup-screen" id="profile-setup-screen" hidden>
+      <section class="profile-panel">
+        <h2 id="profile-setup-heading">프로필 설정</h2>
+        <div class="avatar-wrap"><img id="setup-avatar" class="profile-avatar" alt="프로필 사진 미리보기"></div>
+        <label id="setup-nickname-label" for="setup-nickname">닉네임</label>
+        <input id="setup-nickname" maxlength="12" autocomplete="nickname">
+        <p class="profile-hint" id="setup-status" role="status" aria-live="polite"></p>
+        <label id="setup-photo-label" for="setup-photo">프로필 사진 (선택)</label>
+        <input id="setup-photo" type="file" accept="image/*">
+        <button type="button" id="start-button" class="profile-primary">시작하기</button>
+      </section>
+    </main>
+    <!-- 프로필에서 게시글, 댓글, 좋아요를 확인합니다. -->
+    <main class="profile-page" id="profile-page" hidden>
+      <section class="profile-panel profile-page-panel">
+        <button type="button" id="back-to-map" class="profile-back">← 지도로 돌아가기</button>
+        <div class="profile-summary">
+          <img id="profile-avatar" class="profile-avatar" alt="프로필 사진">
+          <div><h2 id="profile-name"></h2><button type="button" id="edit-profile-button">프로필 수정</button></div>
+        </div>
+        <form id="edit-profile-form" class="profile-edit" hidden>
+          <label id="edit-nickname-label" for="edit-nickname">닉네임</label>
+          <input id="edit-nickname" maxlength="12">
+          <label id="edit-photo-label" for="edit-photo">프로필 사진</label>
+          <input id="edit-photo" type="file" accept="image/*">
+          <img id="edit-avatar-preview" class="profile-avatar profile-avatar-small" alt="프로필 사진 미리보기">
+          <p id="edit-profile-status" class="profile-hint" role="status"></p>
+          <button type="submit" id="save-profile-button" class="profile-primary">저장</button>
+        </form>
+        <div class="profile-tabs" role="tablist" aria-label="프로필 게시물">
+          <button type="button" data-profile-tab="posts" role="tab" aria-selected="true">내 포스트</button>
+          <button type="button" data-profile-tab="comments" role="tab" aria-selected="false">내 댓글</button>
+          <button type="button" data-profile-tab="likes" role="tab" aria-selected="false">좋아요</button>
+        </div>
+        <div id="profile-content" class="profile-content" role="tabpanel"></div>
+        <button type="button" id="profile-logout-button" class="profile-logout">로그아웃</button>
+      </section>
+    </main>
+  </div>
 </body>
 </html>

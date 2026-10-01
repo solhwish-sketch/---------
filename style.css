@@ -1,224 +1,270 @@
-﻿/* 화면 전체에 적용할 기본 색상과 글꼴입니다. */
+﻿/* 앱에서 함께 사용하는 색상과 기본 설정입니다. */
 :root {
   --color-beige: #F5EBDD;
   --color-sky-blue: #87CEEB;
-  --color-sky-blue-dark: #5BB6D8;
+  --color-sky-blue-dark: #56ADD0;
   --color-text: #34434A;
   --color-white: #FFFFFF;
-  --color-shadow: rgba(52, 67, 74, 0.12);
+  --color-shadow: 0 5px 22px rgba(30, 45, 55, 0.2);
+  --header-height: 68px;
 }
 
-/* 요소 크기에 테두리와 안쪽 여백까지 포함해 계산합니다. */
-* {
-  box-sizing: border-box;
-}
-
-/* 페이지의 기본 배경과 글자 모양을 정합니다. */
-body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--color-beige);
-  color: var(--color-text);
-  font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
-  line-height: 1.6;
-}
-
-/* 헤더는 앱 이름과 언어 버튼을 양 끝에 배치합니다. */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem clamp(1rem, 4vw, 3rem);
-  background-color: var(--color-sky-blue);
-  box-shadow: 0 3px 12px var(--color-shadow);
-}
-
-header h1 {
-  margin: 0;
-  color: var(--color-text);
-  font-size: clamp(1.35rem, 3vw, 1.9rem);
-}
-
-/* 언어 버튼을 가로로 나란히 놓습니다. */
-header nav {
-  display: flex;
-  gap: 0.5rem;
-}
-
-/* 본문은 읽기 편하도록 최대 너비와 바깥 여백을 둡니다. */
-main {
-  width: min(100% - 2rem, 1200px);
-  margin: 2rem auto;
-}
-
-/* 각 내용 영역은 둥근 흰색 카드로 표현합니다. */
-main section {
-  margin-bottom: 1.5rem;
-  padding: clamp(1rem, 2.5vw, 1.5rem);
-  border-radius: 20px;
-  background-color: var(--color-white);
-  box-shadow: 0 6px 20px var(--color-shadow);
-}
-
-h2 {
-  margin: 0 0 1rem;
-  font-size: 1.25rem;
-}
-
-/* 버튼은 스카이블루로 통일하고, 마우스를 올리면 살짝 움직입니다. */
+* { box-sizing: border-box; }
+button, input, select, textarea { font: inherit; }
 button {
-  min-height: 2.75rem;
-  padding: 0.65rem 1rem;
   border: 0;
   border-radius: 999px;
-  background-color: var(--color-sky-blue);
-  color: var(--color-text);
-  font: inherit;
-  font-weight: 700;
   cursor: pointer;
-  transition: background-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  transition: transform 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
 }
-
-button:hover {
-  transform: translateY(-2px);
-  background-color: var(--color-sky-blue-dark);
-  box-shadow: 0 4px 10px var(--color-shadow);
-}
-
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
+button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(30, 45, 55, 0.16); }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
   outline: 3px solid #357A96;
   outline-offset: 2px;
 }
+[hidden] { display: none !important; }
 
-/* 선택된 지역이나 언어 버튼은 조금 더 진하게 표시합니다. */
-button[aria-pressed="true"] {
-  background-color: var(--color-sky-blue-dark);
-}
-
-/* 지도 영역과 피드 목록을 PC에서 좌우로 배치합니다. */
-#map,
-#post-list {
-  min-height: 360px;
-  border-radius: 14px;
-  background-color: #F1F7F8;
-}
-
-/* Leaflet 지도가 부모 영역의 둥근 모서리를 따르게 합니다. */
-#map {
-  height: 420px;
-  overflow: hidden;
-  z-index: 0;
-}
-
-/* 피드는 카드들을 세로로 쌓을 수 있도록 간격을 둡니다. */
-#post-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-  overflow-y: auto;
-}
-
-/* 게시글 카드가 추가될 때 사용할 기본 모양입니다. */
-.post-card {
-  padding: 1rem;
-  border-radius: 16px;
-  background-color: var(--color-white);
-  box-shadow: 0 3px 12px var(--color-shadow);
-}
-
-/* 작성 폼의 입력 항목을 읽기 쉬운 세로 순서로 둡니다. */
-#post-form {
+/* 시작 화면은 구름을 닮은 하늘색 배경과 둥근 카드로 꾸밉니다. */
+html, body { width: 100%; min-height: 100%; margin: 0; color: var(--color-text); font-family: "Noto Sans KR", "Malgun Gothic", sans-serif; line-height: 1.5; }
+body.welcome-mode { min-height: 100svh; overflow-y: auto; background: linear-gradient(155deg, #8CCFF0 0%, #D9F1FB 38%, #F5EBDD 100%); }
+.welcome-screen {
+  position: relative;
   display: grid;
-  gap: 0.6rem;
+  min-height: 100svh;
+  place-items: center;
+  padding: 28px 16px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 8% 16%, rgba(255,255,255,.76) 0 5%, transparent 20%),
+    radial-gradient(ellipse at 95% 20%, rgba(255,255,255,.72) 0 7%, transparent 22%),
+    radial-gradient(ellipse at 14% 88%, rgba(255,255,255,.7) 0 8%, transparent 24%),
+    linear-gradient(155deg, #8CCFF0 0%, #D9F1FB 42%, #F5EBDD 100%);
 }
-
-#post-form label {
-  margin-top: 0.4rem;
-  font-weight: 700;
+.welcome-screen::before, .welcome-screen::after {
+  position: absolute;
+  width: 210px;
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.38);
+  content: "";
+  filter: blur(2px);
 }
-
-#post-form input,
-#post-form select,
-#post-form textarea {
+.welcome-screen::before { top: 8%; left: -70px; }
+.welcome-screen::after { right: -90px; bottom: 9%; width: 290px; }
+.welcome-card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 430px);
+  padding: 30px clamp(22px, 6vw, 38px) 24px;
+  border: 1px solid rgba(255,255,255,.82);
+  border-radius: 30px;
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 18px 55px rgba(48, 112, 145, .2);
+  backdrop-filter: blur(12px);
+}
+.brand-mark {
+  position: relative;
+  display: grid;
+  width: 62px;
+  height: 62px;
+  place-items: center;
+  margin: 0 auto 7px;
+  border-radius: 22px 22px 22px 7px;
+  background: var(--color-sky-blue);
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 900;
+  transform: rotate(-5deg);
+}
+.brand-mark i { position: absolute; top: 8px; right: 8px; color: #F56B78; font-size: .8rem; font-style: normal; }
+.brand-caption { margin: 0; color: #658493; font-size: .78rem; text-align: center; letter-spacing: .08em; }
+#brand-title { margin: 3px 0 24px; color: #3D4A4F; font-size: clamp(1.7rem, 8vw, 2.25rem); text-align: center; letter-spacing: -.04em; }
+#brand-title span { color: #567C8C; font-size: .74em; }
+.language-section h2, .auth-form h2 { margin: 0 0 10px; font-size: 1rem; }
+.language-options { display: grid; gap: 9px; }
+.language-card {
+  display: grid;
+  grid-template-columns: 42px 1fr 28px;
+  align-items: center;
   width: 100%;
-  min-height: 2.75rem;
-  padding: 0.7rem 0.8rem;
-  border: 1px solid #D5E0E3;
-  border-radius: 12px;
-  background-color: #FFFEFC;
+  min-height: 58px;
+  padding: 8px 12px;
+  border: 1px solid #E7ECEE;
+  border-radius: 18px;
+  background: #F7F8F8;
   color: var(--color-text);
-  font: inherit;
+  text-align: left;
+}
+.language-card:hover { transform: translateY(-1px); }
+.language-card.is-selected { border-color: transparent; background: #E5F4FB; }
+.language-flag { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 50%; background: #fff; font-size: 1.35rem; }
+.language-name { font-weight: 700; }
+.language-name small { color: #738087; font-size: .8em; font-weight: 500; }
+.language-check {
+  display: grid;
+  width: 23px;
+  height: 23px;
+  place-items: center;
+  border-radius: 50%;
+  background: #1787E8;
+  color: #fff;
+  font-size: .85rem;
+  opacity: 0;
+  transform: scale(.75);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+.language-card.is-selected .language-check { opacity: 1; transform: scale(1); }
+.auth-form { display: grid; gap: 7px; margin-top: 22px; }
+.auth-form label { margin-top: 3px; font-size: .9rem; font-weight: 700; }
+.auth-form input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 13px;
+  border: 1px solid #DAE4E8;
+  border-radius: 13px;
+  background: #fff;
+  color: var(--color-text);
+}
+.primary-auth-button, .signup-button { min-height: 46px; padding: 9px 14px; font-weight: 800; }
+.primary-auth-button { margin-top: 8px; background: var(--color-sky-blue); color: #203C49; }
+.primary-auth-button:hover { background: var(--color-sky-blue-dark); }
+.signup-button { border: 1px solid #D9E9F0; background: #F1F9FC; color: #426779; }
+#auth-status { min-height: 1.3em; margin: 2px 0 0; color: #BA3F50; font-size: .88rem; }
+.demo-note { margin: 14px 0 0; color: #7A8589; font-size: .75rem; text-align: center; }
+
+/* 로그인 후에는 지도 화면만 스크롤을 막고 전체 창을 채웁니다. */
+body.app-mode { height: 100%; overflow: hidden; }
+#app-shell { width: 100%; height: 100dvh; overflow: hidden; }
+.app-header {
+  position: relative;
+  z-index: 1000;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px clamp(14px, 4vw, 30px);
+  background: var(--color-sky-blue);
+  box-shadow: 0 2px 10px rgba(30, 45, 55, 0.18);
+}
+.app-header h1 { margin: 0; font-size: clamp(1.1rem, 3vw, 1.55rem); }
+.app-header h1 span { font-size: .78em; }
+.app-language-switch { display: flex; gap: 4px; margin-left: auto; }
+.app-language-switch button { padding: 6px 9px; background: rgba(255,255,255,.62); color: var(--color-text); font-size: .78rem; }
+.app-language-switch button[aria-pressed="true"] { background: #fff; font-weight: 800; }
+.user-actions { display: flex; align-items: center; gap: 10px; }
+#signed-in-name { max-width: 30vw; overflow: hidden; color: #274957; font-size: .9rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+#profile-open-button { min-height: 38px; padding: 6px 14px; background: rgba(255,255,255,.88); color: var(--color-text); font-size: .88rem; font-weight: 700; }
+.map-screen {
+  position: relative;
+  width: 100%;
+  height: calc(100dvh - var(--header-height));
+  min-height: 300px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #e6edf0;
 }
 
-#post-form textarea {
-  min-height: 7rem;
-  resize: vertical;
-}
+/* 지도는 헤더 바로 아래부터 화면 끝까지 펼쳐집니다. */
+#map { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; background: #e6edf0; }
+.leaflet-container { font: inherit; }
+.map-controls { position: absolute; z-index: 500; top: 16px; left: 50%; width: min(620px, calc(100% - 32px)); transform: translateX(-50%); }
+#place-search { display: flex; align-items: center; height: 54px; padding: 5px 7px 5px 20px; border-radius: 999px; background: var(--color-white); box-shadow: var(--color-shadow); }
+#search-input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; color: var(--color-text); font-size: 1rem; }
+#search-input::placeholder { color: #738087; opacity: 1; }
+#place-search button { flex: 0 0 42px; width: 42px; height: 42px; padding: 0; background: var(--color-sky-blue); color: var(--color-text); font-size: 1.65rem; line-height: 1; }
+#search-status { width: fit-content; max-width: 100%; min-height: 0; margin: 6px auto 0; padding: 0; border-radius: 999px; color: var(--color-text); font-size: .9rem; text-align: center; }
+#search-status:not(:empty) { padding: 6px 14px; background: rgba(255,255,255,.96); box-shadow: 0 2px 10px rgba(30,45,55,.12); }
+.city-switch { display: flex; justify-content: center; gap: 8px; margin-top: 9px; }
+.city-switch button { min-width: 68px; min-height: 36px; padding: 6px 14px; background: rgba(255,255,255,.95); color: var(--color-text); box-shadow: 0 2px 10px rgba(30,45,55,.16); font-size: .9rem; font-weight: 700; }
+.city-switch button[aria-pressed="true"] { background: var(--color-sky-blue); }
 
-#post-form button {
-  justify-self: start;
-  margin-top: 0.5rem;
-}
+/* 아래에서 올라오는 피드 패널과 게시글 카드입니다. */
+.feed-sheet { position: absolute; z-index: 600; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; height: min(32vh, 300px); max-height: min(46vh, 430px); min-height: 76px; padding: 0 clamp(14px,4vw,28px) 10px; border-radius: 22px 22px 0 0; background: rgba(255,255,255,.97); box-shadow: 0 -5px 25px rgba(30,45,55,.18); transition: height 220ms ease, max-height 220ms ease; }
+.sheet-handle { position: relative; display: flex; flex: 0 0 58px; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 12px 0 4px; border-radius: 0; background: transparent; color: var(--color-text); font-weight: 800; }
+.sheet-handle:hover { transform: none; box-shadow: none; }
+.handle-bar { position: absolute; top: 8px; left: 50%; width: 38px; height: 4px; border-radius: 4px; background: #CBD3D7; transform: translateX(-50%); }
+.sheet-chevron { color: #78868C; }
+.feed-sheet.is-collapsed { height: 70px; max-height: 70px; }
+.feed-sheet.is-collapsed #post-list, .feed-sheet.is-collapsed #mypage-button { display: none; }
+#post-list { display: flex; flex: 1; flex-direction: row; gap: 12px; min-height: 0; padding: 0 2px 10px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; }
+.post-card { flex: 0 0 min(340px,82vw); align-self: stretch; padding: 14px 16px; overflow-y: auto; border: 1px solid #E8EEF0; border-radius: 16px; background: #fff; box-shadow: 0 3px 12px rgba(30,45,55,.09); scroll-snap-align: start; cursor: pointer; }
+.post-card h3 { margin: 0 0 4px; font-size: 1rem; }
+.post-author-avatar { float: left; width: 30px; height: 30px; margin: 0 8px 4px 0; border-radius: 50%; background: var(--color-sky-blue); object-fit: cover; }
+.post-card p { margin: 5px 0; font-size: .9rem; }
+.post-card img { max-width: 100%; border-radius: 12px; }
+.post-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.post-actions button { min-height: 32px; padding: 5px 10px; background: #EAF7FC; color: var(--color-text); font-size: .82rem; }
+.comment-list { margin: 8px 0 0; padding-left: 18px; font-size: .82rem; }
+#mypage-button { align-self: flex-end; min-height: 36px; padding: 6px 14px; background: var(--color-sky-blue); color: var(--color-text); font-size: .88rem; font-weight: 700; }
+#compose-button { position: absolute; z-index: 700; right: clamp(16px,4vw,30px); bottom: calc(min(32vh,300px) + 22px); display: grid; width: 62px; height: 62px; place-items: center; padding: 0 0 4px; border-radius: 50%; background: #F04452; color: #fff; box-shadow: 0 5px 18px rgba(120,30,40,.3); font-size: 2.4rem; line-height: 1; }
+#compose-button:hover { background: #D92E3D; }
+.feed-sheet.is-collapsed ~ #compose-button { bottom: 92px; }
 
-/* 마이페이지 버튼을 화면 아래 가운데에 놓습니다. */
-footer {
-  padding: 0 1rem 2rem;
-  text-align: center;
-}
+/* 글쓰기 폼은 지도 위에서 열리는 카드형 패널입니다. */
+.compose-sheet { position: absolute; z-index: 800; right: max(12px,calc((100% - 620px)/2)); bottom: 16px; width: min(520px,calc(100% - 24px)); max-height: calc(100% - 32px); padding: 16px 18px 20px; overflow-y: auto; border-radius: 22px; background: rgba(255,255,255,.98); box-shadow: var(--color-shadow); }
+.compose-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.compose-heading h2 { margin: 0 0 8px; font-size: 1.15rem; }
+#close-compose { width: 36px; height: 36px; background: #F0F3F4; font-size: 1.4rem; }
+#post-form { display: grid; grid-template-columns: 1fr; gap: 5px; }
+#post-form label { margin-top: 4px; font-size: .9rem; font-weight: 700; }
+#post-form input, #post-form select, #post-form textarea { width: 100%; min-height: 40px; padding: 8px 11px; border: 1px solid #D5E0E3; border-radius: 11px; background: #FFFEFC; color: var(--color-text); }
+#post-form input[readonly] { background: #F2F7F9; }
+#post-form textarea { min-height: 70px; resize: vertical; }
+#post-form button[type="submit"] { justify-self: stretch; min-height: 44px; margin-top: 8px; background: var(--color-sky-blue); color: var(--color-text); font-weight: 800; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
-/* 화면이 넓을 때 지도와 피드를 두 열로 배치합니다. */
-@media (min-width: 800px) {
-  main {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: 1.5rem;
-    align-items: start;
-  }
+/* 프로필 설정과 마이페이지도 기존 베이지·하늘색 카드 디자인을 따릅니다. */
+.profile-setup-screen, .profile-page { width: 100%; height: calc(100dvh - var(--header-height)); padding: 18px; overflow-y: auto; background: linear-gradient(145deg, #F5EBDD, #E6F5FB); }
+.profile-panel { width: min(100%, 680px); margin: 0 auto; padding: clamp(18px, 4vw, 30px); border: 1px solid #fff; border-radius: 24px; background: rgba(255,255,255,.96); box-shadow: var(--color-shadow); }
+.profile-panel > h2 { margin: 0 0 18px; }
+.profile-avatar { display: grid; width: 112px; height: 112px; place-items: center; border: 3px solid #D8EFF8; border-radius: 50%; background: var(--color-sky-blue); color: #244956; object-fit: cover; font-size: 2.5rem; font-weight: 800; }
+.avatar-wrap { display: flex; justify-content: center; margin: 10px 0 20px; }
+.profile-panel label { display: block; margin: 12px 0 5px; font-weight: 700; }
+.profile-panel input:not([type=file]) { width: 100%; min-height: 44px; padding: 9px 12px; border: 1px solid #D5E0E3; border-radius: 12px; }
+.profile-panel input[type=file] { display: block; width: 100%; padding: 8px 0; }
+.profile-primary, .profile-logout { min-height: 44px; padding: 9px 16px; background: var(--color-sky-blue); color: var(--color-text); font-weight: 800; }
+#start-button { width: 100%; margin-top: 12px; }
+.profile-hint { min-height: 1.4em; margin: 4px 0; color: #BA3F50; font-size: .88rem; }
+.profile-back { margin-bottom: 16px; padding: 8px 13px; background: #EAF7FC; color: var(--color-text); font-weight: 700; }
+.profile-summary { display: flex; align-items: center; gap: 18px; padding: 8px 0 20px; }
+.profile-summary h2 { margin: 0 0 8px; }
+.profile-summary button { padding: 8px 13px; background: #EAF7FC; color: var(--color-text); font-weight: 700; }
+.profile-edit { display: grid; gap: 5px; padding: 16px; border-radius: 16px; background: #F7FAFB; }
+.profile-avatar-small { width: 72px; height: 72px; font-size: 1.8rem; }
+.profile-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 18px 0 12px; }
+.profile-tabs button { min-height: 42px; padding: 7px; background: #F2F5F6; color: var(--color-text); font-weight: 700; }
+.profile-tabs button[aria-selected="true"] { background: var(--color-sky-blue); }
+.profile-content { display: grid; gap: 10px; max-height: min(40vh, 390px); overflow-y: auto; }
+.profile-item { padding: 13px 15px; border: 1px solid #E8EEF0; border-radius: 15px; background: #fff; }
+.profile-item h3 { margin: 0 0 5px; font-size: 1rem; }
+.profile-item p { margin: 4px 0; }
+.profile-item button { margin: 5px 5px 0 0; padding: 7px 11px; background: #EAF7FC; color: var(--color-text); }
+.profile-logout { display: block; width: 100%; margin-top: 18px; background: #F3E7DC; }
 
-  /* 지역 선택과 게시글 작성 폼은 두 열 전체 너비를 사용합니다. */
-  main section:first-child,
-  main section:nth-child(3) {
-    grid-column: 1 / -1;
-  }
-
-  main section:nth-child(2),
-  main section:nth-child(4) {
-    width: 100%;
-  }
-
-  footer {
-    grid-column: 1 / -1;
-  }
-}
-
-/* 휴대폰처럼 좁은 화면에서는 헤더와 콘텐츠를 세로로 놓습니다. */
+/* 작은 화면에서는 시작 카드와 지도 도구를 화면 너비에 맞춥니다. */
 @media (max-width: 520px) {
-  header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  main {
-    width: min(100% - 1.25rem, 1200px);
-    margin-top: 1rem;
-  }
-
-  main section {
-    margin-bottom: 1rem;
-    border-radius: 16px;
-  }
-
-  #map {
-    height: 320px;
-  }
-
-  #map,
-  #post-list {
-    min-height: 300px;
-  }
+  :root { --header-height: 60px; }
+  .welcome-screen { padding: 18px 13px; }
+  .welcome-card { padding: 24px 21px 20px; border-radius: 26px; }
+  #brand-title { margin-bottom: 20px; }
+  .app-header { padding-inline: 12px; }
+  .app-header h1 { font-size: 1.05rem; }
+  .app-language-switch { gap: 2px; }
+  .app-language-switch button { padding-inline: 6px; font-size: .7rem; }
+  .user-actions { gap: 6px; }
+  #signed-in-name { max-width: 24vw; font-size: .8rem; }
+  #profile-open-button { min-height: 34px; padding-inline: 10px; font-size: .8rem; }
+  .map-controls { top: 12px; width: calc(100% - 24px); }
+  #place-search { height: 50px; padding-left: 16px; }
+  #search-input { font-size: .92rem; }
+  .feed-sheet { height: 31vh; max-height: 37vh; padding-inline: 12px; }
+  .feed-sheet.is-collapsed { height: 68px; max-height: 68px; }
+  #post-list { flex-direction: column; overflow-x: hidden; overflow-y: auto; }
+  .post-card { flex: 0 0 auto; min-height: 120px; }
+  #compose-button { right: 16px; bottom: calc(31vh + 18px); width: 58px; height: 58px; }
+  .feed-sheet.is-collapsed ~ #compose-button { bottom: 84px; }
+  .compose-sheet { right: 8px; bottom: 8px; width: calc(100% - 16px); max-height: calc(100% - 16px); padding: 13px 15px 16px; }
 }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } }

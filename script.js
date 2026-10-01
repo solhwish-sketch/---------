@@ -1,39 +1,63 @@
-﻿/* 하루핀의 지도, 게시글, 언어, 저장 기능을 연결하는 순수 JavaScript입니다. */
+﻿/* 하루핀의 지도, 장소 검색, 피드, 글쓰기 기능을 연결합니다. */
 (() => {
   "use strict";
 
   const STORAGE_KEY = "harupin-data-v1";
   const PROFILE_KEY = "harupin-nickname-v1";
+  const ACCOUNT_KEY = "harupin-demo-account-v1";
+  const ACCOUNTS_KEY = "harupin-demo-accounts-v1";
+  const SESSION_KEY = "harupin-demo-session-v1";
+  const LANGUAGE_KEY = "harupin-language-v1";
+  const PROFILES_KEY = "harupin-profiles-v1";
+  const LIKES_KEY = "harupin-likes-v1";
   const locales = {
-    jeonju: { name: "전주", center: [35.8467, 127.1296], zoom: 14 },
-    tokyo: { name: "도쿄", center: [35.6812, 139.7671], zoom: 13 }
+    jeonju: { name: { ko: "전주", ja: "全州" }, center: [35.8467, 127.1296], zoom: 14 },
+    tokyo: { name: { ko: "도쿄", ja: "東京" }, center: [35.6812, 139.7671], zoom: 13 }
   };
-  const categoryNames = {
+  const categories = {
     ko: { school: "학교생활", cafe: "동네 카페", food: "숨은 맛집", walk: "산책로" },
     ja: { school: "学校生活", cafe: "近所のカフェ", food: "隠れた名店", walk: "散歩道" }
   };
-  const words = {
+  const text = {
     ko: {
-      lang: "ko", chooseRegion: "지역 선택", map: "동네 지도", write: "동네 이야기 나누기",
-      feed: "동네 피드", profile: "마이페이지", nickname: "닉네임", residence: "거주 지역",
-      place: "장소 이름", category: "카테고리", photo: "사진", story: "짧은 글",
-      choose: "선택하세요", submit: "게시글 올리기", like: "좋아요", comment: "댓글",
-      send: "등록", remove: "삭제", mine: "내가 쓴 글", all: "지역 피드 보기",
-      empty: "아직 게시글이 없습니다.", askNickname: "내 게시글을 모아볼 닉네임을 입력하세요.",
-      commentPrompt: "댓글을 입력하세요.", deleteConfirm: "이 게시글을 삭제할까요?",
-      posted: "게시글 위치", mapLabel: "전주와 도쿄의 게시글 지도", regionLabel: "지역 선택",
-      example: "예시", comments: "댓글", photoAlt: "게시글 사진", noImage: "사진 없음"
+      appTitle: "Haru Pin ハルピン", tagline: "하루의 장소와 이야기를 잇다", languageHeading: "언어 설정", loginHeading: "로그인",
+      login: "로그인", signup: "처음이에요 / 회원가입", nickname: "닉네임", password: "비밀번호",
+      loginNamePlaceholder: "닉네임을 입력하세요", passwordPlaceholder: "비밀번호를 입력하세요",
+      demoNote: "현재는 이 브라우저에만 계정 정보가 저장됩니다.", logout: "로그아웃",
+      accountMissing: "계정이 없어요. 회원가입을 먼저 해주세요.", loginFailed: "닉네임 또는 비밀번호를 확인해주세요.",
+      accountExists: "이미 가입된 닉네임이에요. 로그인해주세요.", signupDone: "가입이 완료됐어요. 환영합니다!",
+      storageError: "브라우저 저장소를 사용할 수 없어요. 브라우저 설정을 확인해주세요.",
+      feed: "동네 피드", mine: "마이페이지", all: "지역 피드 보기", write: "동네 이야기 나누기",
+      residence: "거주 지역", place: "장소 이름", category: "카테고리",
+      photo: "사진", story: "짧은 글", choose: "선택하세요", submit: "게시글 올리기",
+      like: "좋아요", comment: "댓글", remove: "삭제", example: "예시", empty: "아직 게시글이 없습니다.",
+      searchPlaceholder: "카페, 맛집, 관광지 검색", searchButton: "검색", noResults: "검색 결과가 없어요",
+      searchError: "검색 중 문제가 생겼어요. 잠시 후 다시 시도해 주세요.", searching: "장소를 찾고 있어요…",
+      askNickname: "내 게시글을 모아볼 닉네임을 입력하세요.", commentPrompt: "댓글을 입력하세요.",
+      deleteConfirm: "이 게시글을 삭제할까요?", mapLabel: "하루핀 동네 지도", searchLabel: "장소 검색",
+      compose: "새 게시글 작성", close: "닫기", searchAt: "검색한 장소", postAt: "게시글 위치",
+      reaction: "이모티콘 반응 추가", photoAlt: "게시글 사진", saveError: "저장 공간이 부족해요. 사진 크기를 줄여 주세요.",
+      profile: "프로필", setup: "프로필 설정", start: "시작하기", edit: "프로필 수정", backMap: "← 지도로 돌아가기", myPosts: "내 포스트", myComments: "내 댓글", likesTab: "좋아요", save: "저장", nicknameRequired: "닉네임을 입력해주세요", nicknameLength: "닉네임은 2~12자로 입력해주세요.", nicknameTaken: "이미 사용 중인 닉네임이에요.", noProfileItems: "아직 표시할 내용이 없어요.", profilePhoto: "프로필 사진 (선택)", commentOn: "댓글을 단 글", delete: "삭제", profilePhotoAlt: "프로필 사진", photoPreviewAlt: "프로필 사진 미리보기", profileTabsLabel: "프로필 게시물"
     },
     ja: {
-      lang: "ja", chooseRegion: "地域を選択", map: "街の地図", write: "街の話をシェア",
-      feed: "街の投稿", profile: "マイページ", nickname: "ニックネーム", residence: "居住地",
-      place: "場所", category: "カテゴリー", photo: "写真", story: "ひとこと",
-      choose: "選択してください", submit: "投稿する", like: "いいね", comment: "コメント",
-      send: "送信", remove: "削除", mine: "自分の投稿", all: "地域の投稿を見る",
-      empty: "投稿はまだありません。", askNickname: "自分の投稿を見るニックネームを入力してください。",
-      commentPrompt: "コメントを入力してください。", deleteConfirm: "この投稿を削除しますか？",
-      posted: "投稿の場所", mapLabel: "全州と東京の投稿マップ", regionLabel: "地域を選択",
-      example: "サンプル", comments: "コメント", photoAlt: "投稿の写真", noImage: "写真なし"
+      appTitle: "Haru Pin ハルピン", tagline: "一日の場所と思い出をつなぐ", languageHeading: "言語設定", loginHeading: "ログイン",
+      login: "ログイン", signup: "初めての方 / 新規登録", nickname: "ニックネーム", password: "パスワード",
+      loginNamePlaceholder: "ニックネームを入力", passwordPlaceholder: "パスワードを入力",
+      demoNote: "アカウント情報はこのブラウザー内にのみ保存されます。", logout: "ログアウト",
+      accountMissing: "アカウントがありません。先に新規登録してください。", loginFailed: "ニックネームまたはパスワードを確認してください。",
+      accountExists: "このニックネームは登録済みです。ログインしてください。", signupDone: "登録が完了しました。ようこそ！",
+      storageError: "ブラウザーの保存領域を利用できません。設定を確認してください。",
+      feed: "街の投稿", mine: "マイページ", all: "地域の投稿を見る", write: "街の話をシェア",
+      residence: "居住地", place: "場所", category: "カテゴリー",
+      photo: "写真", story: "ひとこと", choose: "選択してください", submit: "投稿する",
+      like: "いいね", comment: "コメント", remove: "削除", example: "サンプル", empty: "投稿はまだありません。",
+      searchPlaceholder: "カフェ、グルメ、観光地を検索", searchButton: "検索", noResults: "検索結果がありません",
+      searchError: "検索中に問題が発生しました。しばらくしてから再度お試しください。", searching: "場所を検索しています…",
+      askNickname: "自分の投稿を見るニックネームを入力してください。", commentPrompt: "コメントを入力してください。",
+      deleteConfirm: "この投稿を削除しますか？", mapLabel: "ハルピンの街の地図", searchLabel: "場所を検索",
+      compose: "新しい投稿を作成", close: "閉じる", searchAt: "検索した場所", postAt: "投稿の場所",
+      reaction: "絵文字リアクションを追加", photoAlt: "投稿の写真", saveError: "保存容量が不足しています。写真を小さくしてください。",
+      profile: "プロフィール", setup: "プロフィール設定", start: "始める", edit: "プロフィールを編集", backMap: "← 地図に戻る", myPosts: "自分の投稿", myComments: "自分のコメント", likesTab: "いいね", save: "保存", nicknameRequired: "ニックネームを入力してください", nicknameLength: "ニックネームは2〜12文字で入力してください。", nicknameTaken: "このニックネームは使用されています。", noProfileItems: "表示する内容はまだありません。", profilePhoto: "プロフィール写真（任意）", commentOn: "コメントした投稿", delete: "削除", profilePhotoAlt: "プロフィール写真", photoPreviewAlt: "プロフィール写真のプレビュー", profileTabsLabel: "プロフィールの投稿"
     }
   };
   const examples = [
@@ -48,127 +72,335 @@
   const $ = (selector, parent = document) => parent.querySelector(selector);
   const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
   const mapElement = $("#map");
-  const form = $("#post-form");
   const feed = $("#post-list");
-  if (!mapElement || !form || !feed) return;
+  const feedSheet = $("#feed-sheet");
+  const form = $("#post-form");
+  const composePanel = $("#compose-panel");
+  const searchForm = $("#place-search");
+  if (!mapElement || !feed || !form) return;
 
-  let language = "ko";
+  function readLanguage() {
+    try { return localStorage.getItem(LANGUAGE_KEY) === "ja" ? "ja" : "ko"; }
+    catch (_) { return "ko"; }
+  }
+
+  let language = readLanguage();
   let currentRegion = "jeonju";
   let showMine = false;
   let currentNickname = "";
+  let currentUserId = "";
+  let activeProfileTab = "posts";
+  let pendingSignupProfile = false;
+  let profilePhotoDraft = "";
   let draftLocation = null;
   let draftMarker = null;
-  let posts = loadPosts();
+  let searchMarker = null;
   let map;
   let markers = [];
+  let posts = loadPosts();
+  let searchRequest;
+  let lastSearchTime = 0;
+  let pendingSharedPostId = new URLSearchParams(window.location.search).get("post");
+
+  /* 데모 계정 읽기, 가입, 로그인, 로그아웃을 한곳에 모읍니다.
+     Firebase로 교체할 때 이 함수들을 새 인증 서비스 호출로 바꾸면 됩니다. */
+  const demoAuth = {
+    getAccount() {
+      const session = this.getSession();
+      return this.getAccounts().find((account) => account.nickname === session) || null;
+    },
+    getAccounts() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(ACCOUNTS_KEY) || "null");
+        if (Array.isArray(saved)) return saved;
+        const legacy = JSON.parse(localStorage.getItem(ACCOUNT_KEY) || "null");
+        return legacy ? [legacy] : [];
+      } catch (_) { return []; }
+    },
+    signUp(nickname, password) {
+      const accounts = this.getAccounts();
+      if (accounts.some((account) => account.nickname.toLowerCase() === nickname.toLowerCase())) return { ok: false, message: text[language].accountExists };
+      try {
+        localStorage.setItem(ACCOUNTS_KEY, JSON.stringify([...accounts, { nickname, password }]));
+        localStorage.setItem(SESSION_KEY, nickname);
+        localStorage.setItem(PROFILE_KEY, nickname);
+        return { ok: true };
+      } catch (_) { return { ok: false, message: text[language].storageError }; }
+    },
+    login(nickname, password) {
+      const accounts = this.getAccounts();
+      if (!accounts.length) return { ok: false, message: text[language].accountMissing };
+      const account = accounts.find((item) => item.nickname.toLowerCase() === nickname.toLowerCase() && item.password === password);
+      if (!account) {
+        return { ok: false, message: text[language].loginFailed };
+      }
+      try {
+        localStorage.setItem(SESSION_KEY, account.nickname);
+        localStorage.setItem(PROFILE_KEY, account.nickname);
+        return { ok: true, nickname: account.nickname };
+      } catch (_) { return { ok: false, message: text[language].storageError }; }
+    },
+    getSession() {
+      try { return localStorage.getItem(SESSION_KEY) || ""; }
+      catch (_) { return ""; }
+    },
+    logout() {
+      try { localStorage.removeItem(SESSION_KEY); } catch (_) { /* 다음 방문 때 로그인 화면을 보여줍니다. */ }
+    }
+  };
+
+  /* 로그인 성공 뒤 앱을 표시하고, 지도 크기를 다시 계산합니다. */
+  function showApp(nickname) {
+    currentUserId = nickname;
+    const savedProfile = getProfile(nickname);
+    currentNickname = savedProfile?.nickname || nickname;
+    $("#welcome-screen").hidden = true;
+    $("#app-shell").hidden = false;
+    document.body.classList.remove("welcome-mode");
+    document.body.classList.add("app-mode");
+    setText("#signed-in-name", nickname);
+    applyLanguage();
+    if (!map) initializeMap();
+    else requestAnimationFrame(() => map.invalidateSize());
+    if (pendingSignupProfile || !savedProfile) { openProfileSetup(); return; }
+    $("#profile-setup-screen").hidden = true;
+    $("#profile-page").hidden = true;
+    $(".map-screen").hidden = false;
+    if (pendingSharedPostId) {
+      const post = posts.find((item) => String(item.id) === pendingSharedPostId);
+      pendingSharedPostId = null;
+      if (post) requestAnimationFrame(() => {
+        switchRegion(post.region);
+        if (Number.isFinite(post.lat) && Number.isFinite(post.lng)) map.setView([post.lat, post.lng], 16);
+        focusPost(post);
+        const marker = markers.find((item) => {
+          const point = item.getLatLng();
+          return point.lat === post.lat && point.lng === post.lng;
+        });
+        marker?.openPopup();
+      });
+      else window.setTimeout(() => alert("해당 게시글을 찾을 수 없어요. 같은 브라우저에 저장된 게시글인지 확인해주세요."), 0);
+    }
+  }
+
+  /* 로그아웃하면 시작 화면으로 돌아가며 계정은 이 브라우저에 남습니다. */
+  function showWelcome() {
+    $("#app-shell").hidden = true;
+    $("#welcome-screen").hidden = false;
+    document.body.classList.remove("app-mode");
+    document.body.classList.add("welcome-mode");
+    currentNickname = "";
+    currentUserId = "";
+    $("#profile-setup-screen").hidden = true;
+    $("#profile-page").hidden = true;
+    $("#auth-form")?.reset();
+    $("#auth-status").textContent = "";
+    applyLanguage();
+  }
+
+  /* 프로필과 좋아요의 저장 처리를 모아 Firebase 교체 지점으로 둡니다. */
+  function getProfiles() { try { return JSON.parse(localStorage.getItem(PROFILES_KEY) || "{}"); } catch (_) { return {}; } }
+  function saveProfiles(value) { try { localStorage.setItem(PROFILES_KEY, JSON.stringify(value)); return true; } catch (_) { return false; } }
+  function getProfile(userId) { return getProfiles()[userId] || null; }
+  function getLikedPostIds() { try { return (JSON.parse(localStorage.getItem(LIKES_KEY) || "{}")[currentUserId] || []); } catch (_) { return []; } }
+  function saveLikedPostIds(ids) { try { const value = JSON.parse(localStorage.getItem(LIKES_KEY) || "{}"); value[currentUserId] = ids; localStorage.setItem(LIKES_KEY, JSON.stringify(value)); } catch (_) { /* 저장 실패 시 현재 화면은 계속 사용할 수 있습니다. */ } }
+  function avatarSource(profile) {
+    if (profile?.photo) return profile.photo;
+    const initial = (profile?.nickname || currentNickname || "?").trim().charAt(0) || "?";
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128"><circle cx="64" cy="64" r="64" fill="#87CEEB"/><text x="64" y="82" text-anchor="middle" font-size="58" font-family="sans-serif" font-weight="700" fill="#244956">${escapeHtml(initial)}</text></svg>`;
+    return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+  }
+  function setAvatar(image, profile = getProfile(currentUserId)) { if (image) image.src = avatarSource(profile); }
+  function openProfileSetup() {
+    $(".map-screen").hidden = true; $("#profile-page").hidden = true; $("#profile-setup-screen").hidden = false;
+    $("#profile-open-button").hidden = true;
+    const profile = getProfile(currentUserId); $("#setup-nickname").value = profile?.nickname || "";
+    profilePhotoDraft = profile?.photo || ""; setAvatar($("#setup-avatar"), { nickname: $("#setup-nickname").value, photo: profilePhotoDraft }); $("#setup-status").textContent = "";
+  }
+  function openProfilePage() {
+    $(".map-screen").hidden = true; $("#profile-setup-screen").hidden = true; $("#profile-page").hidden = false;
+    const profile = getProfile(currentUserId) || { nickname: currentNickname }; setText("#profile-name", profile.nickname); setAvatar($("#profile-avatar"), profile);
+    $("#edit-nickname").value = profile.nickname; profilePhotoDraft = profile.photo || ""; setAvatar($("#edit-avatar-preview"), profile); $("#edit-profile-form").hidden = true;
+    activeProfileTab = "posts"; renderProfileTab(); requestAnimationFrame(() => map?.invalidateSize());
+  }
+  function nicknameAvailable(name) { return !Object.entries(getProfiles()).some(([id, profile]) => id !== currentUserId && profile.nickname.toLocaleLowerCase() === name.toLocaleLowerCase()); }
+  function saveProfile(name, photo) {
+    const value = name.trim();
+    if (!value) return { ok: false, message: text[language].nicknameRequired };
+    if ([...value].length < 2 || [...value].length > 12) return { ok: false, message: text[language].nicknameLength };
+    if (!nicknameAvailable(value)) return { ok: false, message: text[language].nicknameTaken };
+    const profiles = getProfiles(), previous = profiles[currentUserId];
+    profiles[currentUserId] = { nickname: value, photo: photo || previous?.photo || "" };
+    if (!saveProfiles(profiles)) return { ok: false, message: text[language].saveError };
+    const oldName = previous?.nickname || currentUserId;
+    if (oldName !== value) {
+      posts.forEach((post) => {
+        if (post.authorId === currentUserId || (!post.isExample && !post.authorId && post.nickname === oldName)) { post.nickname = value; post.authorId = currentUserId; post.authorPhoto = photo || previous?.photo || ""; }
+        (post.comments || []).forEach((comment) => { if (comment.userId === currentUserId || (!post.isExample && !comment.userId && comment.nickname === oldName)) { comment.nickname = value; comment.userId = currentUserId; } });
+      });
+      savePosts();
+    }
+    currentNickname = value; try { localStorage.setItem(PROFILE_KEY, value); } catch (_) { /* 프로필 저장소를 주 저장 경로로 사용합니다. */ }
+    return { ok: true };
+  }
+  function renderProfileTab() {
+    const target = $("#profile-content"); if (!target) return;
+    $$("[data-profile-tab]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.profileTab === activeProfileTab)));
+    target.replaceChildren(); const ownPosts = posts.filter((post) => post.authorId === currentUserId || (!post.isExample && !post.authorId && post.nickname === currentNickname)); let entries = [];
+    if (activeProfileTab === "posts") entries = ownPosts.map((post) => ({ type: "post", post }));
+    if (activeProfileTab === "comments") entries = posts.flatMap((post) => (post.comments || []).filter((comment) => comment.userId === currentUserId || (!post.isExample && !comment.userId && comment.nickname === currentNickname)).map((comment) => ({ type: "comment", post, comment })));
+    if (activeProfileTab === "likes") entries = posts.filter((post) => getLikedPostIds().includes(post.id)).map((post) => ({ type: "like", post }));
+    if (!entries.length) { const empty = document.createElement("p"); empty.textContent = text[language].noProfileItems; target.append(empty); return; }
+    entries.forEach((entry) => {
+      const card = document.createElement("article"); card.className = "profile-item"; card.dataset.profilePostId = entry.post.id; card.tabIndex = 0;
+      const title = document.createElement("h3"); title.textContent = entry.type === "comment" ? `${text[language].commentOn}: ${entry.post.place}` : entry.post.place; card.append(title);
+      const body = document.createElement("p"); body.textContent = entry.type === "comment" ? entry.comment.text : entry.post.story; card.append(body);
+      if (entry.type === "post") { const del = document.createElement("button"); del.type = "button"; del.textContent = text[language].delete; del.dataset.profileDelete = entry.post.id; card.append(del); }
+      target.append(card);
+    });
+  }
 
   function loadPosts() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-      if (Array.isArray(saved)) return saved;
-    } catch (error) {
-      console.warn("저장된 게시글을 읽지 못했습니다.", error);
-    }
+      if (Array.isArray(saved)) return saved.filter((post) => post && locales[post.region]);
+    } catch (error) { console.warn("저장된 게시글을 읽지 못했습니다.", error); }
     return examples.map((post) => ({ ...post, comments: post.comments || [], reactions: post.reactions || [], photo: "", isExample: true }));
   }
 
+  /* 게시글과 반응을 브라우저에 저장해 새로고침 뒤에도 유지합니다. */
   function savePosts() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-    } catch (error) {
-      alert(language === "ko" ? "저장 공간이 부족해요. 사진 크기를 줄여 다시 시도해 주세요." : "保存容量が不足しています。写真を小さくして再度お試しください。");
-      console.warn("게시글을 저장하지 못했습니다.", error);
-    }
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(posts)); }
+    catch (error) { alert(text[language].saveError); console.warn("게시글을 저장하지 못했습니다.", error); }
   }
 
-  function setText(element, text) {
-    if (element) element.textContent = text;
+  function setText(selector, value) {
+    const element = $(selector);
+    if (element) element.textContent = value;
   }
 
-  /* 선택한 언어에 맞춰 화면의 제목, 버튼, 폼 안내 문구를 바꿉니다. */
+  /* 버튼, 검색 안내, 입력 폼 문구를 한국어 또는 일본어로 바꿉니다. */
   function applyLanguage() {
-    const w = words[language];
-    document.documentElement.lang = w.lang;
-    setText($("header h1"), "하루핀 ハルピン");
-    setText($("#region-heading"), w.chooseRegion);
-    setText($("#map-heading"), w.map);
-    setText($("#write-heading"), w.write);
-    setText($("#feed-heading"), w.feed);
-    setText($("#mypage-button"), showMine ? w.all : w.profile);
+    const w = text[language];
+    document.documentElement.lang = language;
+    setText(".brand-caption", w.tagline);
+    setText("#language-heading", w.languageHeading);
+    setText("#auth-heading", w.loginHeading);
+    setText("#login-button", w.login);
+    setText("#signup-button", w.signup);
+    setText("#demo-note", w.demoNote);
+    setText("#profile-open-button", w.profile);
+    setText("#profile-setup-heading", w.setup);
+    setText("#start-button", w.start);
+    setText("#edit-profile-button", w.edit);
+    setText("#back-to-map", w.backMap);
+    setText("#save-profile-button", w.save);
+    setText("#profile-logout-button", w.logout);
+    $("#profile-avatar")?.setAttribute("alt", w.profilePhotoAlt);
+    $("#setup-avatar")?.setAttribute("alt", w.photoPreviewAlt);
+    $("#edit-avatar-preview")?.setAttribute("alt", w.photoPreviewAlt);
+    $("#profile-page [role=tablist]")?.setAttribute("aria-label", w.profileTabsLabel);
+    setText('[for="setup-nickname"]', w.nickname);
+    setText('[for="edit-nickname"]', w.nickname);
+    setText('[for="setup-photo"]', w.profilePhoto);
+    setText('[for="edit-photo"]', w.profilePhoto);
+    const tabLabels = { posts: w.myPosts, comments: w.myComments, likes: w.likesTab };
+    $$('[data-profile-tab]').forEach((button) => { button.textContent = tabLabels[button.dataset.profileTab]; });
+    setText('label[for="auth-nickname"]', w.nickname);
+    setText('label[for="auth-password"]', w.password);
+    $("#auth-nickname")?.setAttribute("placeholder", w.loginNamePlaceholder);
+    $("#auth-password")?.setAttribute("placeholder", w.passwordPlaceholder);
+    $$('[data-language]').forEach((button) => {
+      const selected = button.dataset.language === language;
+      button.classList.toggle("is-selected", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
     mapElement.setAttribute("aria-label", w.mapLabel);
-    const regionGroup = $("[aria-labelledby='region-heading'] [role='group']");
-    if (regionGroup) regionGroup.setAttribute("aria-label", w.regionLabel);
-
+    setText("#feed-heading", w.feed);
+    setText("#write-heading", w.write);
+    setText("#mypage-button", showMine ? w.all : w.mine);
+    setText("#close-compose", "×");
+    $("#close-compose")?.setAttribute("aria-label", w.close);
+    $("#compose-button")?.setAttribute("aria-label", w.compose);
+    $("#search-input")?.setAttribute("placeholder", w.searchPlaceholder);
+    $("#search-input")?.setAttribute("aria-label", w.searchLabel);
+    $("#place-search button")?.setAttribute("aria-label", w.searchButton);
     const labels = { nickname: w.nickname, "post-region": w.residence, place: w.place, category: w.category, photo: w.photo, story: w.story };
-    Object.entries(labels).forEach(([id, text]) => setText($(`label[for='${id}']`), text));
-    setText($("#post-form button[type='submit']"), w.submit);
+    Object.entries(labels).forEach(([id, value]) => { const label = $(`label[for="${id}"]`); if (label) label.textContent = value; });
+    setText("#post-form button[type=submit]", w.submit);
+    if ($("#profile-page") && !$("#profile-page").hidden) renderProfileTab();
     const regionSelect = $("#post-region");
     if (regionSelect) {
       regionSelect.options[0].textContent = w.choose;
-      regionSelect.options[1].textContent = language === "ko" ? "전주" : "全州";
-      regionSelect.options[2].textContent = language === "ko" ? "도쿄" : "東京";
+      regionSelect.options[1].textContent = locales.jeonju.name[language];
+      regionSelect.options[2].textContent = locales.tokyo.name[language];
     }
     const categorySelect = $("#category");
     if (categorySelect) {
       categorySelect.options[0].textContent = w.choose;
-      [...categorySelect.options].slice(1).forEach((option) => { option.textContent = categoryNames[language][option.value]; });
+      [...categorySelect.options].slice(1).forEach((option) => { option.textContent = categories[language][option.value]; });
     }
     $$('header nav button').forEach((button) => button.setAttribute("aria-pressed", String(button.lang === language)));
-    updateRegionButtons();
+    $$('[data-region]').forEach((button) => {
+      button.textContent = locales[button.dataset.region].name[language];
+      button.setAttribute("aria-pressed", String(button.dataset.region === currentRegion));
+    });
     renderFeed();
   }
 
-  function updateRegionButtons() {
-    const buttons = $$(`[aria-labelledby='region-heading'] [role='group'] button`);
-    buttons.forEach((button, index) => {
-      const region = index === 0 ? "jeonju" : "tokyo";
-      button.textContent = language === "ko" ? locales[region].name : (region === "jeonju" ? "全州" : "東京");
-      button.dataset.region = region;
-      button.setAttribute("aria-pressed", String(currentRegion === region));
+  /* 핀을 누르면 피드 패널을 펼치고 해당 게시글 카드로 이동합니다. */
+  function focusPost(post) {
+    if (!post) return;
+    showMine = false;
+    if (post.region !== currentRegion) switchRegion(post.region);
+    feedSheet.classList.remove("is-collapsed");
+    $("#feed-toggle")?.setAttribute("aria-expanded", "true");
+    renderFeed();
+    requestAnimationFrame(() => {
+      const card = [...feed.querySelectorAll(".post-card")].find((item) => item.dataset.postId === post.id);
+      card?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
     });
   }
 
-  /* 폼을 처음에는 접어 두고, 지도에서 위치를 고르면 펼칩니다. */
-  function openForm(location) {
+  /* 새 게시글을 만들 때 지도에서 고른 위치를 임시 핀으로 표시합니다. */
+  function openCompose(location = null) {
     draftLocation = location;
     if (draftMarker) draftMarker.remove();
-    if (location && map) {
-      draftMarker = L.marker([location.lat, location.lng]).addTo(map);
-      draftMarker.bindPopup(words[language].posted).openPopup();
-    }
-    form.hidden = false;
-    const regionSelect = $("#post-region");
-    if (regionSelect) regionSelect.value = currentRegion;
-    form.scrollIntoView({ behavior: "smooth", block: "center" });
+    draftMarker = location ? L.marker([location.lat, location.lng]).addTo(map) : null;
+    if (draftMarker) draftMarker.bindPopup(text[language].postAt).openPopup();
+    composePanel.hidden = false;
+    feedSheet.classList.add("is-collapsed");
+    $("#feed-toggle")?.setAttribute("aria-expanded", "false");
+    if (location) $("#post-region").value = currentRegion;
+    $("#nickname").value = currentNickname;
     $("#nickname")?.focus({ preventScroll: true });
   }
 
-  function closeForm() {
-    form.hidden = true;
+  function closeCompose() {
+    composePanel.hidden = true;
     draftLocation = null;
     if (draftMarker) draftMarker.remove();
     draftMarker = null;
   }
 
-  function escapeText(value) {
-    return String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
-  }
-
-  /* 카드 요소는 사용자 입력을 HTML로 해석하지 않도록 textContent로 채웁니다. */
+  /* 게시글 카드를 DOM API로 만들어 입력된 글이 HTML로 실행되지 않게 합니다. */
   function makeCard(post) {
-    const w = words[language];
+    const w = text[language];
     const card = document.createElement("article");
     card.className = "post-card";
     card.dataset.postId = post.id;
     card.tabIndex = 0;
-
     const title = document.createElement("h3");
     title.textContent = `${post.place} · ${post.nickname}`;
     card.append(title);
-    const details = document.createElement("p");
-    const regionName = language === "ko" ? locales[post.region].name : (post.region === "jeonju" ? "全州" : "東京");
-    details.textContent = `${regionName} · ${categoryNames[language][post.category] || post.category}${post.isExample ? ` · ${w.example}` : ""}`;
-    card.append(details);
+    const authorAvatar = document.createElement("img");
+    authorAvatar.className = "post-author-avatar";
+    authorAvatar.src = post.authorPhoto || avatarSource({ nickname: post.nickname });
+    authorAvatar.alt = `${post.nickname} 프로필 사진`;
+    card.insertBefore(authorAvatar, title);
+    const detail = document.createElement("p");
+    detail.textContent = `${locales[post.region].name[language]} · ${categories[language][post.category] || post.category}${post.isExample ? ` · ${w.example}` : ""}`;
+    card.append(detail);
     const story = document.createElement("p");
     story.textContent = post.story;
     card.append(story);
@@ -177,114 +409,152 @@
       image.src = post.photo;
       image.alt = w.photoAlt;
       image.loading = "lazy";
-      image.style.maxWidth = "100%";
-      image.style.borderRadius = "12px";
       card.append(image);
     }
-
     const actions = document.createElement("div");
     actions.className = "post-actions";
     const like = document.createElement("button");
-    like.type = "button";
-    like.dataset.action = "like";
+    like.type = "button"; like.dataset.action = "like";
     like.textContent = `💙 ${w.like} (${post.likes || 0})`;
     actions.append(like);
     const reaction = document.createElement("button");
-    reaction.type = "button";
-    reaction.dataset.action = "reaction";
+    reaction.type = "button"; reaction.dataset.action = "reaction";
     reaction.textContent = `${(post.reactions || []).join(" ") || "😊"} +`;
-    reaction.setAttribute("aria-label", language === "ko" ? "이모티콘 반응 추가" : "絵文字リアクションを追加");
+    reaction.setAttribute("aria-label", w.reaction);
     actions.append(reaction);
-    const commentButton = document.createElement("button");
-    commentButton.type = "button";
-    commentButton.dataset.action = "comment";
-    commentButton.textContent = `💬 ${w.comment} (${(post.comments || []).length})`;
-    actions.append(commentButton);
+    const comment = document.createElement("button");
+    comment.type = "button"; comment.dataset.action = "comment";
+    comment.textContent = `💬 ${w.comment} (${(post.comments || []).length})`;
+    actions.append(comment);
+    const share = document.createElement("button");
+    share.type = "button"; share.dataset.action = "share";
+    share.textContent = "🔗 공유";
+    actions.append(share);
     if (!post.isExample) {
       const remove = document.createElement("button");
-      remove.type = "button";
-      remove.dataset.action = "delete";
-      remove.textContent = w.remove;
+      remove.type = "button"; remove.dataset.action = "delete"; remove.textContent = w.remove;
       actions.append(remove);
     }
     card.append(actions);
-
     if (post.comments?.length) {
-      const commentList = document.createElement("ul");
-      commentList.className = "comment-list";
-      post.comments.forEach((item) => {
-        const li = document.createElement("li");
-        li.textContent = `${item.nickname}: ${item.text}`;
-        commentList.append(li);
-      });
-      card.append(commentList);
+      const list = document.createElement("ul"); list.className = "comment-list";
+      post.comments.forEach((entry) => { const item = document.createElement("li"); item.textContent = `${entry.nickname}: ${entry.text}`; list.append(item); });
+      card.append(list);
     }
     return card;
   }
 
-  /* 선택 지역의 글만 보이며, 마이페이지에서는 현재 닉네임의 글을 모아 봅니다. */
+  /* 게시글 데이터는 현재 localStorage에만 있으므로 공유 링크는 같은 브라우저에서만 열립니다.
+     서버가 없는 데모이며, Firebase 도입 시 공유 가능한 게시글 저장소로 교체합니다. */
+  async function sharePost(post) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("post", post.id);
+    try {
+      await navigator.clipboard.writeText(url.toString());
+    } catch (_) {
+      const input = document.createElement("textarea");
+      input.value = url.toString();
+      input.style.position = "fixed";
+      input.style.opacity = "0";
+      document.body.append(input);
+      input.select();
+      const copied = document.execCommand("copy");
+      input.remove();
+      if (!copied) { alert("링크를 복사하지 못했어요."); return; }
+    }
+    alert("링크가 복사되었어요!");
+  }
+
+  /* 선택 지역 또는 마이페이지의 게시글을 하단 패널에 나열합니다. */
   function renderFeed() {
     const visible = posts.filter((post) => showMine ? post.nickname === currentNickname : post.region === currentRegion);
     feed.replaceChildren();
     if (!visible.length) {
-      const empty = document.createElement("p");
-      empty.textContent = words[language].empty;
-      feed.append(empty);
-      return;
+      const empty = document.createElement("p"); empty.textContent = text[language].empty; feed.append(empty); return;
     }
     visible.forEach((post) => feed.append(makeCard(post)));
   }
 
-  /* 기존 글 위치와 현재 선택 지역에 맞춰 지도의 핀을 다시 그립니다. */
+  /* 지도에 현재 지역의 게시글 핀을 표시합니다. */
   function renderMarkers() {
     if (!map) return;
     markers.forEach((marker) => marker.remove());
     markers = [];
     posts.filter((post) => post.region === currentRegion && Number.isFinite(post.lat) && Number.isFinite(post.lng)).forEach((post) => {
       const marker = L.marker([post.lat, post.lng]).addTo(map);
-      marker.bindPopup(`<strong>${escapeText(post.place)}</strong><br>${escapeText(post.nickname)}`);
-      marker.on("click", () => {
-        const card = $(`[data-post-id="${CSS.escape(post.id)}"]`, feed);
-        if (card) card.scrollIntoView({ behavior: "smooth", block: "center" });
-      });
+      marker.bindPopup(`<strong>${escapeHtml(post.place)}</strong><br>${escapeHtml(post.nickname)}`);
+      marker.on("click", () => focusPost(post));
       markers.push(marker);
     });
   }
 
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+  }
+
+  /* 지역 버튼을 누르면 각 도시의 지도 좌표로 이동합니다. */
   function switchRegion(region) {
-    if (!locales[region]) return;
+    if (!locales[region] || !map) return;
     currentRegion = region;
     showMine = false;
-    updateRegionButtons();
     map.setView(locales[region].center, locales[region].zoom);
+    if (searchMarker) { searchMarker.remove(); searchMarker = null; }
+    $$('[data-region]').forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.region === region)));
     renderMarkers();
     renderFeed();
-    if (!form.hidden) {
-      const selector = $("#post-region");
-      if (selector) selector.value = region;
+    if (!composePanel.hidden) $("#post-region").value = region;
+  }
+
+  /* OSM Nominatim으로 한국과 일본을 포함한 전 세계 장소를 찾습니다. */
+  async function searchPlace(query) {
+    const status = $("#search-status");
+    const w = text[language];
+    if (!query.trim()) { status.textContent = ""; return; }
+    if (searchRequest) searchRequest.abort();
+    searchRequest = new AbortController();
+    status.textContent = w.searching;
+    try {
+      /* Nominatim 사용 정책에 맞춰 연속 요청 간격을 1초 이상 둡니다. */
+      const wait = Math.max(0, 1100 - (Date.now() - lastSearchTime));
+      if (wait) await new Promise((resolve) => setTimeout(resolve, wait));
+      lastSearchTime = Date.now();
+      const params = new URLSearchParams({ format: "jsonv2", q: query.trim(), limit: "1", addressdetails: "1", "accept-language": language });
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
+        headers: { Accept: "application/json" }, signal: searchRequest.signal
+      });
+      if (!response.ok) throw new Error(`Nominatim returned ${response.status}`);
+      const results = await response.json();
+      if (!results.length) { status.textContent = w.noResults; return; }
+      const result = results[0];
+      const point = [Number(result.lat), Number(result.lon)];
+      if (!Number.isFinite(point[0]) || !Number.isFinite(point[1])) { status.textContent = w.noResults; return; }
+      map.setView(point, 16);
+      if (searchMarker) searchMarker.remove();
+      searchMarker = L.marker(point).addTo(map);
+      searchMarker.bindPopup(`<strong>${escapeHtml(query.trim())}</strong><br>${escapeHtml(result.display_name)}`).openPopup();
+      status.textContent = "";
+    } catch (error) {
+      if (error.name === "AbortError") return;
+      console.error("장소 검색에 실패했습니다.", error);
+      status.textContent = w.searchError;
     }
   }
 
-  /* Leaflet 지도를 만들고, 지도 클릭 시 새 게시글 작성으로 연결합니다. */
+  /* 지도를 만들고, 지도 빈 곳을 누르면 그 지점에서 글쓰기를 시작합니다. */
   function initializeMap() {
-    if (!window.L) {
-      mapElement.textContent = language === "ko" ? "지도를 불러오지 못했어요. 인터넷 연결을 확인해 주세요." : "地図を読み込めませんでした。インターネット接続を確認してください。";
-      return;
-    }
-    map = L.map(mapElement).setView(locales[currentRegion].center, locales[currentRegion].zoom);
+    if (!window.L) { mapElement.textContent = "Leaflet 지도를 불러오지 못했습니다."; return; }
+    map = L.map(mapElement, { zoomControl: true }).setView(locales[currentRegion].center, locales[currentRegion].zoom);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
-    map.on("click", (event) => {
-      showMine = false;
-      renderFeed();
-      openForm({ lat: event.latlng.lat, lng: event.latlng.lng });
-    });
+    map.on("click", (event) => openCompose({ lat: event.latlng.lat, lng: event.latlng.lng }));
     renderMarkers();
+    /* 처음 지도 크기가 정해진 뒤 Leaflet에 화면 크기를 알려줍니다. */
+    setTimeout(() => map.invalidateSize(), 0);
   }
 
-  /* 폼에서 선택한 사진을 작게 줄여 브라우저 저장 공간을 아끼고 Data URL로 읽습니다. */
+  /* 선택한 사진을 읽어 게시글에 함께 저장합니다. */
   function readPhoto(file) {
     if (!file) return Promise.resolve("");
     return new Promise((resolve, reject) => {
@@ -295,110 +565,178 @@
     });
   }
 
+  /* 새 게시글 저장과 입력 폼 제출을 처리합니다. */
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!form.reportValidity()) return;
     const nickname = $("#nickname").value.trim();
     const region = $("#post-region").value;
-    const file = $("#photo").files[0];
     let photo = "";
-    try { photo = await readPhoto(file); }
+    try { photo = await readPhoto($("#photo").files[0]); }
     catch (error) { console.warn("사진을 읽지 못했습니다.", error); }
-    const newPost = {
+    const post = {
       id: `post-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       nickname, region, place: $("#place").value.trim(), category: $("#category").value,
-      story: $("#story").value.trim(), photo,
+      story: $("#story").value.trim(), photo, authorId: currentUserId, authorPhoto: getProfile(currentUserId)?.photo || "",
       lat: draftLocation?.lat ?? locales[region].center[0],
       lng: draftLocation?.lng ?? locales[region].center[1],
       likes: 0, reactions: [], comments: [], createdAt: new Date().toISOString(), isExample: false
     };
-    posts.unshift(newPost);
+    posts.unshift(post);
     currentNickname = nickname;
-    try { localStorage.setItem(PROFILE_KEY, nickname); } catch (_) { /* 저장이 차단된 환경에서도 화면은 계속 동작합니다. */ }
+    try { localStorage.setItem(PROFILE_KEY, nickname); } catch (_) { /* 저장이 막힌 브라우저에서도 이어서 사용합니다. */ }
     savePosts();
     form.reset();
-    closeForm();
+    closeCompose();
     switchRegion(region);
-    renderMarkers();
-    renderFeed();
+    feedSheet.classList.remove("is-collapsed");
+    $("#feed-toggle").setAttribute("aria-expanded", "true");
+    renderMarkers(); renderFeed();
   });
 
-  /* 피드의 버튼은 이벤트 위임으로 처리해 카드마다 별도 이벤트를 달지 않습니다. */
+  /* 카드의 좋아요, 이모티콘, 댓글, 삭제 버튼을 처리합니다. */
   feed.addEventListener("click", (event) => {
-    const button = event.target.closest("button[data-action]");
     const card = event.target.closest("[data-post-id]");
     if (!card) return;
+    const button = event.target.closest("button[data-action]");
+    const post = posts.find((item) => item.id === card.dataset.postId);
+    if (!post) return;
     if (!button) {
-      const selectedPost = posts.find((item) => item.id === card.dataset.postId);
-      if (selectedPost && map && Number.isFinite(selectedPost.lat) && Number.isFinite(selectedPost.lng)) {
-        switchRegion(selectedPost.region);
-        map.setView([selectedPost.lat, selectedPost.lng], 16);
+      if (map && Number.isFinite(post.lat) && Number.isFinite(post.lng)) {
+        if (post.region !== currentRegion) switchRegion(post.region);
+        map.setView([post.lat, post.lng], 16);
       }
       return;
     }
-    const post = posts.find((item) => item.id === card.dataset.postId);
-    if (!post) return;
-    const action = button.dataset.action;
-    if (action === "like") post.likes = (post.likes || 0) + 1;
-    if (action === "reaction") {
+    if (button.dataset.action === "share") { sharePost(post); return; }
+    if (button.dataset.action === "like") { post.likes = (post.likes || 0) + 1; const liked = getLikedPostIds(); if (!liked.includes(post.id)) saveLikedPostIds([...liked, post.id]); }
+    if (button.dataset.action === "reaction") {
       const options = ["💙", "😊", "☕", "🌿", "😋", "📚", "🎉"];
       const choice = prompt(language === "ko" ? `반응 이모티콘을 골라주세요: ${options.join(" ")}` : `絵文字を選んでください: ${options.join(" ")}`, "💙");
       if (choice) post.reactions = [...(post.reactions || []), choice.slice(0, 8)];
     }
-    if (action === "comment") {
-      const text = prompt(words[language].commentPrompt);
-      if (text?.trim()) post.comments = [...(post.comments || []), { nickname: currentNickname || (language === "ko" ? "이웃" : "ご近所さん"), text: text.trim() }];
+    if (button.dataset.action === "comment") {
+      const comment = prompt(text[language].commentPrompt);
+      if (comment?.trim()) post.comments = [...(post.comments || []), { userId: currentUserId, nickname: currentNickname || (language === "ko" ? "이웃" : "ご近所さん"), text: comment.trim() }];
     }
-    if (action === "delete") {
-      if (!confirm(words[language].deleteConfirm)) return;
+    if (button.dataset.action === "delete") {
+      if (!confirm(text[language].deleteConfirm)) return;
       posts = posts.filter((item) => item.id !== post.id);
     }
-    savePosts();
-    renderFeed();
-    renderMarkers();
+    savePosts(); renderFeed(); renderMarkers();
   });
 
-  /* 카드의 나머지 영역을 누르면 지도에서 해당 게시글 위치를 보여줍니다. */
-  feed.addEventListener("dblclick", (event) => {
-    const card = event.target.closest("[data-post-id]");
-    if (!card) return;
-    const post = posts.find((item) => item.id === card.dataset.postId);
-    if (post && map && Number.isFinite(post.lat) && Number.isFinite(post.lng)) {
-      switchRegion(post.region);
-      map.setView([post.lat, post.lng], 16);
-    }
+  /* 피드 패널을 눌러 펼치거나 접습니다. */
+  $("#feed-toggle")?.addEventListener("click", () => {
+    const collapsed = feedSheet.classList.toggle("is-collapsed");
+    $("#feed-toggle").setAttribute("aria-expanded", String(!collapsed));
   });
 
+  /* 검색은 Enter 또는 검색 버튼으로 실행합니다. */
+  searchForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    searchPlace($("#search-input").value);
+  });
+  $("#search-input")?.addEventListener("input", () => { $("#search-status").textContent = ""; });
+
+  /* 도시 빠른 이동과 언어 전환 버튼을 연결합니다. */
+  $$('[data-region]').forEach((button) => button.addEventListener("click", () => switchRegion(button.dataset.region)));
   $$('header nav button').forEach((button) => button.addEventListener("click", () => {
     language = button.lang === "ja" ? "ja" : "ko";
+    try { localStorage.setItem(LANGUAGE_KEY, language); } catch (_) { /* 이 화면이 열려 있는 동안 언어를 적용합니다. */ }
     applyLanguage();
   }));
 
-  $$(`[aria-labelledby='region-heading'] [role='group'] button`).forEach((button, index) => {
-    button.addEventListener("click", () => switchRegion(button.dataset.region || (index === 0 ? "jeonju" : "tokyo")));
-  });
-
+  /* 마이페이지는 입력한 닉네임과 같은 글만 피드에 보여줍니다. */
   $("#mypage-button")?.addEventListener("click", () => {
-    if (showMine) {
-      showMine = false;
-      renderFeed();
-      applyLanguage();
-      return;
-    }
-    const savedName = (() => { try { return localStorage.getItem(PROFILE_KEY) || ""; } catch (_) { return ""; } })();
-    const name = prompt(words[language].askNickname, currentNickname || savedName);
+    if (showMine) { showMine = false; renderFeed(); applyLanguage(); return; }
+    let savedName = "";
+    try { savedName = localStorage.getItem(PROFILE_KEY) || ""; } catch (_) { /* 저장소 사용이 막힌 경우 */ }
+    const name = prompt(text[language].askNickname, currentNickname || savedName);
     if (!name?.trim()) return;
     currentNickname = name.trim();
     try { localStorage.setItem(PROFILE_KEY, currentNickname); } catch (_) { /* 선택 기능 */ }
-    showMine = true;
-    renderFeed();
-    applyLanguage();
+    showMine = true; renderFeed(); applyLanguage();
   });
 
-  /* 폼을 지역 전환 버튼과 별도로 열 수 있도록 제목을 누르면 엽니다. */
-  $("#write-heading")?.addEventListener("click", () => openForm(null));
-  currentNickname = (() => { try { return localStorage.getItem(PROFILE_KEY) || ""; } catch (_) { return ""; } })();
-  form.hidden = true;
+  $("#compose-button")?.addEventListener("click", () => openCompose());
+  $("#close-compose")?.addEventListener("click", closeCompose);
+  /* 프로필 등록 단계에서는 닉네임 중복과 사진 미리보기를 확인합니다. */
+  $("#setup-nickname")?.addEventListener("input", () => {
+    const name = $("#setup-nickname").value.trim();
+    setAvatar($("#setup-avatar"), { nickname: name || "?", photo: profilePhotoDraft });
+    $("#setup-status").textContent = name && !nicknameAvailable(name) ? text[language].nicknameTaken : "";
+  });
+  $("#setup-photo")?.addEventListener("change", async () => { profilePhotoDraft = await readPhoto($("#setup-photo").files[0]) || ""; setAvatar($("#setup-avatar"), { nickname: $("#setup-nickname").value, photo: profilePhotoDraft }); });
+  $("#start-button")?.addEventListener("click", () => {
+    const result = saveProfile($("#setup-nickname").value, profilePhotoDraft);
+    if (!result.ok) { $("#setup-status").textContent = result.message; return; }
+    pendingSignupProfile = false; $("#profile-setup-screen").hidden = true; $(".map-screen").hidden = false; $("#profile-open-button").hidden = false;
+    setText("#signed-in-name", currentNickname); applyLanguage(); requestAnimationFrame(() => map?.invalidateSize());
+  });
+  $("#profile-open-button")?.addEventListener("click", openProfilePage);
+  $("#back-to-map")?.addEventListener("click", () => { $("#profile-page").hidden = true; $(".map-screen").hidden = false; requestAnimationFrame(() => map?.invalidateSize()); });
+  $("#edit-profile-button")?.addEventListener("click", () => { const editor = $("#edit-profile-form"); editor.hidden = !editor.hidden; });
+  $("#edit-photo")?.addEventListener("change", async () => { profilePhotoDraft = await readPhoto($("#edit-photo").files[0]) || ""; setAvatar($("#edit-avatar-preview"), { nickname: $("#edit-nickname").value, photo: profilePhotoDraft }); });
+  $("#edit-profile-form")?.addEventListener("submit", (event) => {
+    event.preventDefault(); const result = saveProfile($("#edit-nickname").value, profilePhotoDraft);
+    if (!result.ok) { $("#edit-profile-status").textContent = result.message; return; }
+    $("#edit-profile-status").textContent = ""; setText("#profile-name", currentNickname); setAvatar($("#profile-avatar"), getProfile(currentUserId));
+    setText("#signed-in-name", currentNickname); $("#edit-profile-form").hidden = true; renderProfileTab(); applyLanguage();
+  });
+  $$('[data-profile-tab]').forEach((button) => button.addEventListener("click", () => { activeProfileTab = button.dataset.profileTab; renderProfileTab(); }));
+  $("#profile-content")?.addEventListener("click", (event) => {
+    const remove = event.target.closest("[data-profile-delete]");
+    if (remove) {
+      const id = remove.dataset.profileDelete, post = posts.find((item) => item.id === id);
+      if (post && !post.isExample && confirm(text[language].deleteConfirm)) { posts = posts.filter((item) => item.id !== id); savePosts(); renderProfileTab(); renderMarkers(); renderFeed(); }
+      return;
+    }
+    const card = event.target.closest("[data-profile-post-id]"); if (!card) return;
+    const post = posts.find((item) => item.id === card.dataset.profilePostId);
+    if (post) { $("#profile-page").hidden = true; $(".map-screen").hidden = false; switchRegion(post.region); map?.setView([post.lat, post.lng], 16); focusPost(post); requestAnimationFrame(() => map?.invalidateSize()); }
+  });
+  const logout = () => { demoAuth.logout(); showWelcome(); };
+  $("#profile-logout-button")?.addEventListener("click", logout);
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !composePanel.hidden) closeCompose(); });
+
+  /* 언어 카드는 선택 즉시 앱 전체 표시 언어로 적용하고 저장합니다. */
+  $$('[data-language]').forEach((button) => button.addEventListener("click", () => {
+    language = button.dataset.language === "ja" ? "ja" : "ko";
+    try { localStorage.setItem(LANGUAGE_KEY, language); } catch (_) { /* 이 탭이 열려 있는 동안은 언어 선택을 유지합니다. */ }
+    $("#auth-status").textContent = "";
+    applyLanguage();
+  }));
+
+  /* 로그인 버튼은 저장된 데모 계정과 닉네임·비밀번호를 비교합니다. */
+  $("#auth-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const nickname = $("#auth-nickname").value.trim();
+    const password = $("#auth-password").value;
+    const result = demoAuth.login(nickname, password);
+    if (!result.ok) { $("#auth-status").textContent = result.message; return; }
+    showApp(result.nickname);
+  });
+
+  /* 회원가입 버튼은 현재 브라우저에 데모 계정을 만들고 바로 입장합니다. */
+  $("#signup-button")?.addEventListener("click", () => {
+    const authForm = $("#auth-form");
+    if (!authForm.reportValidity()) return;
+    const nickname = $("#auth-nickname").value.trim();
+    const password = $("#auth-password").value;
+    if (!nickname || !password) { $("#auth-status").textContent = text[language].loginFailed; return; }
+    const result = demoAuth.signUp(nickname, password);
+    if (!result.ok) { $("#auth-status").textContent = result.message; return; }
+    $("#auth-status").textContent = text[language].signupDone;
+    pendingSignupProfile = true;
+    showApp(nickname);
+  });
+
+  /* 로그아웃은 인증 세션만 지우고, 다음 로그인을 위한 계정은 남겨 둡니다. */
+
   applyLanguage();
-  initializeMap();
+  const savedSession = demoAuth.getSession();
+  const savedAccount = demoAuth.getAccount();
+  if (savedSession && savedAccount && savedSession === savedAccount.nickname) showApp(savedSession);
+  else showWelcome();
 })();
