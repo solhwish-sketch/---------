@@ -22,7 +22,7 @@
     ko: {
       appTitle: "Haru Pin ハルピン", tagline: "하루의 장소와 이야기를 잇다", languageHeading: "언어 설정", loginHeading: "로그인",
       login: "로그인", signup: "처음이에요 / 회원가입", nickname: "닉네임", password: "비밀번호",
-      loginNamePlaceholder: "아이디를 입력하세요", passwordPlaceholder: "비밀번호를 입력하세요", passwordConfirm: "비밀번호 확인", share: "공유", detailComments: "댓글", commentInput: "댓글을 입력하세요", commentSubmit: "댓글 등록", detailClose: "닫기",
+      loginNamePlaceholder: "아이디를 입력하세요", passwordPlaceholder: "비밀번호를 입력하세요", passwordConfirm: "비밀번호 확인", share: "공유", shareCount: "공유", detailComments: "댓글", commentInput: "댓글을 입력하세요", commentSubmit: "댓글 등록", detailClose: "닫기", attachPhoto: "사진 첨부", removePhoto: "첨부 사진 삭제", commentPhotoAlt: "댓글 사진", commentPhotoPreview: "첨부 사진 미리보기", commentRequired: "글이나 사진을 첨부해주세요.", commentSaveError: "저장 공간이 부족해요. 사진 수를 줄여주세요.", commentEmpty: "글이나 사진을 첨부해주세요.",
       idRule: "영문 소문자와 숫자 4~16자, 영문으로 시작 · 다른 사용자와 중복 불가", idInvalid: "영문 소문자와 숫자만, 영문으로 시작하는 4~16자로 입력해주세요.", idDuplicate: "이미 사용 중인 아이디예요.", idValid: "사용할 수 있는 아이디예요.", passwordRule: "8~20자, 영문과 숫자 포함, 공백 없이 · 아이디와 다르게 입력", passwordInvalid: "8~20자이며 영문과 숫자를 포함하고 공백이 없어야 해요.", passwordSameId: "아이디와 다른 비밀번호를 입력해주세요.", passwordValid: "사용할 수 있는 비밀번호예요.", passwordConfirmHint: "비밀번호를 한 번 더 입력해주세요.", passwordMismatch: "비밀번호가 일치하지 않아요.", passwordMatch: "비밀번호가 일치해요.", signupReady: "가입 조건을 모두 확인해주세요.", signupFieldsInvalid: "아이디와 비밀번호 조건을 확인해주세요.",
       demoNote: "현재는 이 브라우저에만 계정 정보가 저장됩니다.", logout: "로그아웃",
       accountMissing: "계정이 없어요. 회원가입을 먼저 해주세요.", loginFailed: "닉네임 또는 비밀번호를 확인해주세요.",
@@ -43,7 +43,7 @@
     ja: {
       appTitle: "Haru Pin ハルピン", tagline: "一日の場所と思い出をつなぐ", languageHeading: "言語設定", loginHeading: "ログイン",
       login: "ログイン", signup: "初めての方 / 新規登録", nickname: "ニックネーム", password: "パスワード",
-      loginNamePlaceholder: "IDを入力", passwordPlaceholder: "パスワードを入力", passwordConfirm: "パスワードの確認", share: "共有", detailComments: "コメント", commentInput: "コメントを入力", commentSubmit: "コメントを投稿", detailClose: "閉じる",
+      loginNamePlaceholder: "IDを入力", passwordPlaceholder: "パスワードを入力", passwordConfirm: "パスワードの確認", share: "共有", shareCount: "共有", detailComments: "コメント", commentInput: "コメントを入力", commentSubmit: "コメントを投稿", detailClose: "閉じる", attachPhoto: "写真を添付", removePhoto: "添付写真を削除", commentPhotoAlt: "コメント写真", commentPhotoPreview: "添付写真のプレビュー", commentRequired: "文章または写真を添付してください。", commentSaveError: "保存容量が不足しています。写真の数を減らしてください。", commentEmpty: "文章または写真を添付してください。",
       idRule: "半角英小文字と数字で4〜16文字、英字で開始 · 他の利用者と重複不可", idInvalid: "英小文字で始まる4〜16文字の英数字を入力してください。", idDuplicate: "このIDはすでに使われています。", idValid: "このIDは使用できます。", passwordRule: "8〜20文字、英字と数字を含む、空白不可 · IDと異なるもの", passwordInvalid: "8〜20文字で英字と数字を含め、空白は使えません。", passwordSameId: "IDと異なるパスワードを入力してください。", passwordValid: "このパスワードは使用できます。", passwordConfirmHint: "パスワードをもう一度入力してください。", passwordMismatch: "パスワードが一致しません。", passwordMatch: "パスワードが一致しました。", signupReady: "登録条件をすべて確認してください。", signupFieldsInvalid: "IDとパスワードの条件を確認してください。",
       demoNote: "アカウント情報はこのブラウザー内にのみ保存されます。", logout: "ログアウト",
       accountMissing: "アカウントがありません。先に新規登録してください。", loginFailed: "ニックネームまたはパスワードを確認してください。",
@@ -96,6 +96,7 @@
   let activeDetailPostId = "";
   let pendingSignupProfile = false;
   let profilePhotoDraft = "";
+  let commentPhotoDraft = "";
   let draftLocation = null;
   let draftMarker = null;
   let searchMarker = null;
@@ -264,6 +265,7 @@
       const card = document.createElement("article"); card.className = "profile-item"; card.dataset.profilePostId = entry.post.id; card.tabIndex = 0;
       const title = document.createElement("h3"); title.textContent = entry.type === "comment" ? `${text[language].commentOn}: ${entry.post.place}` : entry.post.place; card.append(title);
       const body = document.createElement("p"); body.textContent = entry.type === "comment" ? entry.comment.text : entry.post.story; card.append(body);
+      if (entry.type === "comment" && entry.comment.photo) { const image = document.createElement("img"); image.className = "comment-photo-thumb profile-comment-photo"; image.src = entry.comment.photo; image.alt = text[language].commentPhotoAlt; image.dataset.commentPhoto = "true"; card.append(image); }
       if (entry.type === "post") { const del = document.createElement("button"); del.type = "button"; del.textContent = text[language].delete; del.dataset.profileDelete = entry.post.id; card.append(del); }
       target.append(card);
     });
@@ -278,9 +280,10 @@
   }
 
   /* 게시글과 반응을 브라우저에 저장해 새로고침 뒤에도 유지합니다. */
-  function savePosts() {
+  function savePosts(errorMessage = text[language].saveError) {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(posts)); }
-    catch (error) { alert(text[language].saveError); console.warn("게시글을 저장하지 못했습니다.", error); }
+    catch (error) { alert(errorMessage); console.warn("게시글을 저장하지 못했습니다.", error); return false; }
+    return true;
   }
 
   function setText(selector, value) {
@@ -329,6 +332,12 @@
     setText("#post-detail-comments-title", w.detailComments);
     setText("#post-detail-comment-label", w.commentInput); $("#post-detail-comment-input")?.setAttribute("placeholder", w.commentInput);
     setText("#post-detail-comment-submit", w.commentSubmit);
+    setText("#post-detail-comment-status", "");
+    $("#comment-photo-attach")?.setAttribute("aria-label", w.attachPhoto);
+    $("#comment-photo-remove")?.setAttribute("aria-label", w.removePhoto);
+    $("#comment-photo-preview")?.setAttribute("alt", w.commentPhotoPreview);
+    $("#comment-photo-viewer")?.setAttribute("aria-label", w.commentPhotoAlt);
+    $("#comment-photo-viewer-image")?.setAttribute("alt", w.commentPhotoAlt);
     $("#auth-nickname")?.setAttribute("placeholder", w.loginNamePlaceholder);
     $("#auth-password")?.setAttribute("placeholder", w.passwordPlaceholder);
     $$('[data-language]').forEach((button) => {
@@ -502,7 +511,7 @@
     actions.append(comment);
     const share = document.createElement("button");
     share.type = "button"; share.dataset.action = "share";
-    share.textContent = `🔗 ${w.share}`;
+    share.textContent = `🔗 ${w.shareCount} (${post.shares || 0})`;
     actions.append(share);
     if (!post.isExample) {
       const remove = document.createElement("button");
@@ -512,7 +521,7 @@
     card.append(actions);
     if (post.comments?.length) {
       const list = document.createElement("ul"); list.className = "comment-list";
-      post.comments.forEach((entry) => { const item = document.createElement("li"); item.textContent = `${entry.nickname}: ${entry.text}`; list.append(item); });
+      post.comments.forEach((entry) => { const item = document.createElement("li"); const line = document.createElement("span"); line.textContent = `${entry.nickname}: ${entry.text || ""}`; item.append(line); if (entry.photo) { const image = document.createElement("img"); image.className = "comment-photo-thumb"; image.src = entry.photo; image.alt = w.commentPhotoAlt; image.dataset.commentPhoto = "true"; item.append(image); } list.append(item); });
       card.append(list);
     }
     return card;
@@ -536,6 +545,10 @@
       input.remove();
       if (!copied) { alert(language === "ko" ? "링크를 복사하지 못했어요." : "リンクをコピーできませんでした。"); return; }
     }
+    // 링크 복사 성공 시 글의 공유 횟수를 저장하고, 카드와 열린 상세 창을 갱신합니다.
+    post.shares = (post.shares || 0) + 1;
+    savePosts(); renderFeed();
+    if (!$("#post-detail-modal").hidden && activeDetailPostId === String(post.id)) renderPostDetail(post);
     alert(language === "ko" ? "링크가 복사되었어요!" : "リンクをコピーしました！");
   }
 
@@ -563,15 +576,16 @@
     setText("#post-detail-story", post.story);
     const liked = (post.likedBy || []).includes(currentUserId) || getLikedPostIds().includes(post.id);
     setText("#post-detail-like", `💙 ${text[language].like} (${post.likes || 0})${liked ? " ✓" : ""}`);
-    setText("#post-detail-share", `🔗 ${text[language].share}`);
+    setText("#post-detail-share", `🔗 ${text[language].shareCount} (${post.shares || 0})`);
     const list = $("#post-detail-comments"); list.replaceChildren();
-    (post.comments || []).forEach((comment) => { const item = document.createElement("li"); const name = document.createElement("strong"); name.textContent = `${comment.nickname}: `; item.append(name, document.createTextNode(comment.text)); list.append(item); });
+    (post.comments || []).forEach((comment) => { const item = document.createElement("li"); const name = document.createElement("strong"); name.textContent = `${comment.nickname}: `; item.append(name, document.createTextNode(comment.text || "")); if (comment.photo) { const image = document.createElement("img"); image.className = "comment-photo-thumb"; image.src = comment.photo; image.alt = text[language].commentPhotoAlt; image.dataset.commentPhoto = "true"; item.append(image); } list.append(item); });
     if (!post.comments?.length) { const empty = document.createElement("li"); empty.className = "detail-no-comments"; empty.textContent = language === "ko" ? "아직 댓글이 없어요." : "コメントはまだありません。"; list.append(empty); }
   }
 
   // 카드를 선택하면 해당 핀으로 지도를 옮기고 상세 창을 엽니다.
   function openPostDetail(post) {
     if (!post) return;
+    clearCommentPhotoDraft();
     if (post.region !== currentRegion) switchRegion(post.region);
     if (map && Number.isFinite(post.lat) && Number.isFinite(post.lng)) map.setView([post.lat, post.lng], Math.max(map.getZoom(), 16));
     renderPostDetail(post); $("#post-detail-modal").hidden = false;
@@ -667,6 +681,23 @@
     });
   }
 
+  // 댓글 사진은 최대 변을 800px로 맞춰 브라우저 저장 공간을 아낍니다.
+  async function readResizedPhoto(file) {
+    const source = await readPhoto(file);
+    if (!source) return "";
+    const image = await new Promise((resolve, reject) => {
+      const element = new Image(); element.onload = () => resolve(element); element.onerror = reject; element.src = source;
+    });
+    const ratio = Math.min(1, 800 / Math.max(image.naturalWidth, image.naturalHeight));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(image.naturalWidth * ratio));
+    canvas.height = Math.max(1, Math.round(image.naturalHeight * ratio));
+    const context = canvas.getContext("2d");
+    context.fillStyle = "#fff"; context.fillRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL("image/jpeg", 0.82);
+  }
+
   /* 새 게시글 저장과 입력 폼 제출을 처리합니다. */
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -700,6 +731,7 @@
 
   /* 카드의 좋아요, 이모티콘, 댓글, 삭제 버튼을 처리합니다. */
   feed.addEventListener("click", (event) => {
+    if (event.target.closest("img[data-comment-photo]")) return;
     const card = event.target.closest("[data-post-id]");
     if (!card) return;
     const button = event.target.closest("button[data-action]");
@@ -731,9 +763,30 @@
     const card = event.target.closest(".post-card");
     if (card) { event.preventDefault(); openPostDetail(posts.find((item) => String(item.id) === card.dataset.postId)); }
   });
-  const closePostDetail = () => { $("#post-detail-modal").hidden = true; activeDetailPostId = ""; };
+  function clearCommentPhotoDraft() {
+    commentPhotoDraft = ""; $("#comment-photo-file").value = ""; $("#comment-photo-preview").removeAttribute("src"); $("#comment-photo-preview-wrap").hidden = true;
+  }
+  const closePostDetail = () => { $("#post-detail-modal").hidden = true; activeDetailPostId = ""; clearCommentPhotoDraft(); };
   $("#post-detail-close")?.addEventListener("click", closePostDetail);
   $("#post-detail-modal")?.addEventListener("click", (event) => { if (event.target === $("#post-detail-modal")) closePostDetail(); });
+  $("#comment-photo-attach")?.addEventListener("click", () => $("#comment-photo-file").click());
+  $("#comment-photo-file")?.addEventListener("change", async (event) => {
+    const file = event.target.files?.[0]; if (!file) return;
+    try {
+      commentPhotoDraft = await readResizedPhoto(file);
+      $("#comment-photo-preview").src = commentPhotoDraft;
+      $("#comment-photo-preview-wrap").hidden = false;
+      $("#post-detail-comment-status").textContent = "";
+    } catch (error) { console.warn("댓글 사진을 읽지 못했습니다.", error); alert(text[language].saveError); }
+    event.target.value = "";
+  });
+  $("#comment-photo-remove")?.addEventListener("click", clearCommentPhotoDraft);
+  $("#comment-photo-viewer-close")?.addEventListener("click", () => { $("#comment-photo-viewer").hidden = true; });
+  $("#comment-photo-viewer")?.addEventListener("click", (event) => { if (event.target === $("#comment-photo-viewer")) $("#comment-photo-viewer").hidden = true; });
+  document.addEventListener("click", (event) => {
+    const image = event.target.closest("img[data-comment-photo]"); if (!image) return;
+    $("#comment-photo-viewer-image").src = image.src; $("#comment-photo-viewer").hidden = false;
+  });
   $("#post-detail-like")?.addEventListener("click", () => {
     const post = posts.find((item) => String(item.id) === activeDetailPostId); if (!post) return;
     post.likedBy = post.likedBy || [];
@@ -744,9 +797,12 @@
   $("#post-detail-share")?.addEventListener("click", () => { const post = posts.find((item) => String(item.id) === activeDetailPostId); if (post) sharePost(post); });
   $("#post-detail-comment-form")?.addEventListener("submit", (event) => {
     event.preventDefault(); const post = posts.find((item) => String(item.id) === activeDetailPostId); const body = $("#post-detail-comment-input").value.trim();
-    if (!post || !body) return;
-    post.comments = [...(post.comments || []), { userId: currentUserId, nickname: currentNickname, text: body }];
-    savePosts(); $("#post-detail-comment-form").reset(); renderFeed(); renderPostDetail(post);
+    if (!post) return;
+    if (!body && !commentPhotoDraft) { $("#post-detail-comment-status").textContent = text[language].commentEmpty; return; }
+    post.comments = post.comments || [];
+    post.comments.push({ userId: currentUserId, nickname: currentNickname, text: body, photo: commentPhotoDraft });
+    if (!savePosts(text[language].commentSaveError)) { post.comments.pop(); return; }
+    $("#post-detail-comment-form").reset(); clearCommentPhotoDraft(); $("#post-detail-comment-status").textContent = ""; renderFeed(); renderPostDetail(post);
   });
 
   /* 피드 패널을 눌러 펼치거나 접습니다. */
@@ -810,6 +866,7 @@
   });
   $$('[data-profile-tab]').forEach((button) => button.addEventListener("click", () => { activeProfileTab = button.dataset.profileTab; renderProfileTab(); }));
   $("#profile-content")?.addEventListener("click", (event) => {
+    if (event.target.closest("img[data-comment-photo]")) return;
     const remove = event.target.closest("[data-profile-delete]");
     if (remove) {
       const id = remove.dataset.profileDelete, post = posts.find((item) => item.id === id);
@@ -848,6 +905,7 @@
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
     if (!$("#post-detail-modal").hidden) closePostDetail();
+    if (!$("#comment-photo-viewer").hidden) $("#comment-photo-viewer").hidden = true;
     if (!$("#policy-modal").hidden) $("#policy-modal").hidden = true;
     if (!$("#withdraw-modal").hidden) $("#withdraw-modal").hidden = true;
     if (!composePanel.hidden) closeCompose();

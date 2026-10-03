@@ -166,6 +166,17 @@ body.welcome-mode { min-height: 100svh; overflow-y: auto; background: linear-gra
 .detail-no-comments { color: #7A8589; }
 .post-detail-comment-form { display: flex; gap: 8px; margin-top: 12px; }
 .post-detail-comment-form input { flex: 1; min-width: 0; min-height: 42px; padding: 8px 12px; border: 1px solid #D5E0E3; border-radius: 12px; }
+.post-detail-comment-form #comment-photo-attach { flex: 0 0 42px; padding: 6px; font-size: 1.15rem; }
+.comment-photo-preview-wrap { position: relative; width: fit-content; margin: 9px 0 0; }
+.comment-photo-preview-wrap img { display: block; width: 76px; height: 76px; border-radius: 10px; object-fit: cover; }
+.comment-photo-preview-wrap button { position: absolute; top: -7px; right: -7px; width: 24px; height: 24px; border-radius: 50%; background: #BA3F50; color: #fff; line-height: 1; }
+.comment-photo-thumb { display: block; width: auto; max-width: min(180px, 45vw); max-height: 130px; margin-top: 6px; border-radius: 9px; object-fit: cover; cursor: zoom-in; }
+.profile-comment-photo { max-width: 130px; max-height: 96px; }
+.comment-photo-viewer { background: rgba(19, 27, 31, .88); }
+.comment-photo-viewer > img { max-width: min(94vw, 1100px); max-height: 88dvh; border-radius: 12px; object-fit: contain; }
+.comment-photo-viewer .modal-close { position: fixed; z-index: 1; top: max(12px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); background: rgba(255,255,255,.9); }
+.post-detail-comment-status { min-height: 1.2em; margin: 5px 0 0; color: #BA3F50; font-size: .82rem; }
+.comment-list li { margin: 4px 0; }
 .policy-notice { padding: 10px; border-radius: 10px; background: #FFF3DC; color: #765A2D; font-weight: 700; }
 .modal-card > label { display: flex; align-items: center; gap: 8px; margin: 12px 0; }
 .modal-card > label input[type=checkbox] { width: 18px; height: 18px; accent-color: #65BBDD; }
