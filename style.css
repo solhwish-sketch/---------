@@ -130,7 +130,52 @@ body.welcome-mode { min-height: 100svh; overflow-y: auto; background: linear-gra
 .primary-auth-button:hover { background: var(--color-sky-blue-dark); }
 .signup-button { border: 1px solid #D9E9F0; background: #F1F9FC; color: #426779; }
 #auth-status { min-height: 1.3em; margin: 2px 0 0; color: #BA3F50; font-size: .88rem; }
+.signup-hint { margin: -3px 0 4px; font-size: .78rem; line-height: 1.4; }
+.signup-hint.is-valid { color: #25834A; }
+.signup-hint.is-invalid { color: #BA3F50; }
+#signup-password-confirm-wrap { display: grid; gap: 7px; }
 .demo-note { margin: 14px 0 0; color: #7A8589; font-size: .75rem; text-align: center; }
+#signup-consents { display: grid; gap: 8px; margin: 4px 0; padding: 12px; border: 1px solid #D9E9F0; border-radius: 13px; background: #F8FCFD; }
+#signup-consents legend { padding: 0 5px; font-weight: 800; }
+#signup-consents label, .posting-warning { display: flex; align-items: center; gap: 7px; font-size: .85rem; }
+#signup-consents label button, [data-policy] { padding: 4px 7px; background: #EAF7FC; color: #426779; font-size: .8rem; }
+#signup-consents input, .posting-warning input { width: 18px; height: 18px; flex: 0 0 auto; accent-color: #65BBDD; }
+#post-form .posting-warning { align-items: flex-start; margin: 7px 0; line-height: 1.45; }
+.profile-policy-button { display: block; width: 100%; margin-top: 12px; padding: 10px; background: #EAF7FC; color: #426779; font-weight: 700; }
+.delete-account-button { display: block; margin: 10px auto 0; padding: 5px 10px; background: transparent; color: #92999C; font-size: .78rem; }
+.app-modal { position: fixed; z-index: 3000; inset: 0; display: grid; place-items: center; padding: 18px; background: rgba(25, 42, 49, .48); }
+.app-modal[hidden] { display: none; }
+.modal-card { position: relative; width: min(100%, 560px); max-height: min(86dvh, 760px); overflow-y: auto; padding: 25px; border: 1px solid #fff; border-radius: 22px; background: #FFFEFC; box-shadow: 0 18px 55px rgba(34, 55, 64, .22); }
+.modal-card h2 { margin: 0 40px 16px 0; }
+.modal-close { position: absolute; top: 13px; right: 14px; width: 38px; height: 38px; border-radius: 50%; background: #EAF7FC; font-size: 1.4rem; }
+.modal-content { line-height: 1.65; white-space: pre-wrap; }
+.modal-content p { margin: 0 0 12px; }
+.policy-menu-item { display: block; width: 100%; margin: 8px 0; padding: 12px; background: #EAF7FC; color: #244956; text-align: left; font-weight: 700; }
+.post-detail-card { width: min(100%, 700px); }
+.post-detail-card h2 { margin-top: 14px; }
+.post-detail-photo { display: block; width: 100%; max-height: min(42vh, 420px); border-radius: 15px; background: #F3F7F8; object-fit: contain; }
+.post-detail-author { display: flex; align-items: center; gap: 10px; margin: 12px 0; }
+.post-detail-author img { width: 42px; height: 42px; border: 2px solid #D8EFF8; border-radius: 50%; object-fit: cover; }
+.post-detail-meta { color: #57717C; font-weight: 700; }
+.post-detail-story { margin: 12px 0 18px; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+.post-detail-actions { display: flex; gap: 8px; margin: 12px 0 18px; }
+.post-detail-actions button, .post-detail-comment-form button { min-height: 40px; padding: 8px 13px; background: #EAF7FC; color: #244956; font-weight: 700; }
+.post-detail-card h3 { margin: 14px 0 8px; font-size: 1rem; }
+.post-detail-comments { display: grid; gap: 7px; max-height: 24vh; margin: 0; padding: 0 0 0 19px; overflow-y: auto; line-height: 1.45; }
+.post-detail-comments li { overflow-wrap: anywhere; }
+.detail-no-comments { color: #7A8589; }
+.post-detail-comment-form { display: flex; gap: 8px; margin-top: 12px; }
+.post-detail-comment-form input { flex: 1; min-width: 0; min-height: 42px; padding: 8px 12px; border: 1px solid #D5E0E3; border-radius: 12px; }
+.policy-notice { padding: 10px; border-radius: 10px; background: #FFF3DC; color: #765A2D; font-weight: 700; }
+.modal-card > label { display: flex; align-items: center; gap: 8px; margin: 12px 0; }
+.modal-card > label input[type=checkbox] { width: 18px; height: 18px; accent-color: #65BBDD; }
+#withdraw-password { width: 100%; min-height: 44px; padding: 9px 12px; border: 1px solid #D5E0E3; border-radius: 12px; }
+#withdraw-status { min-height: 1.2em; color: #BA3F50; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 15px; }
+.modal-actions button { min-height: 42px; padding: 8px 15px; background: #EAF7FC; color: #244956; font-weight: 700; }
+.modal-actions button:last-child { background: var(--color-sky-blue); }
+.modal-actions button:disabled { opacity: .5; cursor: not-allowed; }
+button:disabled { opacity: .52; cursor: not-allowed; }
 
 /* 로그인 후에는 지도 화면만 스크롤을 막고 전체 창을 채웁니다. */
 body.app-mode { height: 100%; overflow: hidden; }
@@ -168,6 +213,8 @@ body.app-mode { height: 100%; overflow: hidden; }
 /* 지도는 헤더 바로 아래부터 화면 끝까지 펼쳐집니다. */
 #map { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; background: #e6edf0; }
 .leaflet-container { font: inherit; }
+/* Leaflet 출처를 피드 패널 위에 두어 항상 읽을 수 있게 합니다. */
+#map .leaflet-bottom.leaflet-right { bottom: min(32vh, 300px); z-index: 700; }
 .map-controls { position: absolute; z-index: 500; top: 16px; left: 50%; width: min(620px, calc(100% - 32px)); transform: translateX(-50%); }
 #place-search { display: flex; align-items: center; height: 54px; padding: 5px 7px 5px 20px; border-radius: 999px; background: var(--color-white); box-shadow: var(--color-shadow); }
 #search-input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; color: var(--color-text); font-size: 1rem; }
@@ -247,6 +294,11 @@ body.app-mode { height: 100%; overflow: hidden; }
   :root { --header-height: 60px; }
   .welcome-screen { padding: 18px 13px; }
   .welcome-card { padding: 24px 21px 20px; border-radius: 26px; }
+  .post-detail-modal { padding: 10px; }
+  .post-detail-card { max-height: 92dvh; padding: 18px 16px; border-radius: 18px; }
+  .post-detail-photo { max-height: 34vh; }
+  .post-detail-comment-form { gap: 6px; }
+  .post-detail-comment-form button { padding-inline: 9px; font-size: .82rem; }
   #brand-title { margin-bottom: 20px; }
   .app-header { padding-inline: 12px; }
   .app-header h1 { font-size: 1.05rem; }
@@ -259,6 +311,7 @@ body.app-mode { height: 100%; overflow: hidden; }
   #place-search { height: 50px; padding-left: 16px; }
   #search-input { font-size: .92rem; }
   .feed-sheet { height: 31vh; max-height: 37vh; padding-inline: 12px; }
+  #map .leaflet-bottom.leaflet-right { bottom: 31vh; }
   .feed-sheet.is-collapsed { height: 68px; max-height: 68px; }
   #post-list { flex-direction: column; overflow-x: hidden; overflow-y: auto; }
   .post-card { flex: 0 0 auto; min-height: 120px; }

@@ -22,10 +22,11 @@
     ko: {
       appTitle: "Haru Pin ハルピン", tagline: "하루의 장소와 이야기를 잇다", languageHeading: "언어 설정", loginHeading: "로그인",
       login: "로그인", signup: "처음이에요 / 회원가입", nickname: "닉네임", password: "비밀번호",
-      loginNamePlaceholder: "닉네임을 입력하세요", passwordPlaceholder: "비밀번호를 입력하세요",
+      loginNamePlaceholder: "아이디를 입력하세요", passwordPlaceholder: "비밀번호를 입력하세요", passwordConfirm: "비밀번호 확인", share: "공유", detailComments: "댓글", commentInput: "댓글을 입력하세요", commentSubmit: "댓글 등록", detailClose: "닫기",
+      idRule: "영문 소문자와 숫자 4~16자, 영문으로 시작 · 다른 사용자와 중복 불가", idInvalid: "영문 소문자와 숫자만, 영문으로 시작하는 4~16자로 입력해주세요.", idDuplicate: "이미 사용 중인 아이디예요.", idValid: "사용할 수 있는 아이디예요.", passwordRule: "8~20자, 영문과 숫자 포함, 공백 없이 · 아이디와 다르게 입력", passwordInvalid: "8~20자이며 영문과 숫자를 포함하고 공백이 없어야 해요.", passwordSameId: "아이디와 다른 비밀번호를 입력해주세요.", passwordValid: "사용할 수 있는 비밀번호예요.", passwordConfirmHint: "비밀번호를 한 번 더 입력해주세요.", passwordMismatch: "비밀번호가 일치하지 않아요.", passwordMatch: "비밀번호가 일치해요.", signupReady: "가입 조건을 모두 확인해주세요.", signupFieldsInvalid: "아이디와 비밀번호 조건을 확인해주세요.",
       demoNote: "현재는 이 브라우저에만 계정 정보가 저장됩니다.", logout: "로그아웃",
       accountMissing: "계정이 없어요. 회원가입을 먼저 해주세요.", loginFailed: "닉네임 또는 비밀번호를 확인해주세요.",
-      accountExists: "이미 가입된 닉네임이에요. 로그인해주세요.", signupDone: "가입이 완료됐어요. 환영합니다!",
+      accountExists: "이미 가입된 아이디예요. 로그인해주세요.", signupDone: "가입이 완료됐어요. 환영합니다!",
       storageError: "브라우저 저장소를 사용할 수 없어요. 브라우저 설정을 확인해주세요.",
       feed: "동네 피드", mine: "마이페이지", all: "지역 피드 보기", write: "동네 이야기 나누기",
       residence: "거주 지역", place: "장소 이름", category: "카테고리",
@@ -37,15 +38,16 @@
       deleteConfirm: "이 게시글을 삭제할까요?", mapLabel: "하루핀 동네 지도", searchLabel: "장소 검색",
       compose: "새 게시글 작성", close: "닫기", searchAt: "검색한 장소", postAt: "게시글 위치",
       reaction: "이모티콘 반응 추가", photoAlt: "게시글 사진", saveError: "저장 공간이 부족해요. 사진 크기를 줄여 주세요.",
-      profile: "프로필", setup: "프로필 설정", start: "시작하기", edit: "프로필 수정", backMap: "← 지도로 돌아가기", myPosts: "내 포스트", myComments: "내 댓글", likesTab: "좋아요", save: "저장", nicknameRequired: "닉네임을 입력해주세요", nicknameLength: "닉네임은 2~12자로 입력해주세요.", nicknameTaken: "이미 사용 중인 닉네임이에요.", noProfileItems: "아직 표시할 내용이 없어요.", profilePhoto: "프로필 사진 (선택)", commentOn: "댓글을 단 글", delete: "삭제", profilePhotoAlt: "프로필 사진", photoPreviewAlt: "프로필 사진 미리보기", profileTabsLabel: "프로필 게시물"
+      profile: "프로필", setup: "프로필 설정", start: "시작하기", edit: "프로필 수정", backMap: "← 지도로 돌아가기", myPosts: "내 포스트", myComments: "내 댓글", likesTab: "좋아요", save: "저장", nicknameRequired: "닉네임을 입력해주세요", nicknameLength: "닉네임은 2~12자로 입력해주세요.", nicknameTaken: "이미 사용 중인 닉네임이에요.", noProfileItems: "아직 표시할 내용이 없어요.", profilePhoto: "프로필 사진 (선택)", commentOn: "댓글을 단 글", delete: "삭제", profilePhotoAlt: "프로필 사진", photoPreviewAlt: "프로필 사진 미리보기", profileTabsLabel: "프로필 게시물", consentTerms: "[필수] 이용약관 동의", consentPrivacy: "[필수] 개인정보 수집·이용 동의", consentAge: "[필수] 만 14세 이상입니다", missingConsent: "필수 항목에 모두 동의해주세요.", consentAll: "전체 동의", viewFull: "전문 보기", postingWarning: "타인의 얼굴이나 개인정보가 보이는 사진은 올리지 마세요. 올린 글의 책임은 작성자에게 있습니다.", policies: "약관 및 정책", withdraw: "회원 탈퇴", withdrawTitle: "회원 탈퇴 안내", withdrawWarning: "탈퇴하면 아래 정보가 즉시 삭제되고 복구할 수 없어요.", withdrawItems: "삭제되는 정보: 계정, 닉네임, 프로필 사진, 내가 쓴 글과 사진, 내가 쓴 댓글, 좋아요 기록", withdrawCheck: "위 내용을 모두 확인했습니다", withdrawPassword: "비밀번호 재입력 (본인 확인)", cancel: "취소", withdrawSubmit: "탈퇴하기", withdrawWrong: "비밀번호를 확인해주세요.", withdrawDone: "탈퇴가 완료됐어요", policyNotice: "※ 이 문서는 시제품용 임시 초안입니다. 정식 서비스 전에 전문가 검토가 필요합니다.", policyTerms: "이용약관", policyPrivacy: "개인정보 처리방침", policyContent: "콘텐츠 저작권", policyLicense: "오픈소스·지도 라이선스", postingAgree: "게시하려면 안내를 확인하고 동의해주세요."
     },
     ja: {
       appTitle: "Haru Pin ハルピン", tagline: "一日の場所と思い出をつなぐ", languageHeading: "言語設定", loginHeading: "ログイン",
       login: "ログイン", signup: "初めての方 / 新規登録", nickname: "ニックネーム", password: "パスワード",
-      loginNamePlaceholder: "ニックネームを入力", passwordPlaceholder: "パスワードを入力",
+      loginNamePlaceholder: "IDを入力", passwordPlaceholder: "パスワードを入力", passwordConfirm: "パスワードの確認", share: "共有", detailComments: "コメント", commentInput: "コメントを入力", commentSubmit: "コメントを投稿", detailClose: "閉じる",
+      idRule: "半角英小文字と数字で4〜16文字、英字で開始 · 他の利用者と重複不可", idInvalid: "英小文字で始まる4〜16文字の英数字を入力してください。", idDuplicate: "このIDはすでに使われています。", idValid: "このIDは使用できます。", passwordRule: "8〜20文字、英字と数字を含む、空白不可 · IDと異なるもの", passwordInvalid: "8〜20文字で英字と数字を含め、空白は使えません。", passwordSameId: "IDと異なるパスワードを入力してください。", passwordValid: "このパスワードは使用できます。", passwordConfirmHint: "パスワードをもう一度入力してください。", passwordMismatch: "パスワードが一致しません。", passwordMatch: "パスワードが一致しました。", signupReady: "登録条件をすべて確認してください。", signupFieldsInvalid: "IDとパスワードの条件を確認してください。",
       demoNote: "アカウント情報はこのブラウザー内にのみ保存されます。", logout: "ログアウト",
       accountMissing: "アカウントがありません。先に新規登録してください。", loginFailed: "ニックネームまたはパスワードを確認してください。",
-      accountExists: "このニックネームは登録済みです。ログインしてください。", signupDone: "登録が完了しました。ようこそ！",
+      accountExists: "このIDは登録済みです。ログインしてください。", signupDone: "登録が完了しました。ようこそ！",
       storageError: "ブラウザーの保存領域を利用できません。設定を確認してください。",
       feed: "街の投稿", mine: "マイページ", all: "地域の投稿を見る", write: "街の話をシェア",
       residence: "居住地", place: "場所", category: "カテゴリー",
@@ -57,7 +59,7 @@
       deleteConfirm: "この投稿を削除しますか？", mapLabel: "ハルピンの街の地図", searchLabel: "場所を検索",
       compose: "新しい投稿を作成", close: "閉じる", searchAt: "検索した場所", postAt: "投稿の場所",
       reaction: "絵文字リアクションを追加", photoAlt: "投稿の写真", saveError: "保存容量が不足しています。写真を小さくしてください。",
-      profile: "プロフィール", setup: "プロフィール設定", start: "始める", edit: "プロフィールを編集", backMap: "← 地図に戻る", myPosts: "自分の投稿", myComments: "自分のコメント", likesTab: "いいね", save: "保存", nicknameRequired: "ニックネームを入力してください", nicknameLength: "ニックネームは2〜12文字で入力してください。", nicknameTaken: "このニックネームは使用されています。", noProfileItems: "表示する内容はまだありません。", profilePhoto: "プロフィール写真（任意）", commentOn: "コメントした投稿", delete: "削除", profilePhotoAlt: "プロフィール写真", photoPreviewAlt: "プロフィール写真のプレビュー", profileTabsLabel: "プロフィールの投稿"
+      profile: "プロフィール", setup: "プロフィール設定", start: "始める", edit: "プロフィールを編集", backMap: "← 地図に戻る", myPosts: "自分の投稿", myComments: "自分のコメント", likesTab: "いいね", save: "保存", nicknameRequired: "ニックネームを入力してください", nicknameLength: "ニックネームは2〜12文字で入力してください。", nicknameTaken: "このニックネームは使用されています。", noProfileItems: "表示する内容はまだありません。", profilePhoto: "プロフィール写真（任意）", commentOn: "コメントした投稿", delete: "削除", profilePhotoAlt: "プロフィール写真", photoPreviewAlt: "プロフィール写真のプレビュー", profileTabsLabel: "プロフィールの投稿", consentTerms: "[必須] 利用規約に同意", consentPrivacy: "[必須] 個人情報の収集・利用に同意", consentAge: "[必須] 14歳以上です", missingConsent: "必須項目すべてに同意してください。", consentAll: "すべてに同意", viewFull: "全文を見る", postingWarning: "他人の顔や個人情報が写った写真は投稿しないでください。投稿の責任は投稿者にあります。", policies: "規約とポリシー", withdraw: "退会する", withdrawTitle: "退会のご案内", withdrawWarning: "退会すると、以下の情報はすぐに削除され、元に戻せません。", withdrawItems: "削除される情報：アカウント、ニックネーム、プロフィール写真、自分の投稿と写真、自分のコメント、いいね履歴", withdrawCheck: "上記をすべて確認しました", withdrawPassword: "パスワードを再入力（本人確認）", cancel: "キャンセル", withdrawSubmit: "退会する", withdrawWrong: "パスワードを確認してください。", withdrawDone: "退会が完了しました", policyNotice: "※ この文書は試作版の仮草案です。正式サービスの前に専門家による確認が必要です。", policyTerms: "利用規約", policyPrivacy: "個人情報保護方針", policyContent: "コンテンツの著作権", policyLicense: "オープンソース・地図ライセンス", postingAgree: "投稿するには案内を確認して同意してください。"
     }
   };
   const examples = [
@@ -90,6 +92,8 @@
   let currentNickname = "";
   let currentUserId = "";
   let activeProfileTab = "posts";
+  let registrationMode = false;
+  let activeDetailPostId = "";
   let pendingSignupProfile = false;
   let profilePhotoDraft = "";
   let draftLocation = null;
@@ -194,6 +198,11 @@
     $("#profile-setup-screen").hidden = true;
     $("#profile-page").hidden = true;
     $("#auth-form")?.reset();
+    registrationMode = false;
+    $("#signup-consents").hidden = true; $("#signup-password-confirm-wrap").hidden = true;
+    $("#auth-password-confirm").disabled = true; $("#auth-password-confirm").required = false;
+    $("#signup-button").disabled = false;
+    ["#signup-id-hint", "#signup-password-hint", "#signup-password-confirm-hint"].forEach((selector) => { $(selector).hidden = true; });
     $("#auth-status").textContent = "";
     applyLanguage();
   }
@@ -296,6 +305,13 @@
     setText("#back-to-map", w.backMap);
     setText("#save-profile-button", w.save);
     setText("#profile-logout-button", w.logout);
+    setText("#policies-button", w.policies); setText("#delete-account-button", w.withdraw);
+    setText("#terms-consent-label", w.consentTerms); setText("#privacy-consent-label", w.consentPrivacy); setText("#age-consent-label", w.consentAge); setText("#consent-all-label", w.consentAll);
+    setText("#signup-consents-legend", language === "ko" ? "가입 동의" : "登録への同意");
+    $$('.modal-close').forEach((button) => button.setAttribute("aria-label", language === "ko" ? "닫기" : "閉じる"));
+    $$('[data-policy]').forEach((button) => { if (!button.id.includes("withdraw-")) button.textContent = w.viewFull; });
+    setText("#posting-warning-text", w.postingWarning);
+    setText("#withdraw-title", w.withdrawTitle); setText("#withdraw-warning", w.withdrawWarning); setText("#withdraw-items", w.withdrawItems); setText("#withdraw-confirm-label", w.withdrawCheck); setText("#withdraw-password-label", w.withdrawPassword); setText("#withdraw-cancel", w.cancel); setText("#withdraw-submit", w.withdrawSubmit); setText("#withdraw-privacy-link", w.policyPrivacy); setText("#withdraw-terms-link", w.policyTerms);
     $("#profile-avatar")?.setAttribute("alt", w.profilePhotoAlt);
     $("#setup-avatar")?.setAttribute("alt", w.photoPreviewAlt);
     $("#edit-avatar-preview")?.setAttribute("alt", w.photoPreviewAlt);
@@ -306,8 +322,13 @@
     setText('[for="edit-photo"]', w.profilePhoto);
     const tabLabels = { posts: w.myPosts, comments: w.myComments, likes: w.likesTab };
     $$('[data-profile-tab]').forEach((button) => { button.textContent = tabLabels[button.dataset.profileTab]; });
-    setText('label[for="auth-nickname"]', w.nickname);
+    setText('label[for="auth-nickname"]', registrationMode ? (language === "ko" ? "아이디" : "ID") : w.nickname);
     setText('label[for="auth-password"]', w.password);
+    setText("#auth-password-confirm-label", w.passwordConfirm);
+    setText("#post-detail-close", "×"); $("#post-detail-close")?.setAttribute("aria-label", w.detailClose);
+    setText("#post-detail-comments-title", w.detailComments);
+    setText("#post-detail-comment-label", w.commentInput); $("#post-detail-comment-input")?.setAttribute("placeholder", w.commentInput);
+    setText("#post-detail-comment-submit", w.commentSubmit);
     $("#auth-nickname")?.setAttribute("placeholder", w.loginNamePlaceholder);
     $("#auth-password")?.setAttribute("placeholder", w.passwordPlaceholder);
     $$('[data-language]').forEach((button) => {
@@ -340,12 +361,65 @@
       categorySelect.options[0].textContent = w.choose;
       [...categorySelect.options].slice(1).forEach((option) => { option.textContent = categories[language][option.value]; });
     }
+    if (!$("#post-detail-modal").hidden && activeDetailPostId) renderPostDetail(posts.find((item) => String(item.id) === activeDetailPostId));
     $$('header nav button').forEach((button) => button.setAttribute("aria-pressed", String(button.lang === language)));
     $$('[data-region]').forEach((button) => {
       button.textContent = locales[button.dataset.region].name[language];
       button.setAttribute("aria-pressed", String(button.dataset.region === currentRegion));
     });
+    updateSignupValidation();
     renderFeed();
+  }
+
+  // 회원가입 칸마다 조건을 즉시 검사하고, 모두 맞을 때만 가입 버튼을 활성화합니다.
+  function updateSignupValidation() {
+    if (!registrationMode) return;
+    const w = text[language], id = $("#auth-nickname").value.trim(), password = $("#auth-password").value, confirmation = $("#auth-password-confirm").value;
+    const duplicate = demoAuth.getAccounts().some((account) => account.nickname.toLowerCase() === id.toLowerCase());
+    const idFormat = /^[a-z][a-z0-9]{3,15}$/.test(id);
+    const idOk = idFormat && !duplicate;
+    const hasLetter = /[A-Za-z]/.test(password), hasNumber = /[0-9]/.test(password), hasSpace = /\s/.test(password);
+    const passwordLength = password.length >= 8 && password.length <= 20;
+    const passwordSameId = Boolean(id) && password.toLowerCase() === id.toLowerCase();
+    const passwordOk = passwordLength && hasLetter && hasNumber && !hasSpace && !passwordSameId;
+    const confirmOk = Boolean(password) && confirmation === password;
+    const showHint = (selector, valid, message) => {
+      const hint = $(selector); hint.hidden = false; hint.textContent = `${valid ? "✓ " : "• "}${message}`;
+      hint.classList.toggle("is-valid", valid); hint.classList.toggle("is-invalid", !valid);
+    };
+    showHint("#signup-id-hint", idOk, idOk ? w.idValid : (idFormat && duplicate ? w.idDuplicate : w.idRule));
+    showHint("#signup-password-hint", passwordOk, passwordOk ? w.passwordValid : (passwordSameId ? w.passwordSameId : w.passwordRule));
+    showHint("#signup-password-confirm-hint", confirmOk, confirmOk ? w.passwordMatch : (confirmation ? w.passwordMismatch : w.passwordConfirmHint));
+    const consentOk = [...$$('[data-consent]')].every((box) => box.checked);
+    $("#signup-button").disabled = !(idOk && passwordOk && confirmOk && consentOk);
+  }
+
+  // 약관 초안을 한국어와 일본어로 표시합니다.
+  function openPolicy(kind) {
+    if (kind === "menu") {
+      const target = $("#policy-content"); target.replaceChildren();
+      [["terms", text[language].policyTerms], ["privacy", text[language].policyPrivacy], ["content", text[language].policyContent], ["license", text[language].policyLicense]].forEach(([key, label]) => {
+        const button = document.createElement("button"); button.type = "button"; button.textContent = label; button.className = "policy-menu-item";
+        button.addEventListener("click", () => openPolicy(key)); target.append(button);
+      });
+      $("#modal-title").textContent = text[language].policies; $("#policy-modal").hidden = false; return;
+    }
+    const ja = language === "ja";
+    const docs = ja ? {
+      terms: ["利用規約", "Haru Pinは全州と東京の大学生が日常を交換する地図サービスです。", "中傷、違法撮影物、著作権侵害、個人情報の公開、差別表現は禁止です。", "報告された投稿は確認のため非表示にする場合があります。サービスを変更または中断する場合があります。"],
+      privacy: ["個人情報保護方針", "ニックネーム、プロフィール写真、パスワード、投稿・写真・コメント・いいねをサービス提供のために扱います。", "退会まで保管し、退会時にすぐ削除します。第三者には提供しません。閲覧・修正・削除・退会を求められます。現在はこのブラウザー内だけに保存されます。"],
+      content: ["コンテンツの著作権", "投稿した文章と写真の著作権は投稿者にあります。運営のためアプリ内で表示することに同意します。", "他人の写真や顔が写った写真は、同意なく投稿しないでください。"],
+      license: ["オープンソース・地図ライセンス", "地図データ © OpenStreetMap contributors（ODbL）。地図表示にはLeaflet、場所検索にはNominatimを使用しています。"]
+    } : {
+      terms: ["이용약관", "하루핀은 전주와 도쿄 대학생이 일상을 교환하는 지도 서비스예요.", "타인 비방, 불법 촬영물, 저작권 침해, 개인정보 노출, 혐오 표현은 금지해요.", "신고된 게시글은 확인을 위해 숨길 수 있어요. 서비스를 변경하거나 중단할 수 있어요."],
+      privacy: ["개인정보 처리방침", "닉네임, 프로필 사진, 비밀번호, 작성한 글·사진·댓글·좋아요를 서비스 제공을 위해 수집해요.", "탈퇴할 때까지 보관하고 탈퇴하면 즉시 삭제해요. 제3자에게 제공하지 않아요. 열람·수정·삭제를 요청하거나 탈퇴할 수 있어요. 현재 정보는 이 브라우저에만 저장돼요."],
+      content: ["콘텐츠 저작권", "올린 글과 사진의 저작권은 작성자에게 있어요. 서비스 운영을 위해 앱 안에서 표시하는 것에 동의해요.", "타인의 사진이나 얼굴이 나온 사진은 동의 없이 올리지 마세요."],
+      license: ["오픈소스·지도 라이선스", "지도 데이터 © OpenStreetMap contributors (ODbL). 지도 표시는 Leaflet, 장소 검색은 Nominatim을 사용해요."]
+    };
+    const lines = [text[language].policyNotice, ...(docs[kind] || docs.terms)];
+    $("#modal-title").textContent = lines[1]; const target = $("#policy-content"); target.replaceChildren();
+    lines.forEach((line, i) => { const p = document.createElement("p"); p.textContent = line; if (!i) p.className = "policy-notice"; target.append(p); });
+    $("#policy-modal").hidden = false;
   }
 
   /* 핀을 누르면 피드 패널을 펼치고 해당 게시글 카드로 이동합니다. */
@@ -428,7 +502,7 @@
     actions.append(comment);
     const share = document.createElement("button");
     share.type = "button"; share.dataset.action = "share";
-    share.textContent = "🔗 공유";
+    share.textContent = `🔗 ${w.share}`;
     actions.append(share);
     if (!post.isExample) {
       const remove = document.createElement("button");
@@ -460,9 +534,9 @@
       input.select();
       const copied = document.execCommand("copy");
       input.remove();
-      if (!copied) { alert("링크를 복사하지 못했어요."); return; }
+      if (!copied) { alert(language === "ko" ? "링크를 복사하지 못했어요." : "リンクをコピーできませんでした。"); return; }
     }
-    alert("링크가 복사되었어요!");
+    alert(language === "ko" ? "링크가 복사되었어요!" : "リンクをコピーしました！");
   }
 
   /* 선택 지역 또는 마이페이지의 게시글을 하단 패널에 나열합니다. */
@@ -473,6 +547,34 @@
       const empty = document.createElement("p"); empty.textContent = text[language].empty; feed.append(empty); return;
     }
     visible.forEach((post) => feed.append(makeCard(post)));
+  }
+
+  // 상세 모달은 게시글 데이터에서 안전하게 DOM을 만들어 내용을 표시합니다.
+  function renderPostDetail(post) {
+    if (!post) return;
+    activeDetailPostId = String(post.id);
+    const photo = $("#post-detail-photo");
+    photo.hidden = !post.photo; photo.src = post.photo || ""; photo.alt = text[language].photoAlt;
+    setText("#post-detail-title", post.place);
+    const profile = getProfile(post.authorId || "");
+    const avatar = $("#post-detail-avatar"); avatar.src = post.authorPhoto || profile?.photo || avatarSource({ nickname: post.nickname }); avatar.alt = `${post.nickname} ${text[language].profilePhotoAlt}`;
+    setText("#post-detail-author-name", post.nickname);
+    setText("#post-detail-place-category", `${locales[post.region].name[language]} · ${categories[language][post.category] || post.category}`);
+    setText("#post-detail-story", post.story);
+    const liked = (post.likedBy || []).includes(currentUserId) || getLikedPostIds().includes(post.id);
+    setText("#post-detail-like", `💙 ${text[language].like} (${post.likes || 0})${liked ? " ✓" : ""}`);
+    setText("#post-detail-share", `🔗 ${text[language].share}`);
+    const list = $("#post-detail-comments"); list.replaceChildren();
+    (post.comments || []).forEach((comment) => { const item = document.createElement("li"); const name = document.createElement("strong"); name.textContent = `${comment.nickname}: `; item.append(name, document.createTextNode(comment.text)); list.append(item); });
+    if (!post.comments?.length) { const empty = document.createElement("li"); empty.className = "detail-no-comments"; empty.textContent = language === "ko" ? "아직 댓글이 없어요." : "コメントはまだありません。"; list.append(empty); }
+  }
+
+  // 카드를 선택하면 해당 핀으로 지도를 옮기고 상세 창을 엽니다.
+  function openPostDetail(post) {
+    if (!post) return;
+    if (post.region !== currentRegion) switchRegion(post.region);
+    if (map && Number.isFinite(post.lat) && Number.isFinite(post.lng)) map.setView([post.lat, post.lng], Math.max(map.getZoom(), 16));
+    renderPostDetail(post); $("#post-detail-modal").hidden = false;
   }
 
   /* 지도에 현재 지역의 게시글 핀을 표시합니다. */
@@ -546,7 +648,7 @@
     map = L.map(mapElement, { zoomControl: true }).setView(locales[currentRegion].center, locales[currentRegion].zoom);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     }).addTo(map);
     map.on("click", (event) => openCompose({ lat: event.latlng.lat, lng: event.latlng.lng }));
     renderMarkers();
@@ -569,6 +671,7 @@
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!form.reportValidity()) return;
+    if (!$("#posting-agreement").checked) { $("#posting-agreement").focus(); return; }
     const nickname = $("#nickname").value.trim();
     const region = $("#post-region").value;
     let photo = "";
@@ -587,6 +690,7 @@
     try { localStorage.setItem(PROFILE_KEY, nickname); } catch (_) { /* 저장이 막힌 브라우저에서도 이어서 사용합니다. */ }
     savePosts();
     form.reset();
+    $("#post-submit-button").disabled = true;
     closeCompose();
     switchRegion(region);
     feedSheet.classList.remove("is-collapsed");
@@ -602,14 +706,11 @@
     const post = posts.find((item) => item.id === card.dataset.postId);
     if (!post) return;
     if (!button) {
-      if (map && Number.isFinite(post.lat) && Number.isFinite(post.lng)) {
-        if (post.region !== currentRegion) switchRegion(post.region);
-        map.setView([post.lat, post.lng], 16);
-      }
+      openPostDetail(post);
       return;
     }
     if (button.dataset.action === "share") { sharePost(post); return; }
-    if (button.dataset.action === "like") { post.likes = (post.likes || 0) + 1; const liked = getLikedPostIds(); if (!liked.includes(post.id)) saveLikedPostIds([...liked, post.id]); }
+    if (button.dataset.action === "like") { post.likedBy = post.likedBy || []; if (!post.likedBy.includes(currentUserId)) { post.likedBy.push(currentUserId); post.likes = (post.likes || 0) + 1; } const liked = getLikedPostIds(); if (!liked.includes(post.id)) saveLikedPostIds([...liked, post.id]); }
     if (button.dataset.action === "reaction") {
       const options = ["💙", "😊", "☕", "🌿", "😋", "📚", "🎉"];
       const choice = prompt(language === "ko" ? `반응 이모티콘을 골라주세요: ${options.join(" ")}` : `絵文字を選んでください: ${options.join(" ")}`, "💙");
@@ -624,6 +725,28 @@
       posts = posts.filter((item) => item.id !== post.id);
     }
     savePosts(); renderFeed(); renderMarkers();
+  });
+  feed.addEventListener("keydown", (event) => {
+    if ((event.key !== "Enter" && event.key !== " ") || event.target.closest("button")) return;
+    const card = event.target.closest(".post-card");
+    if (card) { event.preventDefault(); openPostDetail(posts.find((item) => String(item.id) === card.dataset.postId)); }
+  });
+  const closePostDetail = () => { $("#post-detail-modal").hidden = true; activeDetailPostId = ""; };
+  $("#post-detail-close")?.addEventListener("click", closePostDetail);
+  $("#post-detail-modal")?.addEventListener("click", (event) => { if (event.target === $("#post-detail-modal")) closePostDetail(); });
+  $("#post-detail-like")?.addEventListener("click", () => {
+    const post = posts.find((item) => String(item.id) === activeDetailPostId); if (!post) return;
+    post.likedBy = post.likedBy || [];
+    if (!post.likedBy.includes(currentUserId)) { post.likedBy.push(currentUserId); post.likes = (post.likes || 0) + 1; }
+    const liked = getLikedPostIds(); if (!liked.includes(post.id)) saveLikedPostIds([...liked, post.id]);
+    savePosts(); renderFeed(); renderPostDetail(post); renderMarkers();
+  });
+  $("#post-detail-share")?.addEventListener("click", () => { const post = posts.find((item) => String(item.id) === activeDetailPostId); if (post) sharePost(post); });
+  $("#post-detail-comment-form")?.addEventListener("submit", (event) => {
+    event.preventDefault(); const post = posts.find((item) => String(item.id) === activeDetailPostId); const body = $("#post-detail-comment-input").value.trim();
+    if (!post || !body) return;
+    post.comments = [...(post.comments || []), { userId: currentUserId, nickname: currentNickname, text: body }];
+    savePosts(); $("#post-detail-comment-form").reset(); renderFeed(); renderPostDetail(post);
   });
 
   /* 피드 패널을 눌러 펼치거나 접습니다. */
@@ -660,6 +783,7 @@
   });
 
   $("#compose-button")?.addEventListener("click", () => openCompose());
+  $("#posting-agreement")?.addEventListener("change", (event) => { $("#post-submit-button").disabled = !event.target.checked; });
   $("#close-compose")?.addEventListener("click", closeCompose);
   /* 프로필 등록 단계에서는 닉네임 중복과 사진 미리보기를 확인합니다. */
   $("#setup-nickname")?.addEventListener("input", () => {
@@ -698,7 +822,36 @@
   });
   const logout = () => { demoAuth.logout(); showWelcome(); };
   $("#profile-logout-button")?.addEventListener("click", logout);
-  document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !composePanel.hidden) closeCompose(); });
+  $("#policies-button")?.addEventListener("click", () => openPolicy("menu"));
+  $$("[data-policy]").forEach((button) => button.addEventListener("click", () => openPolicy(button.dataset.policy)));
+  $$('[data-close-modal]').forEach((button) => button.addEventListener("click", () => { $("#policy-modal").hidden = true; $("#withdraw-modal").hidden = true; }));
+  $("#delete-account-button")?.addEventListener("click", () => { $("#withdraw-modal").hidden = false; $("#withdraw-password").value = ""; $("#withdraw-confirm").checked = false; $("#withdraw-submit").disabled = true; $("#withdraw-status").textContent = ""; });
+  const updateWithdraw = () => { const account = demoAuth.getAccount(); $("#withdraw-submit").disabled = !($("#withdraw-confirm").checked && account && $("#withdraw-password").value === account.password); };
+  $("#withdraw-confirm")?.addEventListener("change", updateWithdraw); $("#withdraw-password")?.addEventListener("input", updateWithdraw);
+  $("#withdraw-submit")?.addEventListener("click", () => {
+    const userId = currentUserId, account = demoAuth.getAccount(); if (!account || $("#withdraw-submit").disabled) return;
+    let oldLikedIds = []; try { oldLikedIds = JSON.parse(localStorage.getItem(LIKES_KEY) || "{}")[userId] || []; } catch (_) {}
+    posts = posts.filter((post) => post.authorId !== userId && (post.authorId || post.nickname !== currentNickname));
+    posts.forEach((post) => { const removedLikes = (post.likedBy || []).filter((id) => id === userId).length || (oldLikedIds.includes(post.id) ? 1 : 0); post.likedBy = (post.likedBy || []).filter((id) => id !== userId); post.likes = Math.max(0, (post.likes || 0) - removedLikes); post.comments = (post.comments || []).filter((comment) => comment.userId !== userId && comment.nickname !== currentNickname); });
+    savePosts();
+    try {
+      localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(demoAuth.getAccounts().filter((item) => item.nickname !== account.nickname)));
+      const profiles = getProfiles(); delete profiles[userId]; localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
+      const likes = JSON.parse(localStorage.getItem(LIKES_KEY) || "{}"); delete likes[userId]; localStorage.setItem(LIKES_KEY, JSON.stringify(likes));
+      localStorage.removeItem(SESSION_KEY); localStorage.removeItem(PROFILE_KEY); localStorage.removeItem(ACCOUNT_KEY);
+    } catch (_) {}
+    $("#withdraw-modal").hidden = true; showWelcome(); $("#auth-status").textContent = text[language].withdrawDone;
+  });
+  const syncSignupConsent = () => { const all = [...$$('[data-consent]')].every((box) => box.checked); $("#consent-all").checked = all; updateSignupValidation(); };
+  $$('[data-consent]').forEach((box) => box.addEventListener("change", syncSignupConsent));
+  $("#consent-all")?.addEventListener("change", (event) => { $$('[data-consent]').forEach((box) => { box.checked = event.target.checked; }); syncSignupConsent(); });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    if (!$("#post-detail-modal").hidden) closePostDetail();
+    if (!$("#policy-modal").hidden) $("#policy-modal").hidden = true;
+    if (!$("#withdraw-modal").hidden) $("#withdraw-modal").hidden = true;
+    if (!composePanel.hidden) closeCompose();
+  });
 
   /* 언어 카드는 선택 즉시 앱 전체 표시 언어로 적용하고 저장합니다. */
   $$('[data-language]').forEach((button) => button.addEventListener("click", () => {
@@ -720,10 +873,23 @@
 
   /* 회원가입 버튼은 현재 브라우저에 데모 계정을 만들고 바로 입장합니다. */
   $("#signup-button")?.addEventListener("click", () => {
+    const panel = $("#signup-consents");
+    if (!registrationMode) {
+      registrationMode = true; panel.hidden = false;
+      $("#signup-password-confirm-wrap").hidden = false;
+      $("#auth-password-confirm").disabled = false; $("#auth-password-confirm").required = true;
+      $("#auth-nickname").setAttribute("autocomplete", "username"); $("#auth-password").setAttribute("autocomplete", "new-password");
+      ["#signup-id-hint", "#signup-password-hint", "#signup-password-confirm-hint"].forEach((selector) => { $(selector).hidden = false; });
+      applyLanguage(); updateSignupValidation(); return;
+    }
+    if (![...$$('[data-consent]')].every((box) => box.checked)) { $("#auth-status").textContent = text[language].missingConsent; return; }
+    updateSignupValidation();
+    if ($("#signup-button").disabled) { $("#auth-status").textContent = text[language].signupFieldsInvalid; return; }
     const authForm = $("#auth-form");
     if (!authForm.reportValidity()) return;
     const nickname = $("#auth-nickname").value.trim();
     const password = $("#auth-password").value;
+    if ($("#auth-password-confirm").value !== password) { $("#auth-status").textContent = text[language].signupFieldsInvalid; return; }
     if (!nickname || !password) { $("#auth-status").textContent = text[language].loginFailed; return; }
     const result = demoAuth.signUp(nickname, password);
     if (!result.ok) { $("#auth-status").textContent = result.message; return; }
@@ -731,6 +897,8 @@
     pendingSignupProfile = true;
     showApp(nickname);
   });
+
+  ["#auth-nickname", "#auth-password", "#auth-password-confirm"].forEach((selector) => $(selector)?.addEventListener("input", () => { $("#auth-status").textContent = ""; updateSignupValidation(); }));
 
   /* 로그아웃은 인증 세션만 지우고, 다음 로그인을 위한 계정은 남겨 둡니다. */
 

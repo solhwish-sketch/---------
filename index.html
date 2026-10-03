@@ -40,10 +40,23 @@
         <h2 id="auth-heading">로그인</h2>
         <label for="auth-nickname">닉네임</label>
         <input id="auth-nickname" name="nickname" type="text" autocomplete="username" required>
+        <p id="signup-id-hint" class="signup-hint" aria-live="polite" hidden></p>
         <label for="auth-password">비밀번호</label>
         <input id="auth-password" name="password" type="password" autocomplete="current-password" required>
+        <p id="signup-password-hint" class="signup-hint" aria-live="polite" hidden></p>
+        <div id="signup-password-confirm-wrap" hidden>
+          <label for="auth-password-confirm" id="auth-password-confirm-label">비밀번호 확인</label>
+          <input id="auth-password-confirm" name="password-confirm" type="password" autocomplete="new-password" disabled>
+          <p id="signup-password-confirm-hint" class="signup-hint" aria-live="polite" hidden></p>
+        </div>
         <button class="primary-auth-button" type="submit" id="login-button">로그인</button>
         <button class="signup-button" type="button" id="signup-button">처음이에요 / 회원가입</button>
+        <fieldset id="signup-consents" hidden><legend id="signup-consents-legend">가입 동의</legend>
+          <label><input type="checkbox" data-consent="terms"> <span id="terms-consent-label">[필수] 이용약관 동의</span> <button type="button" data-policy="terms">전문 보기</button></label>
+          <label><input type="checkbox" data-consent="privacy"> <span id="privacy-consent-label">[필수] 개인정보 수집·이용 동의</span> <button type="button" data-policy="privacy">전문 보기</button></label>
+          <label><input type="checkbox" data-consent="age"> <span id="age-consent-label">[필수] 만 14세 이상입니다</span></label>
+          <label><input type="checkbox" id="consent-all"> <span id="consent-all-label">전체 동의</span></label>
+        </fieldset>
         <p id="auth-status" role="status" aria-live="polite"></p>
       </form>
       <p class="demo-note" id="demo-note">현재는 이 브라우저에만 계정 정보가 저장됩니다.</p>
@@ -126,7 +139,8 @@
           <input id="photo" name="photo" type="file" accept="image/*">
           <label for="story">짧은 글</label>
           <textarea id="story" name="story" rows="3" required></textarea>
-          <button type="submit">게시글 올리기</button>
+          <label class="posting-warning"><input id="posting-agreement" type="checkbox" required> <span id="posting-warning-text">타인의 얼굴이나 개인정보가 보이는 사진은 올리지 마세요. 올린 글의 책임은 작성자에게 있습니다.</span></label>
+          <button type="submit" id="post-submit-button" disabled>게시글 올리기</button>
         </form>
       </section>
     </main>
@@ -166,9 +180,27 @@
           <button type="button" data-profile-tab="likes" role="tab" aria-selected="false">좋아요</button>
         </div>
         <div id="profile-content" class="profile-content" role="tabpanel"></div>
+        <button type="button" id="policies-button" class="profile-policy-button">약관 및 정책</button>
         <button type="button" id="profile-logout-button" class="profile-logout">로그아웃</button>
+        <button type="button" id="delete-account-button" class="delete-account-button">회원 탈퇴</button>
       </section>
     </main>
   </div>
+  <div id="post-detail-modal" class="app-modal post-detail-modal" hidden role="dialog" aria-modal="true" aria-labelledby="post-detail-title">
+    <section class="modal-card post-detail-card">
+      <button type="button" id="post-detail-close" class="modal-close" aria-label="닫기">×</button>
+      <img id="post-detail-photo" class="post-detail-photo" alt="">
+      <h2 id="post-detail-title"></h2>
+      <div class="post-detail-author"><img id="post-detail-avatar" alt=""><strong id="post-detail-author-name"></strong></div>
+      <p id="post-detail-place-category" class="post-detail-meta"></p>
+      <p id="post-detail-story" class="post-detail-story"></p>
+      <div class="post-detail-actions"><button type="button" id="post-detail-like"></button><button type="button" id="post-detail-share"></button></div>
+      <h3 id="post-detail-comments-title"></h3>
+      <ul id="post-detail-comments" class="post-detail-comments"></ul>
+      <form id="post-detail-comment-form" class="post-detail-comment-form"><label class="visually-hidden" for="post-detail-comment-input" id="post-detail-comment-label"></label><input id="post-detail-comment-input" maxlength="500" required><button type="submit" id="post-detail-comment-submit"></button></form>
+    </section>
+  </div>
+  <div id="policy-modal" class="app-modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title"><section class="modal-card"><button type="button" class="modal-close" data-close-modal aria-label="닫기">×</button><h2 id="modal-title"></h2><div id="policy-content" class="modal-content"></div></section></div>
+  <div id="withdraw-modal" class="app-modal" hidden role="dialog" aria-modal="true" aria-labelledby="withdraw-title"><section class="modal-card"><button type="button" class="modal-close" data-close-modal aria-label="닫기">×</button><h2 id="withdraw-title"></h2><p id="withdraw-warning"></p><p id="withdraw-items"></p><p><button type="button" data-policy="privacy" id="withdraw-privacy-link">개인정보 처리방침</button> · <button type="button" data-policy="terms" id="withdraw-terms-link">이용약관</button></p><label><input id="withdraw-confirm" type="checkbox"> <span id="withdraw-confirm-label"></span></label><label for="withdraw-password" id="withdraw-password-label"></label><input id="withdraw-password" type="password" autocomplete="current-password"><p id="withdraw-status" role="status"></p><div class="modal-actions"><button type="button" data-close-modal id="withdraw-cancel"></button><button type="button" id="withdraw-submit" disabled></button></div></section></div>
 </body>
 </html>
