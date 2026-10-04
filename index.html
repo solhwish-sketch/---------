@@ -82,14 +82,24 @@
       <!-- Leaflet 지도가 헤더 아래 화면을 채웁니다. -->
       <div id="map" role="region" aria-label="하루핀 동네 지도"></div>
 
-      <!-- 세계 장소 검색과 도시 이동 버튼입니다. -->
+      <!-- 앱 게시글 우선 검색, 카테고리 필터와 지도 장소 검색을 제공합니다. -->
       <div class="map-controls">
         <form id="place-search" role="search">
           <label class="visually-hidden" for="search-input">장소 검색</label>
           <input id="search-input" name="q" type="search" autocomplete="off" placeholder="카페, 맛집, 관광지 검색">
           <button type="submit" aria-label="검색">⌕</button>
         </form>
+        <div id="category-filters" class="category-filters" role="group" aria-label="카테고리 검색">
+          <button type="button" data-category-filter="all" aria-pressed="true">전체</button>
+          <button type="button" data-category-filter="food" aria-pressed="false">숨은 맛집</button>
+          <button type="button" data-category-filter="cafe" aria-pressed="false">동네 카페</button>
+          <button type="button" data-category-filter="school" aria-pressed="false">학교 생활</button>
+          <button type="button" data-category-filter="walk" aria-pressed="false">산책로</button>
+        </div>
+        <div id="search-results" class="search-results" role="list" aria-label="게시글 검색 결과" hidden></div>
+        <div id="category-legend" class="category-legend" aria-label="카테고리별 핀 색상"></div>
         <p id="search-status" role="status" aria-live="polite"></p>
+        <button type="button" id="search-reset" class="search-reset" hidden>전체로 돌아가기</button>
         <div class="city-switch" role="group" aria-label="지역 선택">
           <button type="button" data-region="jeonju" aria-pressed="true">전주</button>
           <button type="button" data-region="tokyo" aria-pressed="false">도쿄</button>

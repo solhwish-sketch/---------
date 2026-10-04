@@ -15,9 +15,10 @@
     tokyo: { name: { ko: "도쿄", ja: "東京" }, center: [35.6812, 139.7671], zoom: 13 }
   };
   const categories = {
-    ko: { school: "학교생활", cafe: "동네 카페", food: "숨은 맛집", walk: "산책로" },
+    ko: { school: "학교 생활", cafe: "동네 카페", food: "숨은 맛집", walk: "산책로" },
     ja: { school: "学校生活", cafe: "近所のカフェ", food: "隠れた名店", walk: "散歩道" }
   };
+  const categoryColors = { school: "#8B68C8", cafe: "#D58A36", food: "#E35B5B", walk: "#4AAB78" };
   const text = {
     ko: {
       appTitle: "Haru Pin ハルピン", tagline: "하루의 장소와 이야기를 잇다", languageHeading: "언어 설정", loginHeading: "로그인",
@@ -32,7 +33,8 @@
       residence: "거주 지역", place: "장소 이름", category: "카테고리",
       photo: "사진", story: "짧은 글", choose: "선택하세요", submit: "게시글 올리기",
       like: "좋아요", comment: "댓글", remove: "삭제", example: "예시", empty: "아직 게시글이 없습니다.",
-      searchPlaceholder: "카페, 맛집, 관광지 검색", searchButton: "검색", noResults: "검색 결과가 없어요",
+      searchPlaceholder: "카페, 맛집, 관광지 검색", searchButton: "검색", noResults: "검색 결과가 없어요", searchReset: "전체로 돌아가기", searchResultLabel: "게시글 검색 결과", categoryFilterLabel: "카테고리 검색", categoryLegendLabel: "카테고리별 핀 색상", categoryAll: "전체", searchResultMeta: "작성자",
+      deleteCommentConfirm: "댓글을 삭제할까요?", deleteCommentPhotoConfirm: "사진만 삭제할까요?", deleteComment: "삭제", deleteCommentPhoto: "사진만 삭제",
       searchError: "검색 중 문제가 생겼어요. 잠시 후 다시 시도해 주세요.", searching: "장소를 찾고 있어요…",
       askNickname: "내 게시글을 모아볼 닉네임을 입력하세요.", commentPrompt: "댓글을 입력하세요.",
       deleteConfirm: "이 게시글을 삭제할까요?", mapLabel: "하루핀 동네 지도", searchLabel: "장소 검색",
@@ -53,7 +55,8 @@
       residence: "居住地", place: "場所", category: "カテゴリー",
       photo: "写真", story: "ひとこと", choose: "選択してください", submit: "投稿する",
       like: "いいね", comment: "コメント", remove: "削除", example: "サンプル", empty: "投稿はまだありません。",
-      searchPlaceholder: "カフェ、グルメ、観光地を検索", searchButton: "検索", noResults: "検索結果がありません",
+      searchPlaceholder: "カフェ、グルメ、観光地を検索", searchButton: "検索", noResults: "検索結果がありません", searchReset: "すべてに戻る", searchResultLabel: "投稿の検索結果", categoryFilterLabel: "カテゴリー検索", categoryLegendLabel: "カテゴリー別ピンの色", categoryAll: "すべて", searchResultMeta: "投稿者",
+      deleteCommentConfirm: "コメントを削除しますか？", deleteCommentPhotoConfirm: "写真だけを削除しますか？", deleteComment: "削除", deleteCommentPhoto: "写真だけ削除",
       searchError: "検索中に問題が発生しました。しばらくしてから再度お試しください。", searching: "場所を検索しています…",
       askNickname: "自分の投稿を見るニックネームを入力してください。", commentPrompt: "コメントを入力してください。",
       deleteConfirm: "この投稿を削除しますか？", mapLabel: "ハルピンの街の地図", searchLabel: "場所を検索",
@@ -89,6 +92,8 @@
   let language = readLanguage();
   let currentRegion = "jeonju";
   let showMine = false;
+  let categoryFilter = "all";
+  let activeSearchPostIds = null;
   let currentNickname = "";
   let currentUserId = "";
   let activeProfileTab = "posts";
@@ -103,6 +108,7 @@
   let map;
   let markers = [];
   let posts = loadPosts();
+  let lastSearchResults = [];
   let searchRequest;
   let lastSearchTime = 0;
   let pendingSharedPostId = new URLSearchParams(window.location.search).get("post");
@@ -258,7 +264,7 @@
     $$("[data-profile-tab]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.profileTab === activeProfileTab)));
     target.replaceChildren(); const ownPosts = posts.filter((post) => post.authorId === currentUserId || (!post.isExample && !post.authorId && post.nickname === currentNickname)); let entries = [];
     if (activeProfileTab === "posts") entries = ownPosts.map((post) => ({ type: "post", post }));
-    if (activeProfileTab === "comments") entries = posts.flatMap((post) => (post.comments || []).filter((comment) => comment.userId === currentUserId || (!post.isExample && !comment.userId && comment.nickname === currentNickname)).map((comment) => ({ type: "comment", post, comment })));
+    if (activeProfileTab === "comments") entries = posts.flatMap((post) => (post.comments || []).map((comment, commentIndex) => ({ type: "comment", post, comment, commentIndex })).filter((entry) => isOwnComment(entry.post, entry.comment)));
     if (activeProfileTab === "likes") entries = posts.filter((post) => getLikedPostIds().includes(post.id)).map((post) => ({ type: "like", post }));
     if (!entries.length) { const empty = document.createElement("p"); empty.textContent = text[language].noProfileItems; target.append(empty); return; }
     entries.forEach((entry) => {
@@ -266,9 +272,61 @@
       const title = document.createElement("h3"); title.textContent = entry.type === "comment" ? `${text[language].commentOn}: ${entry.post.place}` : entry.post.place; card.append(title);
       const body = document.createElement("p"); body.textContent = entry.type === "comment" ? entry.comment.text : entry.post.story; card.append(body);
       if (entry.type === "comment" && entry.comment.photo) { const image = document.createElement("img"); image.className = "comment-photo-thumb profile-comment-photo"; image.src = entry.comment.photo; image.alt = text[language].commentPhotoAlt; image.dataset.commentPhoto = "true"; card.append(image); }
+      if (entry.type === "comment") appendCommentActions(card, entry.commentIndex, entry.comment);
       if (entry.type === "post") { const del = document.createElement("button"); del.type = "button"; del.textContent = text[language].delete; del.dataset.profileDelete = entry.post.id; card.append(del); }
       target.append(card);
     });
+  }
+
+  // 예전 댓글의 userId가 없는 경우에는 비예시 글의 닉네임으로 작성자를 확인합니다.
+  function isOwnComment(post, comment) {
+    return Boolean(currentUserId) && (
+      comment.userId === currentUserId ||
+      (!post.isExample && !comment.userId && comment.nickname === currentNickname)
+    );
+  }
+
+  // 내가 쓴 댓글에만 댓글 전체 삭제와 사진만 삭제 동작을 표시합니다.
+  function appendCommentActions(container, index, comment) {
+    const actions = document.createElement("div");
+    actions.className = "comment-actions";
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.dataset.commentAction = "delete";
+    remove.dataset.commentIndex = String(index);
+    remove.textContent = `🗑 ${text[language].deleteComment}`;
+    remove.setAttribute("aria-label", text[language].deleteComment);
+    actions.append(remove);
+    if (comment.photo) {
+      const removePhoto = document.createElement("button");
+      removePhoto.type = "button";
+      removePhoto.dataset.commentAction = "photo";
+      removePhoto.dataset.commentIndex = String(index);
+      removePhoto.textContent = text[language].deleteCommentPhoto;
+      actions.append(removePhoto);
+    }
+    container.append(actions);
+  }
+
+  // 댓글 변경은 저장에 성공한 경우에만 화면에 반영하고, 실패하면 원래 값을 복원합니다.
+  function updateComment(postId, index, action) {
+    const post = posts.find((item) => String(item.id) === String(postId));
+    const comments = post?.comments || [];
+    const comment = comments[index];
+    if (!post || !comment || !isOwnComment(post, comment)) return;
+    if (action === "delete") {
+      if (!confirm(text[language].deleteCommentConfirm)) return;
+      const [removed] = comments.splice(index, 1);
+      if (!savePosts(text[language].commentSaveError)) { comments.splice(index, 0, removed); return; }
+    } else {
+      if (!comment.photo || !confirm(text[language].deleteCommentPhotoConfirm)) return;
+      const photo = comment.photo;
+      comment.photo = "";
+      if (!savePosts(text[language].commentSaveError)) { comment.photo = photo; return; }
+    }
+    renderFeed();
+    if (!$("#post-detail-modal").hidden && activeDetailPostId === String(post.id)) renderPostDetail(post);
+    if (!$("#profile-page").hidden) renderProfileTab();
   }
 
   function loadPosts() {
@@ -355,6 +413,16 @@
     $("#search-input")?.setAttribute("placeholder", w.searchPlaceholder);
     $("#search-input")?.setAttribute("aria-label", w.searchLabel);
     $("#place-search button")?.setAttribute("aria-label", w.searchButton);
+    $("#category-filters")?.setAttribute("aria-label", w.categoryFilterLabel);
+    $("#category-legend")?.setAttribute("aria-label", w.categoryLegendLabel);
+    $("#search-results")?.setAttribute("aria-label", w.searchResultLabel);
+    setText("#search-reset", w.searchReset);
+    renderCategoryControls();
+    renderSearchResults(lastSearchResults);
+    if ($("#search-input").value.trim()) {
+      $("#search-status").textContent = lastSearchResults.length ? "" : w.noResults;
+      $("#search-reset").hidden = lastSearchResults.length > 0;
+    }
     const labels = { nickname: w.nickname, "post-region": w.residence, place: w.place, category: w.category, photo: w.photo, story: w.story };
     Object.entries(labels).forEach(([id, value]) => { const label = $(`label[for="${id}"]`); if (label) label.textContent = value; });
     setText("#post-form button[type=submit]", w.submit);
@@ -378,6 +446,53 @@
     });
     updateSignupValidation();
     renderFeed();
+  }
+
+  // 카테고리 필터와 색상 범례를 현재 언어로 다시 그립니다.
+  function renderCategoryControls() {
+    const w = text[language];
+    $$("[data-category-filter]").forEach((button) => {
+      const key = button.dataset.categoryFilter;
+      button.textContent = key === "all" ? w.categoryAll : categories[language][key];
+      button.setAttribute("aria-pressed", String(key === categoryFilter));
+    });
+    const legend = $("#category-legend");
+    if (!legend) return;
+    legend.replaceChildren();
+    Object.keys(categoryColors).forEach((key) => {
+      const item = document.createElement("span");
+      item.className = "category-legend-item";
+      const swatch = document.createElement("span");
+      swatch.className = "category-legend-swatch";
+      swatch.style.backgroundColor = categoryColors[key];
+      swatch.setAttribute("aria-hidden", "true");
+      const label = document.createElement("span");
+      label.textContent = categories[language][key];
+      item.append(swatch, label);
+      legend.append(item);
+    });
+  }
+
+  // 게시글 검색 결과는 DOM API로 구성해 사용자 입력이 HTML로 실행되지 않게 합니다.
+  function renderSearchResults(results) {
+    const list = $("#search-results");
+    if (!list) return;
+    list.replaceChildren();
+    list.hidden = !results.length;
+    results.forEach((post) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.dataset.searchPostId = String(post.id);
+      button.setAttribute("role", "listitem");
+      const title = document.createElement("span");
+      title.className = "search-result-title";
+      title.textContent = post.title || post.place;
+      const meta = document.createElement("span");
+      meta.className = "search-result-meta";
+      meta.textContent = `${locales[post.region]?.name[language] || post.region} · ${categories[language][post.category] || post.category} · ${text[language].searchResultMeta}: ${post.nickname}`;
+      button.append(title, meta);
+      list.append(button);
+    });
   }
 
   // 회원가입 칸마다 조건을 즉시 검사하고, 모두 맞을 때만 가입 버튼을 활성화합니다.
@@ -521,7 +636,13 @@
     card.append(actions);
     if (post.comments?.length) {
       const list = document.createElement("ul"); list.className = "comment-list";
-      post.comments.forEach((entry) => { const item = document.createElement("li"); const line = document.createElement("span"); line.textContent = `${entry.nickname}: ${entry.text || ""}`; item.append(line); if (entry.photo) { const image = document.createElement("img"); image.className = "comment-photo-thumb"; image.src = entry.photo; image.alt = w.commentPhotoAlt; image.dataset.commentPhoto = "true"; item.append(image); } list.append(item); });
+      post.comments.forEach((entry, index) => {
+        const item = document.createElement("li");
+        const line = document.createElement("span"); line.textContent = `${entry.nickname}: ${entry.text || ""}`; item.append(line);
+        if (entry.photo) { const image = document.createElement("img"); image.className = "comment-photo-thumb"; image.src = entry.photo; image.alt = w.commentPhotoAlt; image.dataset.commentPhoto = "true"; item.append(image); }
+        if (isOwnComment(post, entry)) appendCommentActions(item, index, entry);
+        list.append(item);
+      });
       card.append(list);
     }
     return card;
@@ -554,10 +675,30 @@
 
   /* 선택 지역 또는 마이페이지의 게시글을 하단 패널에 나열합니다. */
   function renderFeed() {
-    const visible = posts.filter((post) => showMine ? post.nickname === currentNickname : post.region === currentRegion);
+    const visible = posts.filter((post) =>
+      (showMine ? post.nickname === currentNickname : post.region === currentRegion) &&
+      (categoryFilter === "all" || post.category === categoryFilter) &&
+      (activeSearchPostIds === null || activeSearchPostIds.includes(String(post.id)))
+    );
     feed.replaceChildren();
     if (!visible.length) {
-      const empty = document.createElement("p"); empty.textContent = text[language].empty; feed.append(empty); return;
+      const empty = document.createElement("p");
+      const hasActiveFilter = categoryFilter !== "all" || Boolean($("#search-input").value.trim());
+      empty.textContent = hasActiveFilter ? text[language].noResults : text[language].empty;
+      feed.append(empty);
+      if (!$("#search-input").value.trim()) {
+        const categoryHasNoResults = categoryFilter !== "all";
+        $("#search-status").textContent = categoryHasNoResults ? text[language].noResults : "";
+        $("#search-reset").hidden = !categoryHasNoResults;
+      } else if (activeSearchPostIds !== null) {
+        $("#search-status").textContent = text[language].noResults;
+        $("#search-reset").hidden = false;
+      }
+      return;
+    }
+    if (!$("#search-input").value.trim()) {
+      $("#search-status").textContent = "";
+      $("#search-reset").hidden = true;
     }
     visible.forEach((post) => feed.append(makeCard(post)));
   }
@@ -578,7 +719,18 @@
     setText("#post-detail-like", `💙 ${text[language].like} (${post.likes || 0})${liked ? " ✓" : ""}`);
     setText("#post-detail-share", `🔗 ${text[language].shareCount} (${post.shares || 0})`);
     const list = $("#post-detail-comments"); list.replaceChildren();
-    (post.comments || []).forEach((comment) => { const item = document.createElement("li"); const name = document.createElement("strong"); name.textContent = `${comment.nickname}: `; item.append(name, document.createTextNode(comment.text || "")); if (comment.photo) { const image = document.createElement("img"); image.className = "comment-photo-thumb"; image.src = comment.photo; image.alt = text[language].commentPhotoAlt; image.dataset.commentPhoto = "true"; item.append(image); } list.append(item); });
+    (post.comments || []).forEach((comment, index) => {
+      const item = document.createElement("li");
+      const name = document.createElement("strong");
+      name.textContent = `${comment.nickname}: `;
+      item.append(name, document.createTextNode(comment.text || ""));
+      if (comment.photo) {
+        const image = document.createElement("img"); image.className = "comment-photo-thumb"; image.src = comment.photo;
+        image.alt = text[language].commentPhotoAlt; image.dataset.commentPhoto = "true"; item.append(image);
+      }
+      if (isOwnComment(post, comment)) appendCommentActions(item, index, comment);
+      list.append(item);
+    });
     if (!post.comments?.length) { const empty = document.createElement("li"); empty.className = "detail-no-comments"; empty.textContent = language === "ko" ? "아직 댓글이 없어요." : "コメントはまだありません。"; list.append(empty); }
   }
 
@@ -596,8 +748,21 @@
     if (!map) return;
     markers.forEach((marker) => marker.remove());
     markers = [];
-    posts.filter((post) => post.region === currentRegion && Number.isFinite(post.lat) && Number.isFinite(post.lng)).forEach((post) => {
-      const marker = L.marker([post.lat, post.lng]).addTo(map);
+    posts.filter((post) =>
+      post.region === currentRegion &&
+      (categoryFilter === "all" || post.category === categoryFilter) &&
+      (activeSearchPostIds === null || activeSearchPostIds.includes(String(post.id))) &&
+      Number.isFinite(post.lat) && Number.isFinite(post.lng)
+    ).forEach((post) => {
+      const color = categoryColors[post.category] || "#72838B";
+      const marker = L.marker([post.lat, post.lng], {
+        icon: L.divIcon({
+          className: "category-marker-wrap",
+          html: `<span class="category-marker" style="--marker-color:${color}"></span>`,
+          iconSize: [30, 36],
+          iconAnchor: [15, 34]
+        })
+      }).addTo(map);
       marker.bindPopup(`<strong>${escapeHtml(post.place)}</strong><br>${escapeHtml(post.nickname)}`);
       marker.on("click", () => focusPost(post));
       markers.push(marker);
@@ -621,13 +786,72 @@
     if (!composePanel.hidden) $("#post-region").value = region;
   }
 
+  // 앱 글 검색은 전체 지역의 게시글 중 선택 카테고리에 해당하는 내용만 찾습니다.
+  function findAppPosts(query) {
+    const needle = query.trim().toLocaleLowerCase(language);
+    return posts.filter((post) => {
+      if (categoryFilter !== "all" && post.category !== categoryFilter) return false;
+      const searchable = [post.title, post.place, post.story, post.nickname]
+        .filter(Boolean).join(" ").toLocaleLowerCase(language);
+      return searchable.includes(needle);
+    });
+  }
+
+  // 입력 중에는 앱 글 결과만 갱신하고, 외부 장소 검색은 제출할 때만 요청합니다.
+  function refreshPostSearch(query) {
+    if (!query.trim()) {
+      activeSearchPostIds = null;
+      lastSearchResults = [];
+      $("#search-status").textContent = "";
+      $("#search-reset").hidden = true;
+    } else {
+      lastSearchResults = findAppPosts(query);
+      activeSearchPostIds = lastSearchResults.map((post) => String(post.id));
+      $("#search-status").textContent = lastSearchResults.length ? "" : text[language].noResults;
+      $("#search-reset").hidden = lastSearchResults.length > 0;
+    }
+    renderSearchResults(lastSearchResults);
+    renderMarkers();
+    renderFeed();
+  }
+
+  // 검색 초기화는 카테고리도 전체로 돌려 결과 제한을 남기지 않습니다.
+  function resetSearch() {
+    if (searchRequest) searchRequest.abort();
+    searchRequest = null;
+    if (searchMarker) { searchMarker.remove(); searchMarker = null; }
+    $("#search-input").value = "";
+    categoryFilter = "all";
+    refreshPostSearch("");
+    renderCategoryControls();
+    map?.setView(locales[currentRegion].center, locales[currentRegion].zoom);
+  }
+
   /* OSM Nominatim으로 한국과 일본을 포함한 전 세계 장소를 찾습니다. */
   async function searchPlace(query) {
     const status = $("#search-status");
     const w = text[language];
-    if (!query.trim()) { status.textContent = ""; return; }
+    if (!query.trim()) { refreshPostSearch(""); return; }
     if (searchRequest) searchRequest.abort();
-    searchRequest = new AbortController();
+    lastSearchResults = findAppPosts(query);
+    renderSearchResults(lastSearchResults);
+    if (lastSearchResults.length) {
+      activeSearchPostIds = lastSearchResults.map((post) => String(post.id));
+      status.textContent = "";
+      $("#search-reset").hidden = true;
+      if (lastSearchResults[0].region !== currentRegion) switchRegion(lastSearchResults[0].region);
+      const first = lastSearchResults[0];
+      if (map && Number.isFinite(first.lat) && Number.isFinite(first.lng)) map.setView([first.lat, first.lng], 16);
+      renderMarkers();
+      renderFeed();
+      return;
+    }
+    activeSearchPostIds = null;
+    renderMarkers();
+    renderFeed();
+    const request = new AbortController();
+    searchRequest = request;
+    $("#search-reset").hidden = true;
     status.textContent = w.searching;
     try {
       /* Nominatim 사용 정책에 맞춰 연속 요청 간격을 1초 이상 둡니다. */
@@ -636,23 +860,25 @@
       lastSearchTime = Date.now();
       const params = new URLSearchParams({ format: "jsonv2", q: query.trim(), limit: "1", addressdetails: "1", "accept-language": language });
       const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
-        headers: { Accept: "application/json" }, signal: searchRequest.signal
+        headers: { Accept: "application/json" }, signal: request.signal
       });
       if (!response.ok) throw new Error(`Nominatim returned ${response.status}`);
       const results = await response.json();
-      if (!results.length) { status.textContent = w.noResults; return; }
+      if (!results.length) { status.textContent = w.noResults; $("#search-reset").hidden = false; return; }
       const result = results[0];
       const point = [Number(result.lat), Number(result.lon)];
-      if (!Number.isFinite(point[0]) || !Number.isFinite(point[1])) { status.textContent = w.noResults; return; }
+      if (!Number.isFinite(point[0]) || !Number.isFinite(point[1])) { status.textContent = w.noResults; $("#search-reset").hidden = false; return; }
       map.setView(point, 16);
       if (searchMarker) searchMarker.remove();
       searchMarker = L.marker(point).addTo(map);
       searchMarker.bindPopup(`<strong>${escapeHtml(query.trim())}</strong><br>${escapeHtml(result.display_name)}`).openPopup();
       status.textContent = "";
+      $("#search-reset").hidden = true;
     } catch (error) {
       if (error.name === "AbortError") return;
       console.error("장소 검색에 실패했습니다.", error);
       status.textContent = w.searchError;
+      $("#search-reset").hidden = false;
     }
   }
 
@@ -734,6 +960,11 @@
     if (event.target.closest("img[data-comment-photo]")) return;
     const card = event.target.closest("[data-post-id]");
     if (!card) return;
+    const commentAction = event.target.closest("[data-comment-action]");
+    if (commentAction) {
+      updateComment(card.dataset.postId, Number(commentAction.dataset.commentIndex), commentAction.dataset.commentAction);
+      return;
+    }
     const button = event.target.closest("button[data-action]");
     const post = posts.find((item) => item.id === card.dataset.postId);
     if (!post) return;
@@ -804,6 +1035,10 @@
     if (!savePosts(text[language].commentSaveError)) { post.comments.pop(); return; }
     $("#post-detail-comment-form").reset(); clearCommentPhotoDraft(); $("#post-detail-comment-status").textContent = ""; renderFeed(); renderPostDetail(post);
   });
+  $("#post-detail-comments")?.addEventListener("click", (event) => {
+    const action = event.target.closest("[data-comment-action]");
+    if (action) updateComment(activeDetailPostId, Number(action.dataset.commentIndex), action.dataset.commentAction);
+  });
 
   /* 피드 패널을 눌러 펼치거나 접습니다. */
   $("#feed-toggle")?.addEventListener("click", () => {
@@ -816,7 +1051,29 @@
     event.preventDefault();
     searchPlace($("#search-input").value);
   });
-  $("#search-input")?.addEventListener("input", () => { $("#search-status").textContent = ""; });
+  $("#search-input")?.addEventListener("input", (event) => {
+    if (searchRequest) searchRequest.abort();
+    searchRequest = null;
+    refreshPostSearch(event.target.value);
+  });
+  $$("[data-category-filter]").forEach((button) => button.addEventListener("click", () => {
+    if (searchRequest) searchRequest.abort();
+    searchRequest = null;
+    categoryFilter = button.dataset.categoryFilter;
+    renderCategoryControls();
+    refreshPostSearch($("#search-input").value);
+  }));
+  $("#search-reset")?.addEventListener("click", resetSearch);
+  $("#search-results")?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-search-post-id]");
+    if (!button) return;
+    const post = posts.find((item) => String(item.id) === button.dataset.searchPostId);
+    if (!post) return;
+    if (post.region !== currentRegion) switchRegion(post.region);
+    if (map && Number.isFinite(post.lat) && Number.isFinite(post.lng)) map.setView([post.lat, post.lng], 16);
+    focusPost(post);
+    openPostDetail(post);
+  });
 
   /* 도시 빠른 이동과 언어 전환 버튼을 연결합니다. */
   $$('[data-region]').forEach((button) => button.addEventListener("click", () => switchRegion(button.dataset.region)));
@@ -867,6 +1124,12 @@
   $$('[data-profile-tab]').forEach((button) => button.addEventListener("click", () => { activeProfileTab = button.dataset.profileTab; renderProfileTab(); }));
   $("#profile-content")?.addEventListener("click", (event) => {
     if (event.target.closest("img[data-comment-photo]")) return;
+    const commentAction = event.target.closest("[data-comment-action]");
+    if (commentAction) {
+      const profileCard = commentAction.closest("[data-profile-post-id]");
+      if (profileCard) updateComment(profileCard.dataset.profilePostId, Number(commentAction.dataset.commentIndex), commentAction.dataset.commentAction);
+      return;
+    }
     const remove = event.target.closest("[data-profile-delete]");
     if (remove) {
       const id = remove.dataset.profileDelete, post = posts.find((item) => item.id === id);
