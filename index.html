@@ -161,6 +161,11 @@
         <div class="avatar-wrap"><img id="setup-avatar" class="profile-avatar" alt="프로필 사진 미리보기"></div>
         <label id="setup-nickname-label" for="setup-nickname">닉네임</label>
         <input id="setup-nickname" maxlength="12" autocomplete="nickname">
+        <label id="setup-residence-label" for="setup-residence">거주지</label>
+        <select id="setup-residence">
+          <option value="jeonju">전주</option>
+          <option value="tokyo">도쿄</option>
+        </select>
         <p class="profile-hint" id="setup-status" role="status" aria-live="polite"></p>
         <label id="setup-photo-label" for="setup-photo">프로필 사진 (선택)</label>
         <input id="setup-photo" type="file" accept="image/*">
@@ -173,18 +178,34 @@
         <button type="button" id="back-to-map" class="profile-back">← 지도로 돌아가기</button>
         <div class="profile-summary">
           <img id="profile-avatar" class="profile-avatar" alt="프로필 사진">
-          <div><h2 id="profile-name"></h2><button type="button" id="edit-profile-button">프로필 수정</button></div>
+          <div class="profile-summary-details">
+            <h2 id="profile-name"></h2>
+            <p id="profile-joined"></p>
+            <p id="profile-residence"></p>
+            <div id="profile-stats" class="profile-stats">
+              <span id="profile-post-count"></span>
+              <button type="button" data-follow-list="followers"></button>
+              <button type="button" data-follow-list="following"></button>
+            </div>
+            <button type="button" id="profile-follow-button" class="profile-follow-button" hidden></button>
+            <button type="button" id="edit-profile-button">프로필 수정</button>
+          </div>
         </div>
         <form id="edit-profile-form" class="profile-edit" hidden>
           <label id="edit-nickname-label" for="edit-nickname">닉네임</label>
           <input id="edit-nickname" maxlength="12">
+          <label id="edit-residence-label" for="edit-residence">거주지</label>
+          <select id="edit-residence">
+            <option value="jeonju">전주</option>
+            <option value="tokyo">도쿄</option>
+          </select>
           <label id="edit-photo-label" for="edit-photo">프로필 사진</label>
           <input id="edit-photo" type="file" accept="image/*">
           <img id="edit-avatar-preview" class="profile-avatar profile-avatar-small" alt="프로필 사진 미리보기">
           <p id="edit-profile-status" class="profile-hint" role="status"></p>
           <button type="submit" id="save-profile-button" class="profile-primary">저장</button>
         </form>
-        <div class="profile-tabs" role="tablist" aria-label="프로필 게시물">
+        <div id="profile-tabs" class="profile-tabs" role="tablist" aria-label="프로필 게시물">
           <button type="button" data-profile-tab="posts" role="tab" aria-selected="true">내 포스트</button>
           <button type="button" data-profile-tab="comments" role="tab" aria-selected="false">내 댓글</button>
           <button type="button" data-profile-tab="likes" role="tab" aria-selected="false">좋아요</button>
@@ -199,9 +220,14 @@
   <div id="post-detail-modal" class="app-modal post-detail-modal" hidden role="dialog" aria-modal="true" aria-labelledby="post-detail-title">
     <section class="modal-card post-detail-card">
       <button type="button" id="post-detail-close" class="modal-close" aria-label="닫기">×</button>
+      <button type="button" id="post-detail-back" class="post-detail-back" hidden>← 뒤로</button>
       <img id="post-detail-photo" class="post-detail-photo" alt="">
       <h2 id="post-detail-title"></h2>
-      <div class="post-detail-author"><img id="post-detail-avatar" alt=""><strong id="post-detail-author-name"></strong></div>
+      <div class="post-detail-author">
+        <button type="button" class="profile-link-image" id="post-detail-profile-link"><img id="post-detail-avatar" alt=""></button>
+        <button type="button" class="profile-link-name" id="post-detail-author-name"></button>
+        <button type="button" id="post-detail-follow-button" class="inline-follow-button" hidden></button>
+      </div>
       <p id="post-detail-place-category" class="post-detail-meta"></p>
       <p id="post-detail-story" class="post-detail-story"></p>
       <div class="post-detail-actions"><button type="button" id="post-detail-like"></button><button type="button" id="post-detail-share"></button></div>
@@ -213,6 +239,13 @@
     </section>
   </div>
   <div id="comment-photo-viewer" class="app-modal comment-photo-viewer" hidden role="dialog" aria-modal="true" aria-label="댓글 사진"><button type="button" class="modal-close" id="comment-photo-viewer-close" aria-label="닫기">×</button><img id="comment-photo-viewer-image" alt="댓글 사진 크게 보기"></div>
+  <div id="follow-list-modal" class="app-modal" hidden role="dialog" aria-modal="true" aria-labelledby="follow-list-title">
+    <section class="modal-card">
+      <button type="button" class="modal-close" data-close-follow-list aria-label="닫기">×</button>
+      <h2 id="follow-list-title"></h2>
+      <div id="follow-list-content" class="follow-list-content"></div>
+    </section>
+  </div>
   <div id="policy-modal" class="app-modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title"><section class="modal-card"><button type="button" class="modal-close" data-close-modal aria-label="닫기">×</button><h2 id="modal-title"></h2><div id="policy-content" class="modal-content"></div></section></div>
   <div id="withdraw-modal" class="app-modal" hidden role="dialog" aria-modal="true" aria-labelledby="withdraw-title"><section class="modal-card"><button type="button" class="modal-close" data-close-modal aria-label="닫기">×</button><h2 id="withdraw-title"></h2><p id="withdraw-warning"></p><p id="withdraw-items"></p><p><button type="button" data-policy="privacy" id="withdraw-privacy-link">개인정보 처리방침</button> · <button type="button" data-policy="terms" id="withdraw-terms-link">이용약관</button></p><label><input id="withdraw-confirm" type="checkbox"> <span id="withdraw-confirm-label"></span></label><label for="withdraw-password" id="withdraw-password-label"></label><input id="withdraw-password" type="password" autocomplete="current-password"><p id="withdraw-status" role="status"></p><div class="modal-actions"><button type="button" data-close-modal id="withdraw-cancel"></button><button type="button" id="withdraw-submit" disabled></button></div></section></div>
 </body>

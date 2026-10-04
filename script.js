@@ -10,6 +10,7 @@
   const LANGUAGE_KEY = "harupin-language-v1";
   const PROFILES_KEY = "harupin-profiles-v1";
   const LIKES_KEY = "harupin-likes-v1";
+  const FOLLOWS_KEY = "harupin-follows-v1";
   const locales = {
     jeonju: { name: { ko: "전주", ja: "全州" }, center: [35.8467, 127.1296], zoom: 14 },
     tokyo: { name: { ko: "도쿄", ja: "東京" }, center: [35.6812, 139.7671], zoom: 13 }
@@ -22,6 +23,7 @@
   const text = {
     ko: {
       appTitle: "Haru Pin ハルピン", tagline: "하루의 장소와 이야기를 잇다", languageHeading: "언어 설정", loginHeading: "로그인",
+      profileBack: "← 뒤로", joinedAt: "가입일", residenceLabel: "거주지", postsCount: "게시글", followers: "팔로워", following: "팔로잉", follow: "팔로우", followed: "팔로잉 ✓", unfollowConfirm: "팔로우를 취소할까요?", noFollowList: "아직 목록이 없어요.", noJoinedDate: "정보 없음", profilePosts: "게시글",
       login: "로그인", signup: "처음이에요 / 회원가입", nickname: "닉네임", password: "비밀번호",
       loginNamePlaceholder: "아이디를 입력하세요", passwordPlaceholder: "비밀번호를 입력하세요", passwordConfirm: "비밀번호 확인", share: "공유", shareCount: "공유", detailComments: "댓글", commentInput: "댓글을 입력하세요", commentSubmit: "댓글 등록", detailClose: "닫기", attachPhoto: "사진 첨부", removePhoto: "첨부 사진 삭제", commentPhotoAlt: "댓글 사진", commentPhotoPreview: "첨부 사진 미리보기", commentRequired: "글이나 사진을 첨부해주세요.", commentSaveError: "저장 공간이 부족해요. 사진 수를 줄여주세요.", commentEmpty: "글이나 사진을 첨부해주세요.",
       idRule: "영문 소문자와 숫자 4~16자, 영문으로 시작 · 다른 사용자와 중복 불가", idInvalid: "영문 소문자와 숫자만, 영문으로 시작하는 4~16자로 입력해주세요.", idDuplicate: "이미 사용 중인 아이디예요.", idValid: "사용할 수 있는 아이디예요.", passwordRule: "8~20자, 영문과 숫자 포함, 공백 없이 · 아이디와 다르게 입력", passwordInvalid: "8~20자이며 영문과 숫자를 포함하고 공백이 없어야 해요.", passwordSameId: "아이디와 다른 비밀번호를 입력해주세요.", passwordValid: "사용할 수 있는 비밀번호예요.", passwordConfirmHint: "비밀번호를 한 번 더 입력해주세요.", passwordMismatch: "비밀번호가 일치하지 않아요.", passwordMatch: "비밀번호가 일치해요.", signupReady: "가입 조건을 모두 확인해주세요.", signupFieldsInvalid: "아이디와 비밀번호 조건을 확인해주세요.",
@@ -44,6 +46,7 @@
     },
     ja: {
       appTitle: "Haru Pin ハルピン", tagline: "一日の場所と思い出をつなぐ", languageHeading: "言語設定", loginHeading: "ログイン",
+      profileBack: "← 戻る", joinedAt: "登録日", residenceLabel: "居住地", postsCount: "投稿", followers: "フォロワー", following: "フォロー中", follow: "フォロー", followed: "フォロー中 ✓", unfollowConfirm: "フォローを解除しますか？", noFollowList: "リストはまだありません。", noJoinedDate: "情報なし", profilePosts: "投稿",
       login: "ログイン", signup: "初めての方 / 新規登録", nickname: "ニックネーム", password: "パスワード",
       loginNamePlaceholder: "IDを入力", passwordPlaceholder: "パスワードを入力", passwordConfirm: "パスワードの確認", share: "共有", shareCount: "共有", detailComments: "コメント", commentInput: "コメントを入力", commentSubmit: "コメントを投稿", detailClose: "閉じる", attachPhoto: "写真を添付", removePhoto: "添付写真を削除", commentPhotoAlt: "コメント写真", commentPhotoPreview: "添付写真のプレビュー", commentRequired: "文章または写真を添付してください。", commentSaveError: "保存容量が不足しています。写真の数を減らしてください。", commentEmpty: "文章または写真を添付してください。",
       idRule: "半角英小文字と数字で4〜16文字、英字で開始 · 他の利用者と重複不可", idInvalid: "英小文字で始まる4〜16文字の英数字を入力してください。", idDuplicate: "このIDはすでに使われています。", idValid: "このIDは使用できます。", passwordRule: "8〜20文字、英字と数字を含む、空白不可 · IDと異なるもの", passwordInvalid: "8〜20文字で英字と数字を含め、空白は使えません。", passwordSameId: "IDと異なるパスワードを入力してください。", passwordValid: "このパスワードは使用できます。", passwordConfirmHint: "パスワードをもう一度入力してください。", passwordMismatch: "パスワードが一致しません。", passwordMatch: "パスワードが一致しました。", signupReady: "登録条件をすべて確認してください。", signupFieldsInvalid: "IDとパスワードの条件を確認してください。",
@@ -97,6 +100,10 @@
   let currentNickname = "";
   let currentUserId = "";
   let activeProfileTab = "posts";
+  let viewingProfileId = "";
+  let profileHistory = [];
+  let profileOrigin = { kind: "map" };
+  let detailBackToProfile = false;
   let registrationMode = false;
   let activeDetailPostId = "";
   let pendingSignupProfile = false;
@@ -132,7 +139,7 @@
       const accounts = this.getAccounts();
       if (accounts.some((account) => account.nickname.toLowerCase() === nickname.toLowerCase())) return { ok: false, message: text[language].accountExists };
       try {
-        localStorage.setItem(ACCOUNTS_KEY, JSON.stringify([...accounts, { nickname, password }]));
+        localStorage.setItem(ACCOUNTS_KEY, JSON.stringify([...accounts, { nickname, password, joinedAt: new Date().toISOString() }]));
         localStorage.setItem(SESSION_KEY, nickname);
         localStorage.setItem(PROFILE_KEY, nickname);
         return { ok: true };
@@ -202,6 +209,9 @@
     document.body.classList.add("welcome-mode");
     currentNickname = "";
     currentUserId = "";
+    viewingProfileId = "";
+    profileHistory = [];
+    profileOrigin = { kind: "map" };
     $("#profile-setup-screen").hidden = true;
     $("#profile-page").hidden = true;
     $("#auth-form")?.reset();
@@ -220,6 +230,55 @@
   function getProfile(userId) { return getProfiles()[userId] || null; }
   function getLikedPostIds() { try { return (JSON.parse(localStorage.getItem(LIKES_KEY) || "{}")[currentUserId] || []); } catch (_) { return []; } }
   function saveLikedPostIds(ids) { try { const value = JSON.parse(localStorage.getItem(LIKES_KEY) || "{}"); value[currentUserId] = ids; localStorage.setItem(LIKES_KEY, JSON.stringify(value)); } catch (_) { /* 저장 실패 시 현재 화면은 계속 사용할 수 있습니다. */ } }
+  // 팔로우 관계는 localStorage 접근을 아래 함수에 한정해 Firebase로 바꿀 수 있게 합니다.
+  function getFollowData() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(FOLLOWS_KEY) || "{}");
+      return { following: saved && typeof saved.following === "object" && saved.following !== null ? saved.following : {} };
+    } catch (error) {
+      console.warn("팔로우 정보를 읽지 못했습니다.", error);
+      return { following: {} };
+    }
+  }
+  function saveFollowData(value) {
+    try { localStorage.setItem(FOLLOWS_KEY, JSON.stringify(value)); return true; }
+    catch (error) { console.error("팔로우 정보를 저장하지 못했습니다.", error); return false; }
+  }
+  function getFollowingIds(userId) {
+    const following = getFollowData().following;
+    return Array.isArray(following[userId]) ? following[userId] : [];
+  }
+  function getFollowerIds(userId) {
+    const following = getFollowData().following;
+    return Object.keys(following).filter((followerId) => Array.isArray(following[followerId]) && following[followerId].includes(userId));
+  }
+  function setFollowing(userId, follow) {
+    if (!currentUserId || !userId || userId === currentUserId) return false;
+    const data = getFollowData();
+    const ids = Array.isArray(data.following[currentUserId]) ? data.following[currentUserId] : [];
+    data.following[currentUserId] = follow
+      ? [...new Set([...ids, userId])]
+      : ids.filter((id) => id !== userId);
+    if (!data.following[currentUserId].length) delete data.following[currentUserId];
+    return saveFollowData(data);
+  }
+  function removeFollowRelationships(userId) {
+    const data = getFollowData();
+    delete data.following[userId];
+    Object.keys(data.following).forEach((followerId) => {
+      data.following[followerId] = (Array.isArray(data.following[followerId]) ? data.following[followerId] : []).filter((id) => id !== userId);
+      if (!data.following[followerId].length) delete data.following[followerId];
+    });
+    return saveFollowData(data);
+  }
+  function userIdForNickname(nickname) {
+    const normalized = String(nickname || "").toLocaleLowerCase();
+    const profileEntry = Object.entries(getProfiles()).find(([, profile]) => profile.nickname?.toLocaleLowerCase() === normalized);
+    if (profileEntry) return profileEntry[0];
+    const account = demoAuth.getAccounts().find((entry) => entry.nickname.toLocaleLowerCase() === normalized);
+    return account?.nickname || `legacy:${nickname}`;
+  }
+  function userIdForPost(post) { return post.authorId || userIdForNickname(post.nickname); }
   function avatarSource(profile) {
     if (profile?.photo) return profile.photo;
     const initial = (profile?.nickname || currentNickname || "?").trim().charAt(0) || "?";
@@ -231,22 +290,181 @@
     $(".map-screen").hidden = true; $("#profile-page").hidden = true; $("#profile-setup-screen").hidden = false;
     $("#profile-open-button").hidden = true;
     const profile = getProfile(currentUserId); $("#setup-nickname").value = profile?.nickname || "";
+    $("#setup-residence").value = profile?.residence || "jeonju";
     profilePhotoDraft = profile?.photo || ""; setAvatar($("#setup-avatar"), { nickname: $("#setup-nickname").value, photo: profilePhotoDraft }); $("#setup-status").textContent = "";
   }
   function openProfilePage() {
-    $(".map-screen").hidden = true; $("#profile-setup-screen").hidden = true; $("#profile-page").hidden = false;
-    const profile = getProfile(currentUserId) || { nickname: currentNickname }; setText("#profile-name", profile.nickname); setAvatar($("#profile-avatar"), profile);
-    $("#edit-nickname").value = profile.nickname; profilePhotoDraft = profile.photo || ""; setAvatar($("#edit-avatar-preview"), profile); $("#edit-profile-form").hidden = true;
-    activeProfileTab = "posts"; renderProfileTab(); requestAnimationFrame(() => map?.invalidateSize());
+    profileHistory = [];
+    profileOrigin = { kind: "map" };
+    showProfile(currentUserId);
+  }
+  function getUserPosts(userId) {
+    return posts.filter((post) => userIdForPost(post) === userId)
+      .sort((a, b) => (Date.parse(b.createdAt) || 0) - (Date.parse(a.createdAt) || 0));
+  }
+  function getPublicProfile(userId) {
+    const profile = getProfile(userId);
+    const account = demoAuth.getAccounts().find((entry) => entry.nickname === userId);
+    const userPosts = getUserPosts(userId);
+    const latest = userPosts[0];
+    return {
+      nickname: profile?.nickname || account?.nickname || latest?.nickname || userId.replace(/^legacy:/, ""),
+      photo: profile?.photo || latest?.authorPhoto || "",
+      residence: profile?.residence || latest?.region || "jeonju",
+      joinedAt: profile?.joinedAt || account?.joinedAt || userPosts.map((post) => post.createdAt).filter(Boolean).sort()[0] || ""
+    };
+  }
+  function formatJoinedAt(value) {
+    const timestamp = Date.parse(value || "");
+    if (!Number.isFinite(timestamp)) return text[language].noJoinedDate;
+    return new Intl.DateTimeFormat(language === "ja" ? "ja-JP" : "ko-KR", { year: "numeric", month: "long", day: "numeric" }).format(timestamp);
+  }
+  function showProfile(userId) {
+    if (!userId) return;
+    viewingProfileId = userId;
+    const own = userId === currentUserId;
+    $(".map-screen").hidden = true;
+    $("#profile-setup-screen").hidden = true;
+    $("#profile-page").hidden = false;
+    setText("#back-to-map", own && !profileHistory.length ? text[language].backMap : text[language].profileBack);
+    $("#profile-open-button").hidden = !own;
+    $("#edit-profile-button").hidden = !own;
+    $("#edit-profile-form").hidden = true;
+    $("#profile-logout-button").hidden = !own;
+    $("#delete-account-button").hidden = !own;
+    $("#profile-tabs").hidden = !own;
+    $("#policies-button").hidden = !own;
+    const profile = getPublicProfile(userId);
+    setText("#profile-name", profile.nickname);
+    setAvatar($("#profile-avatar"), profile);
+    $("#profile-joined").textContent = `${text[language].joinedAt}: ${formatJoinedAt(profile.joinedAt)}`;
+    $("#profile-residence").textContent = `${text[language].residenceLabel}: ${locales[profile.residence]?.name[language] || locales.jeonju.name[language]}`;
+    if (own) {
+      $("#edit-nickname").value = profile.nickname;
+      $("#edit-residence").value = profile.residence;
+      profilePhotoDraft = profile.photo || "";
+      setAvatar($("#edit-avatar-preview"), profile);
+      activeProfileTab = "posts";
+    }
+    renderProfileStats(userId);
+    renderProfileTab();
+    requestAnimationFrame(() => map?.invalidateSize());
+  }
+  function openUserProfile(userId, origin = null) {
+    if (!userId) return;
+    if (!viewingProfileId && userId === currentUserId) {
+      profileOrigin = origin || { kind: $("#post-detail-modal").hidden ? "map" : "detail", postId: activeDetailPostId };
+      profileHistory = [];
+      $("#post-detail-modal").hidden = true;
+      showProfile(userId);
+      return;
+    }
+    if (viewingProfileId) profileHistory.push({
+      userId: viewingProfileId,
+      detailPostId: $("#post-detail-modal").hidden ? "" : activeDetailPostId
+    });
+    else profileOrigin = origin || { kind: $("#post-detail-modal").hidden ? "map" : "detail", postId: activeDetailPostId };
+    $("#follow-list-modal").hidden = true;
+    $("#post-detail-modal").hidden = true;
+    detailBackToProfile = false;
+    showProfile(userId);
+  }
+  function returnFromProfile() {
+    if (profileHistory.length) {
+      const previous = profileHistory.pop();
+      showProfile(previous.userId);
+      if (previous.detailPostId) {
+        const post = posts.find((item) => String(item.id) === previous.detailPostId);
+        if (post) {
+          renderPostDetail(post);
+          $("#post-detail-back").hidden = previous.userId === currentUserId;
+          $("#post-detail-modal").hidden = false;
+        }
+      }
+      return;
+    }
+    const origin = profileOrigin;
+    viewingProfileId = "";
+    $("#profile-page").hidden = true;
+    $(".map-screen").hidden = false;
+    $("#profile-open-button").hidden = false;
+    if (origin.kind === "detail") {
+      const post = posts.find((item) => String(item.id) === origin.postId);
+      if (post) {
+        renderPostDetail(post);
+        $("#post-detail-modal").hidden = false;
+      }
+    }
+    profileOrigin = { kind: "map" };
+    requestAnimationFrame(() => map?.invalidateSize());
+  }
+  function renderProfileStats(userId) {
+    setText("#profile-post-count", `${text[language].postsCount} ${getUserPosts(userId).length} ·`);
+    $('[data-follow-list="followers"]').textContent = `${text[language].followers} ${getFollowerIds(userId).length} ·`;
+    $('[data-follow-list="following"]').textContent = `${text[language].following} ${getFollowingIds(userId).length}`;
+    const button = $("#profile-follow-button");
+    button.hidden = userId === currentUserId;
+    if (!button.hidden) {
+      button.textContent = getFollowingIds(currentUserId).includes(userId) ? text[language].followed : text[language].follow;
+      button.dataset.followUser = userId;
+    }
+  }
+  function renderFollowList(kind) {
+    const userId = viewingProfileId;
+    const ids = kind === "followers" ? getFollowerIds(userId) : getFollowingIds(userId);
+    const target = $("#follow-list-content");
+    target.replaceChildren();
+    setText("#follow-list-title", kind === "followers" ? text[language].followers : text[language].following);
+    if (!ids.length) {
+      const empty = document.createElement("p");
+      empty.textContent = text[language].noFollowList;
+      target.append(empty);
+    }
+    ids.forEach((id) => {
+      const profile = getPublicProfile(id);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "follow-list-item";
+      button.dataset.profileId = id;
+      const avatar = document.createElement("img");
+      avatar.src = profile.photo ? profile.photo : avatarSource(profile);
+      avatar.alt = "";
+      const name = document.createElement("span");
+      name.textContent = profile.nickname;
+      button.append(avatar, name);
+      target.append(button);
+    });
+    $("#follow-list-modal").hidden = false;
+  }
+  function toggleFollow(userId) {
+    if (!userId || userId === currentUserId) return;
+    const isFollowing = getFollowingIds(currentUserId).includes(userId);
+    if (isFollowing && !confirm(text[language].unfollowConfirm)) return;
+    if (!setFollowing(userId, !isFollowing)) {
+      alert(text[language].storageError);
+      return;
+    }
+    if (viewingProfileId) renderProfileStats(viewingProfileId);
+    if (!$("#post-detail-modal").hidden && activeDetailPostId) {
+      const post = posts.find((item) => String(item.id) === activeDetailPostId);
+      if (post) renderPostDetail(post);
+    }
+    renderFeed();
   }
   function nicknameAvailable(name) { return !Object.entries(getProfiles()).some(([id, profile]) => id !== currentUserId && profile.nickname.toLocaleLowerCase() === name.toLocaleLowerCase()); }
-  function saveProfile(name, photo) {
+  function saveProfile(name, photo, residence) {
     const value = name.trim();
     if (!value) return { ok: false, message: text[language].nicknameRequired };
     if ([...value].length < 2 || [...value].length > 12) return { ok: false, message: text[language].nicknameLength };
     if (!nicknameAvailable(value)) return { ok: false, message: text[language].nicknameTaken };
     const profiles = getProfiles(), previous = profiles[currentUserId];
-    profiles[currentUserId] = { nickname: value, photo: photo || previous?.photo || "" };
+    const account = demoAuth.getAccounts().find((entry) => entry.nickname === currentUserId);
+    profiles[currentUserId] = {
+      nickname: value,
+      photo: photo || previous?.photo || "",
+      residence: locales[residence] ? residence : previous?.residence || "jeonju",
+      joinedAt: previous?.joinedAt || account?.joinedAt || new Date().toISOString()
+    };
     if (!saveProfiles(profiles)) return { ok: false, message: text[language].saveError };
     const oldName = previous?.nickname || currentUserId;
     if (oldName !== value) {
@@ -262,10 +480,13 @@
   function renderProfileTab() {
     const target = $("#profile-content"); if (!target) return;
     $$("[data-profile-tab]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.profileTab === activeProfileTab)));
-    target.replaceChildren(); const ownPosts = posts.filter((post) => post.authorId === currentUserId || (!post.isExample && !post.authorId && post.nickname === currentNickname)); let entries = [];
-    if (activeProfileTab === "posts") entries = ownPosts.map((post) => ({ type: "post", post }));
-    if (activeProfileTab === "comments") entries = posts.flatMap((post) => (post.comments || []).map((comment, commentIndex) => ({ type: "comment", post, comment, commentIndex })).filter((entry) => isOwnComment(entry.post, entry.comment)));
-    if (activeProfileTab === "likes") entries = posts.filter((post) => getLikedPostIds().includes(post.id)).map((post) => ({ type: "like", post }));
+    target.replaceChildren();
+    const owner = viewingProfileId === currentUserId;
+    const ownPosts = getUserPosts(viewingProfileId || currentUserId);
+    let entries = [];
+    if (!owner || activeProfileTab === "posts") entries = ownPosts.map((post) => ({ type: "post", post }));
+    if (owner && activeProfileTab === "comments") entries = posts.flatMap((post) => (post.comments || []).map((comment, commentIndex) => ({ type: "comment", post, comment, commentIndex })).filter((entry) => isOwnComment(entry.post, entry.comment)));
+    if (owner && activeProfileTab === "likes") entries = posts.filter((post) => getLikedPostIds().includes(post.id)).map((post) => ({ type: "like", post }));
     if (!entries.length) { const empty = document.createElement("p"); empty.textContent = text[language].noProfileItems; target.append(empty); return; }
     entries.forEach((entry) => {
       const card = document.createElement("article"); card.className = "profile-item"; card.dataset.profilePostId = entry.post.id; card.tabIndex = 0;
@@ -273,7 +494,7 @@
       const body = document.createElement("p"); body.textContent = entry.type === "comment" ? entry.comment.text : entry.post.story; card.append(body);
       if (entry.type === "comment" && entry.comment.photo) { const image = document.createElement("img"); image.className = "comment-photo-thumb profile-comment-photo"; image.src = entry.comment.photo; image.alt = text[language].commentPhotoAlt; image.dataset.commentPhoto = "true"; card.append(image); }
       if (entry.type === "comment") appendCommentActions(card, entry.commentIndex, entry.comment);
-      if (entry.type === "post") { const del = document.createElement("button"); del.type = "button"; del.textContent = text[language].delete; del.dataset.profileDelete = entry.post.id; card.append(del); }
+      if (owner && entry.type === "post") { const del = document.createElement("button"); del.type = "button"; del.textContent = text[language].delete; del.dataset.profileDelete = entry.post.id; card.append(del); }
       target.append(card);
     });
   }
@@ -363,7 +584,7 @@
     setText("#profile-setup-heading", w.setup);
     setText("#start-button", w.start);
     setText("#edit-profile-button", w.edit);
-    setText("#back-to-map", w.backMap);
+    setText("#back-to-map", viewingProfileId && (viewingProfileId !== currentUserId || profileHistory.length) ? w.profileBack : w.backMap);
     setText("#save-profile-button", w.save);
     setText("#profile-logout-button", w.logout);
     setText("#policies-button", w.policies); setText("#delete-account-button", w.withdraw);
@@ -379,14 +600,21 @@
     $("#profile-page [role=tablist]")?.setAttribute("aria-label", w.profileTabsLabel);
     setText('[for="setup-nickname"]', w.nickname);
     setText('[for="edit-nickname"]', w.nickname);
+    setText('[for="setup-residence"]', w.residenceLabel);
+    setText('[for="edit-residence"]', w.residenceLabel);
     setText('[for="setup-photo"]', w.profilePhoto);
     setText('[for="edit-photo"]', w.profilePhoto);
+    ["#setup-residence", "#edit-residence"].forEach((selector) => {
+      const select = $(selector);
+      if (select) [...select.options].forEach((option) => { option.textContent = locales[option.value].name[language]; });
+    });
     const tabLabels = { posts: w.myPosts, comments: w.myComments, likes: w.likesTab };
     $$('[data-profile-tab]').forEach((button) => { button.textContent = tabLabels[button.dataset.profileTab]; });
     setText('label[for="auth-nickname"]', registrationMode ? (language === "ko" ? "아이디" : "ID") : w.nickname);
     setText('label[for="auth-password"]', w.password);
     setText("#auth-password-confirm-label", w.passwordConfirm);
     setText("#post-detail-close", "×"); $("#post-detail-close")?.setAttribute("aria-label", w.detailClose);
+    setText("#post-detail-back", w.profileBack);
     setText("#post-detail-comments-title", w.detailComments);
     setText("#post-detail-comment-label", w.commentInput); $("#post-detail-comment-input")?.setAttribute("placeholder", w.commentInput);
     setText("#post-detail-comment-submit", w.commentSubmit);
@@ -446,6 +674,13 @@
     });
     updateSignupValidation();
     renderFeed();
+    if (viewingProfileId) {
+      const profile = getPublicProfile(viewingProfileId);
+      $("#profile-joined").textContent = `${w.joinedAt}: ${formatJoinedAt(profile.joinedAt)}`;
+      $("#profile-residence").textContent = `${w.residenceLabel}: ${locales[profile.residence]?.name[language] || locales.jeonju.name[language]}`;
+      renderProfileStats(viewingProfileId);
+      if (!$("#follow-list-modal").hidden) renderFollowList($("#follow-list-title").textContent === w.followers ? "followers" : "following");
+    }
   }
 
   // 카테고리 필터와 색상 범례를 현재 언어로 다시 그립니다.
@@ -581,6 +816,25 @@
     draftMarker = null;
   }
 
+  // 작성자 링크와 팔로우 버튼을 공유 렌더링 함수로 만들어 카드·상세 화면을 일치시킵니다.
+  function makeProfileLink(label, userId, className) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = className;
+    button.dataset.profileId = userId;
+    button.textContent = label;
+    return button;
+  }
+  function makeInlineFollowButton(userId) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "inline-follow-button";
+    button.dataset.followUser = userId;
+    button.hidden = !currentUserId || userId === currentUserId;
+    button.textContent = getFollowingIds(currentUserId).includes(userId) ? text[language].followed : text[language].follow;
+    return button;
+  }
+
   /* 게시글 카드를 DOM API로 만들어 입력된 글이 HTML로 실행되지 않게 합니다. */
   function makeCard(post) {
     const w = text[language];
@@ -588,14 +842,23 @@
     card.className = "post-card";
     card.dataset.postId = post.id;
     card.tabIndex = 0;
-    const title = document.createElement("h3");
-    title.textContent = `${post.place} · ${post.nickname}`;
-    card.append(title);
+    const userId = userIdForPost(post);
+    const author = document.createElement("div");
+    author.className = "post-card-author";
     const authorAvatar = document.createElement("img");
     authorAvatar.className = "post-author-avatar";
-    authorAvatar.src = post.authorPhoto || avatarSource({ nickname: post.nickname });
-    authorAvatar.alt = `${post.nickname} 프로필 사진`;
-    card.insertBefore(authorAvatar, title);
+    authorAvatar.src = getPublicProfile(userId).photo || post.authorPhoto || avatarSource({ nickname: post.nickname });
+    authorAvatar.alt = `${post.nickname} ${w.profilePhotoAlt}`;
+    const avatarLink = document.createElement("button");
+    avatarLink.type = "button";
+    avatarLink.className = "profile-link-image";
+    avatarLink.dataset.profileId = userId;
+    avatarLink.setAttribute("aria-label", post.nickname);
+    avatarLink.append(authorAvatar);
+    author.append(avatarLink, makeProfileLink(post.nickname, userId, "profile-link-name"), makeInlineFollowButton(userId));
+    const title = document.createElement("h3");
+    title.textContent = post.place;
+    card.append(author, title);
     const detail = document.createElement("p");
     detail.textContent = `${locales[post.region].name[language]} · ${categories[language][post.category] || post.category}${post.isExample ? ` · ${w.example}` : ""}`;
     card.append(detail);
@@ -638,7 +901,7 @@
       const list = document.createElement("ul"); list.className = "comment-list";
       post.comments.forEach((entry, index) => {
         const item = document.createElement("li");
-        const line = document.createElement("span"); line.textContent = `${entry.nickname}: ${entry.text || ""}`; item.append(line);
+        item.append(makeProfileLink(entry.nickname, entry.userId || userIdForNickname(entry.nickname), "profile-link-name"), document.createTextNode(`: ${entry.text || ""}`));
         if (entry.photo) { const image = document.createElement("img"); image.className = "comment-photo-thumb"; image.src = entry.photo; image.alt = w.commentPhotoAlt; image.dataset.commentPhoto = "true"; item.append(image); }
         if (isOwnComment(post, entry)) appendCommentActions(item, index, entry);
         list.append(item);
@@ -711,8 +974,15 @@
     photo.hidden = !post.photo; photo.src = post.photo || ""; photo.alt = text[language].photoAlt;
     setText("#post-detail-title", post.place);
     const profile = getProfile(post.authorId || "");
-    const avatar = $("#post-detail-avatar"); avatar.src = post.authorPhoto || profile?.photo || avatarSource({ nickname: post.nickname }); avatar.alt = `${post.nickname} ${text[language].profilePhotoAlt}`;
+    const authorId = userIdForPost(post);
+    const avatar = $("#post-detail-avatar"); avatar.src = profile?.photo || post.authorPhoto || avatarSource({ nickname: post.nickname }); avatar.alt = `${post.nickname} ${text[language].profilePhotoAlt}`;
+    $("#post-detail-profile-link").dataset.profileId = authorId;
+    $("#post-detail-author-name").dataset.profileId = authorId;
     setText("#post-detail-author-name", post.nickname);
+    const followButton = $("#post-detail-follow-button");
+    followButton.hidden = authorId === currentUserId;
+    followButton.dataset.followUser = authorId;
+    followButton.textContent = getFollowingIds(currentUserId).includes(authorId) ? text[language].followed : text[language].follow;
     setText("#post-detail-place-category", `${locales[post.region].name[language]} · ${categories[language][post.category] || post.category}`);
     setText("#post-detail-story", post.story);
     const liked = (post.likedBy || []).includes(currentUserId) || getLikedPostIds().includes(post.id);
@@ -721,9 +991,7 @@
     const list = $("#post-detail-comments"); list.replaceChildren();
     (post.comments || []).forEach((comment, index) => {
       const item = document.createElement("li");
-      const name = document.createElement("strong");
-      name.textContent = `${comment.nickname}: `;
-      item.append(name, document.createTextNode(comment.text || ""));
+      item.append(makeProfileLink(comment.nickname, comment.userId || userIdForNickname(comment.nickname), "profile-link-name"), document.createTextNode(`: ${comment.text || ""}`));
       if (comment.photo) {
         const image = document.createElement("img"); image.className = "comment-photo-thumb"; image.src = comment.photo;
         image.alt = text[language].commentPhotoAlt; image.dataset.commentPhoto = "true"; item.append(image);
@@ -738,6 +1006,8 @@
   function openPostDetail(post) {
     if (!post) return;
     clearCommentPhotoDraft();
+    detailBackToProfile = Boolean(viewingProfileId && viewingProfileId !== currentUserId);
+    $("#post-detail-back").hidden = !detailBackToProfile;
     if (post.region !== currentRegion) switchRegion(post.region);
     if (map && Number.isFinite(post.lat) && Number.isFinite(post.lng)) map.setView([post.lat, post.lng], Math.max(map.getZoom(), 16));
     renderPostDetail(post); $("#post-detail-modal").hidden = false;
@@ -958,6 +1228,10 @@
   /* 카드의 좋아요, 이모티콘, 댓글, 삭제 버튼을 처리합니다. */
   feed.addEventListener("click", (event) => {
     if (event.target.closest("img[data-comment-photo]")) return;
+    const follow = event.target.closest("[data-follow-user]");
+    if (follow) { toggleFollow(follow.dataset.followUser); return; }
+    const profileLink = event.target.closest("[data-profile-id]");
+    if (profileLink) { openUserProfile(profileLink.dataset.profileId, { kind: "map" }); return; }
     const card = event.target.closest("[data-post-id]");
     if (!card) return;
     const commentAction = event.target.closest("[data-comment-action]");
@@ -999,6 +1273,13 @@
   }
   const closePostDetail = () => { $("#post-detail-modal").hidden = true; activeDetailPostId = ""; clearCommentPhotoDraft(); };
   $("#post-detail-close")?.addEventListener("click", closePostDetail);
+  $("#post-detail-back")?.addEventListener("click", closePostDetail);
+  $("#post-detail-modal")?.addEventListener("click", (event) => {
+    const follow = event.target.closest("[data-follow-user]");
+    if (follow) { toggleFollow(follow.dataset.followUser); return; }
+    const profileLink = event.target.closest("[data-profile-id]");
+    if (profileLink) openUserProfile(profileLink.dataset.profileId, { kind: "detail", postId: activeDetailPostId });
+  });
   $("#post-detail-modal")?.addEventListener("click", (event) => { if (event.target === $("#post-detail-modal")) closePostDetail(); });
   $("#comment-photo-attach")?.addEventListener("click", () => $("#comment-photo-file").click());
   $("#comment-photo-file")?.addEventListener("change", async (event) => {
@@ -1106,24 +1387,38 @@
   });
   $("#setup-photo")?.addEventListener("change", async () => { profilePhotoDraft = await readPhoto($("#setup-photo").files[0]) || ""; setAvatar($("#setup-avatar"), { nickname: $("#setup-nickname").value, photo: profilePhotoDraft }); });
   $("#start-button")?.addEventListener("click", () => {
-    const result = saveProfile($("#setup-nickname").value, profilePhotoDraft);
+    const result = saveProfile($("#setup-nickname").value, profilePhotoDraft, $("#setup-residence").value);
     if (!result.ok) { $("#setup-status").textContent = result.message; return; }
     pendingSignupProfile = false; $("#profile-setup-screen").hidden = true; $(".map-screen").hidden = false; $("#profile-open-button").hidden = false;
     setText("#signed-in-name", currentNickname); applyLanguage(); requestAnimationFrame(() => map?.invalidateSize());
   });
   $("#profile-open-button")?.addEventListener("click", openProfilePage);
-  $("#back-to-map")?.addEventListener("click", () => { $("#profile-page").hidden = true; $(".map-screen").hidden = false; requestAnimationFrame(() => map?.invalidateSize()); });
+  $("#back-to-map")?.addEventListener("click", returnFromProfile);
   $("#edit-profile-button")?.addEventListener("click", () => { const editor = $("#edit-profile-form"); editor.hidden = !editor.hidden; });
   $("#edit-photo")?.addEventListener("change", async () => { profilePhotoDraft = await readPhoto($("#edit-photo").files[0]) || ""; setAvatar($("#edit-avatar-preview"), { nickname: $("#edit-nickname").value, photo: profilePhotoDraft }); });
   $("#edit-profile-form")?.addEventListener("submit", (event) => {
-    event.preventDefault(); const result = saveProfile($("#edit-nickname").value, profilePhotoDraft);
+    event.preventDefault(); const result = saveProfile($("#edit-nickname").value, profilePhotoDraft, $("#edit-residence").value);
     if (!result.ok) { $("#edit-profile-status").textContent = result.message; return; }
     $("#edit-profile-status").textContent = ""; setText("#profile-name", currentNickname); setAvatar($("#profile-avatar"), getProfile(currentUserId));
     setText("#signed-in-name", currentNickname); $("#edit-profile-form").hidden = true; renderProfileTab(); applyLanguage();
   });
+  $("#profile-follow-button")?.addEventListener("click", (event) => toggleFollow(event.currentTarget.dataset.followUser));
+  $("#profile-stats")?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-follow-list]");
+    if (button) renderFollowList(button.dataset.followList);
+  });
+  $("#follow-list-modal")?.addEventListener("click", (event) => {
+    const profileLink = event.target.closest("[data-profile-id]");
+    if (profileLink) openUserProfile(profileLink.dataset.profileId);
+    if (event.target === $("#follow-list-modal") || event.target.closest("[data-close-follow-list]")) $("#follow-list-modal").hidden = true;
+  });
   $$('[data-profile-tab]').forEach((button) => button.addEventListener("click", () => { activeProfileTab = button.dataset.profileTab; renderProfileTab(); }));
   $("#profile-content")?.addEventListener("click", (event) => {
     if (event.target.closest("img[data-comment-photo]")) return;
+    const profileLink = event.target.closest("[data-profile-id]");
+    if (profileLink) { openUserProfile(profileLink.dataset.profileId); return; }
+    const followButton = event.target.closest("[data-follow-user]");
+    if (followButton) { toggleFollow(followButton.dataset.followUser); return; }
     const commentAction = event.target.closest("[data-comment-action]");
     if (commentAction) {
       const profileCard = commentAction.closest("[data-profile-post-id]");
@@ -1138,7 +1433,11 @@
     }
     const card = event.target.closest("[data-profile-post-id]"); if (!card) return;
     const post = posts.find((item) => item.id === card.dataset.profilePostId);
-    if (post) { $("#profile-page").hidden = true; $(".map-screen").hidden = false; switchRegion(post.region); map?.setView([post.lat, post.lng], 16); focusPost(post); requestAnimationFrame(() => map?.invalidateSize()); }
+    if (post && viewingProfileId !== currentUserId) {
+      openPostDetail(post);
+      return;
+    }
+    if (post) { viewingProfileId = ""; $("#profile-page").hidden = true; $(".map-screen").hidden = false; switchRegion(post.region); map?.setView([post.lat, post.lng], 16); focusPost(post); requestAnimationFrame(() => map?.invalidateSize()); }
   });
   const logout = () => { demoAuth.logout(); showWelcome(); };
   $("#profile-logout-button")?.addEventListener("click", logout);
@@ -1150,6 +1449,7 @@
   $("#withdraw-confirm")?.addEventListener("change", updateWithdraw); $("#withdraw-password")?.addEventListener("input", updateWithdraw);
   $("#withdraw-submit")?.addEventListener("click", () => {
     const userId = currentUserId, account = demoAuth.getAccount(); if (!account || $("#withdraw-submit").disabled) return;
+    if (!removeFollowRelationships(userId)) { alert(text[language].storageError); return; }
     let oldLikedIds = []; try { oldLikedIds = JSON.parse(localStorage.getItem(LIKES_KEY) || "{}")[userId] || []; } catch (_) {}
     posts = posts.filter((post) => post.authorId !== userId && (post.authorId || post.nickname !== currentNickname));
     posts.forEach((post) => { const removedLikes = (post.likedBy || []).filter((id) => id === userId).length || (oldLikedIds.includes(post.id) ? 1 : 0); post.likedBy = (post.likedBy || []).filter((id) => id !== userId); post.likes = Math.max(0, (post.likes || 0) - removedLikes); post.comments = (post.comments || []).filter((comment) => comment.userId !== userId && comment.nickname !== currentNickname); });
