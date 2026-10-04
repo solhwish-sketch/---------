@@ -372,3 +372,128 @@ body.app-mode { height: 100%; overflow: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } }
+
+/* 교환일기를 중심에 두고 지도는 보조 영역으로 배치합니다. */
+.map-screen {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+#map {
+  position: relative;
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+}
+#map .leaflet-bottom.leaflet-right { bottom: 8px; }
+.map-controls {
+  top: 16px;
+  right: 16px;
+  left: auto;
+  width: calc(40% - 32px);
+  max-height: calc(100% - 32px);
+  overflow-y: auto;
+  transform: none;
+}
+.feed-sheet {
+  position: relative;
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  min-height: 0;
+  padding: 0 20px 14px;
+  border-right: 1px solid #E7EEF0;
+  border-radius: 0;
+  box-shadow: 2px 0 16px rgba(30,45,55,.08);
+}
+.sheet-handle { flex-basis: 54px; justify-content: flex-start; padding-left: 4px; }
+.handle-bar { display: none; }
+.feed-toolbar { flex: 0 0 auto; padding: 0 0 10px; border-bottom: 1px solid #E8EEF0; }
+.feed-filter-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+.feed-filter-group button {
+  min-height: 32px;
+  padding: 5px 12px;
+  background: #F0F5F7;
+  color: var(--color-text);
+  font-size: .82rem;
+  font-weight: 700;
+}
+.feed-filter-group button[aria-pressed="true"] { background: var(--color-sky-blue); }
+.feed-sort-options { margin-bottom: 8px; }
+#category-filters { justify-content: flex-start; margin-top: 0; }
+#category-legend { justify-content: flex-start; margin-top: 4px; background: #F8FAFB; }
+.feed-sheet.is-collapsed { height: 70px; }
+.feed-sheet.is-collapsed .feed-toolbar,
+.feed-sheet.is-collapsed #post-list,
+.feed-sheet.is-collapsed #feed-load-more,
+.feed-sheet.is-collapsed #mypage-button { display: none; }
+#post-list {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  padding: 12px 3px 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-snap-type: none;
+}
+.post-card { flex: 0 0 auto; align-self: stretch; padding: 14px; }
+.post-city-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #EAF7FC;
+  color: #315D70;
+  font-size: .78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.post-card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; color: #57717C; }
+.post-card-date, .post-detail-date { display: block; color: #718087; font-size: .8rem; }
+.post-card-date { margin-top: 5px; }
+#feed-load-more {
+  flex: 0 0 auto;
+  min-height: 38px;
+  margin: 2px 0 9px;
+  background: #EAF7FC;
+  color: #315D70;
+  font-weight: 800;
+}
+#mypage-button { flex: 0 0 auto; }
+#compose-button { right: 18px; bottom: 18px; }
+.feed-sheet.is-collapsed ~ #compose-button { bottom: 18px; }
+.compose-sheet { right: 16px; bottom: 16px; width: min(520px,calc(40% - 32px)); }
+
+/* 모바일에서는 피드가 위, 지도가 아래에 이어집니다. */
+@media (max-width: 760px) {
+  .map-screen {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 6fr) minmax(200px, 4fr);
+    min-height: 0;
+  }
+  #map { grid-column: 1; grid-row: 2; }
+  .feed-sheet {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 0 12px 10px;
+    border-right: 0;
+    border-bottom: 1px solid #E7EEF0;
+  }
+  .sheet-handle { flex-basis: 44px; }
+  .map-controls {
+    top: 60%;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-height: calc(40% - 12px);
+  }
+  #map .leaflet-bottom.leaflet-right { bottom: 8px; }
+  #post-list { padding-top: 8px; }
+  #compose-button { right: 16px; bottom: 14px; }
+  .feed-sheet.is-collapsed ~ #compose-button { bottom: 14px; }
+  .compose-sheet { right: 8px; bottom: 8px; width: calc(100% - 16px); }
+}

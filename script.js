@@ -31,7 +31,8 @@
       accountMissing: "계정이 없어요. 회원가입을 먼저 해주세요.", loginFailed: "닉네임 또는 비밀번호를 확인해주세요.",
       accountExists: "이미 가입된 아이디예요. 로그인해주세요.", signupDone: "가입이 완료됐어요. 환영합니다!",
       storageError: "브라우저 저장소를 사용할 수 없어요. 브라우저 설정을 확인해주세요.",
-      feed: "동네 피드", mine: "마이페이지", all: "지역 피드 보기", write: "동네 이야기 나누기",
+      feed: "교환일기", mine: "마이페이지", all: "지역 피드 보기", write: "동네 이야기 나누기",
+      feedAll: "전체", feedJeonju: "전주", feedTokyo: "도쿄", sortNewest: "최신순", sortPopular: "인기순", feedRegionLabel: "도시별 피드", feedSortLabel: "피드 정렬", mapPost: "지도에서 보기", loadMore: "더 보기", postDateLabel: "작성일",
       residence: "거주 지역", place: "장소 이름", category: "카테고리",
       photo: "사진", story: "짧은 글", choose: "선택하세요", submit: "게시글 올리기",
       like: "좋아요", comment: "댓글", remove: "삭제", example: "예시", empty: "아직 게시글이 없습니다.",
@@ -54,7 +55,8 @@
       accountMissing: "アカウントがありません。先に新規登録してください。", loginFailed: "ニックネームまたはパスワードを確認してください。",
       accountExists: "このIDは登録済みです。ログインしてください。", signupDone: "登録が完了しました。ようこそ！",
       storageError: "ブラウザーの保存領域を利用できません。設定を確認してください。",
-      feed: "街の投稿", mine: "マイページ", all: "地域の投稿を見る", write: "街の話をシェア",
+      feed: "交換日記", mine: "マイページ", all: "地域の投稿を見る", write: "街の話をシェア",
+      feedAll: "すべて", feedJeonju: "全州", feedTokyo: "東京", sortNewest: "新着順", sortPopular: "人気順", feedRegionLabel: "都市別フィード", feedSortLabel: "並べ替え", mapPost: "地図で見る", loadMore: "もっと見る", postDateLabel: "投稿日",
       residence: "居住地", place: "場所", category: "カテゴリー",
       photo: "写真", story: "ひとこと", choose: "選択してください", submit: "投稿する",
       like: "いいね", comment: "コメント", remove: "削除", example: "サンプル", empty: "投稿はまだありません。",
@@ -69,12 +71,12 @@
     }
   };
   const examples = [
-    { id: "ex-j-1", nickname: "하루", region: "jeonju", place: "전북대학교 구정문", category: "cafe", story: "수업 끝나고 들르기 좋은 조용한 카페예요. 창가 자리가 특히 좋아요!", lat: 35.8462, lng: 127.1298, reactions: ["☕", "💙"], likes: 8, comments: [{ nickname: "민지", text: "다음에 같이 가요!" }] },
-    { id: "ex-j-2", nickname: "민지", region: "jeonju", place: "객리단길", category: "food", story: "골목마다 작은 가게가 많아서 구경하는 재미가 있어요. 저녁 산책 추천!", lat: 35.8176, lng: 127.1394, reactions: ["💙"], likes: 12, comments: [] },
-    { id: "ex-j-3", nickname: "도윤", region: "jeonju", place: "전북대학교 중앙도서관", category: "school", story: "시험 기간에 공부하기 좋은 자리와 주변 산책 코스를 공유해요.", lat: 35.8469, lng: 127.1291, reactions: ["📚"], likes: 5, comments: [] },
-    { id: "ex-t-1", nickname: "ゆい", region: "tokyo", place: "上野公園", category: "walk", story: "朝の散歩にぴったり。木陰が多くて、ゆっくり過ごせます。", lat: 35.7156, lng: 139.7745, reactions: ["🌿", "💙"], likes: 10, comments: [] },
-    { id: "ex-t-2", nickname: "そら", region: "tokyo", place: "神保町の小さな喫茶店", category: "cafe", story: "古本屋めぐりの休憩におすすめ。落ち着いた雰囲気でした。", lat: 35.6958, lng: 139.7575, reactions: ["☕"], likes: 7, comments: [{ nickname: "ゆい", text: "行ってみたいです！" }] },
-    { id: "ex-t-3", nickname: "あお", region: "tokyo", place: "谷中銀座", category: "food", story: "食べ歩きが楽しい商店街。夕方の景色もきれいでした。", lat: 35.7278, lng: 139.7667, reactions: ["😋"], likes: 9, comments: [] }
+    { id: "ex-j-1", nickname: "하루", region: "jeonju", place: "전북대학교 구정문", category: "cafe", story: "수업 끝나고 들르기 좋은 조용한 카페예요. 창가 자리가 특히 좋아요!", lat: 35.8462, lng: 127.1298, reactions: ["☕", "💙"], likes: 8, createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(), comments: [{ nickname: "민지", text: "다음에 같이 가요!" }] },
+    { id: "ex-j-2", nickname: "민지", region: "jeonju", place: "객리단길", category: "food", story: "골목마다 작은 가게가 많아서 구경하는 재미가 있어요. 저녁 산책 추천!", lat: 35.8176, lng: 127.1394, reactions: ["💙"], likes: 12, createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), comments: [] },
+    { id: "ex-j-3", nickname: "도윤", region: "jeonju", place: "전북대학교 중앙도서관", category: "school", story: "시험 기간에 공부하기 좋은 자리와 주변 산책 코스를 공유해요.", lat: 35.8469, lng: 127.1291, reactions: ["📚"], likes: 5, createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), comments: [] },
+    { id: "ex-t-1", nickname: "ゆい", region: "tokyo", place: "上野公園", category: "walk", story: "朝の散歩にぴったり。木陰が多くて、ゆっくり過ごせます。", lat: 35.7156, lng: 139.7745, reactions: ["🌿", "💙"], likes: 10, createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(), comments: [] },
+    { id: "ex-t-2", nickname: "そら", region: "tokyo", place: "神保町の小さな喫茶店", category: "cafe", story: "古本屋めぐりの休憩におすすめ。落ち着いた雰囲気でした。", lat: 35.6958, lng: 139.7575, reactions: ["☕"], likes: 7, createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(), comments: [{ nickname: "ゆい", text: "行ってみたいです！" }] },
+    { id: "ex-t-3", nickname: "あお", region: "tokyo", place: "谷中銀座", category: "food", story: "食べ歩きが楽しい商店街。夕方の景色もきれいでした。", lat: 35.7278, lng: 139.7667, reactions: ["😋"], likes: 9, createdAt: new Date(Date.now() - 9 * 24 * 60 * 60 * 1000).toISOString(), comments: [] }
   ];
 
   const $ = (selector, parent = document) => parent.querySelector(selector);
@@ -95,6 +97,9 @@
   let language = readLanguage();
   let currentRegion = "jeonju";
   let showMine = false;
+  let feedRegionFilter = "all";
+  let feedSort = "newest";
+  let feedPostLimit = 10;
   let categoryFilter = "all";
   let activeSearchPostIds = null;
   let currentNickname = "";
@@ -318,6 +323,34 @@
     const timestamp = Date.parse(value || "");
     if (!Number.isFinite(timestamp)) return text[language].noJoinedDate;
     return new Intl.DateTimeFormat(language === "ja" ? "ja-JP" : "ko-KR", { year: "numeric", month: "long", day: "numeric" }).format(timestamp);
+  }
+  // 게시글 작성 시각을 오늘·어제·경과 일수 또는 현지 날짜로 표시합니다.
+  function formatPostDate(value) {
+    const timestamp = Date.parse(value || "");
+    if (!Number.isFinite(timestamp)) return text[language].noJoinedDate;
+    const date = new Date(timestamp);
+    const locale = language === "ja" ? "ja-JP" : "ko-KR";
+    const dayStart = (value) => {
+      const local = new Date(value);
+      return Date.UTC(local.getFullYear(), local.getMonth(), local.getDate());
+    };
+    const daysAgo = Math.round((dayStart(Date.now()) - dayStart(date)) / 86400000);
+    let relative;
+    if (daysAgo === 0) relative = language === "ja" ? "今日" : "오늘";
+    else if (daysAgo === 1) relative = language === "ja" ? "昨日" : "어제";
+    else if (daysAgo > 1 && daysAgo < 7) relative = language === "ja" ? `${daysAgo}日前` : `${daysAgo}일 전`;
+    if (relative) {
+      const time = new Intl.DateTimeFormat(locale, { hour: "numeric", minute: "2-digit", hour12: true }).format(date);
+      return `${relative} ${time}`;
+    }
+    const parts = new Intl.DateTimeFormat(locale, {
+      year: "numeric", month: "2-digit", day: "2-digit", weekday: "short"
+    }).formatToParts(date).reduce((result, part) => {
+      result[part.type] = part.value;
+      return result;
+    }, {});
+    const time = new Intl.DateTimeFormat(locale, { hour: "numeric", minute: "2-digit", hour12: true }).format(date);
+    return `${parts.year}.${parts.month}.${parts.day} (${parts.weekday}) ${time}`;
   }
   function showProfile(userId) {
     if (!userId) return;
@@ -553,7 +586,19 @@
   function loadPosts() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-      if (Array.isArray(saved)) return saved.filter((post) => post && locales[post.region]);
+      if (Array.isArray(saved)) {
+        let migrated = false;
+        const loaded = saved.filter((post) => post && locales[post.region]).map((post) => {
+          if (Number.isFinite(Date.parse(post.createdAt || ""))) return post;
+          migrated = true;
+          return { ...post, createdAt: new Date().toISOString() };
+        });
+        if (migrated) {
+          try { localStorage.setItem(STORAGE_KEY, JSON.stringify(loaded)); }
+          catch (error) { console.warn("게시글 작성 시간을 저장하지 못했습니다.", error); }
+        }
+        return loaded;
+      }
     } catch (error) { console.warn("저장된 게시글을 읽지 못했습니다.", error); }
     return examples.map((post) => ({ ...post, comments: post.comments || [], reactions: post.reactions || [], photo: "", isExample: true }));
   }
@@ -633,6 +678,18 @@
     });
     mapElement.setAttribute("aria-label", w.mapLabel);
     setText("#feed-heading", w.feed);
+    $("#feed-region-filters")?.setAttribute("aria-label", w.feedRegionLabel);
+    $$("[data-feed-region]").forEach((button) => {
+      const labels = { all: w.feedAll, jeonju: w.feedJeonju, tokyo: w.feedTokyo };
+      button.textContent = labels[button.dataset.feedRegion];
+      button.setAttribute("aria-pressed", String(button.dataset.feedRegion === feedRegionFilter));
+    });
+    $(".feed-sort-options")?.setAttribute("aria-label", w.feedSortLabel);
+    $$("[data-feed-sort]").forEach((button) => {
+      button.textContent = button.dataset.feedSort === "popular" ? w.sortPopular : w.sortNewest;
+      button.setAttribute("aria-pressed", String(button.dataset.feedSort === feedSort));
+    });
+    setText("#feed-load-more", w.loadMore);
     setText("#write-heading", w.write);
     setText("#mypage-button", showMine ? w.all : w.mine);
     setText("#close-compose", "×");
@@ -795,6 +852,20 @@
     });
   }
 
+  // 피드의 지도 버튼은 도시를 바꾸고 해당 장소의 핀을 지도 중심에 둡니다.
+  function focusPostOnMap(post) {
+    if (!post || !map) return;
+    if (post.region !== currentRegion) switchRegion(post.region);
+    if (Number.isFinite(post.lat) && Number.isFinite(post.lng)) {
+      map.setView([post.lat, post.lng], Math.max(map.getZoom(), 16));
+      const marker = markers.find((item) => {
+        const point = item.getLatLng();
+        return Math.abs(point.lat - post.lat) < 0.000001 && Math.abs(point.lng - post.lng) < 0.000001;
+      });
+      marker?.openPopup();
+    }
+  }
+
   /* 새 게시글을 만들 때 지도에서 고른 위치를 임시 핀으로 표시합니다. */
   function openCompose(location = null) {
     draftLocation = location;
@@ -859,9 +930,17 @@
     const title = document.createElement("h3");
     title.textContent = post.place;
     card.append(author, title);
+    const badge = document.createElement("span");
+    badge.className = "post-city-badge";
+    badge.textContent = `${post.region === "jeonju" ? "🇰🇷" : "🇯🇵"} ${locales[post.region].name[language]}`;
     const detail = document.createElement("p");
-    detail.textContent = `${locales[post.region].name[language]} · ${categories[language][post.category] || post.category}${post.isExample ? ` · ${w.example}` : ""}`;
-    card.append(detail);
+    detail.className = "post-card-meta";
+    detail.append(badge, document.createTextNode(` · ${categories[language][post.category] || post.category}${post.isExample ? ` · ${w.example}` : ""}`));
+    const date = document.createElement("time");
+    date.className = "post-card-date";
+    date.dateTime = post.createdAt;
+    date.textContent = formatPostDate(post.createdAt);
+    card.append(detail, date);
     const story = document.createElement("p");
     story.textContent = post.story;
     card.append(story);
@@ -874,6 +953,10 @@
     }
     const actions = document.createElement("div");
     actions.className = "post-actions";
+    const mapButton = document.createElement("button");
+    mapButton.type = "button"; mapButton.dataset.action = "map";
+    mapButton.textContent = `📍 ${w.mapPost}`;
+    actions.append(mapButton);
     const like = document.createElement("button");
     like.type = "button"; like.dataset.action = "like";
     like.textContent = `💙 ${w.like} (${post.likes || 0})`;
@@ -939,16 +1022,25 @@
   /* 선택 지역 또는 마이페이지의 게시글을 하단 패널에 나열합니다. */
   function renderFeed() {
     const visible = posts.filter((post) =>
-      (showMine ? post.nickname === currentNickname : post.region === currentRegion) &&
+      (!showMine || post.nickname === currentNickname) &&
+      (feedRegionFilter === "all" || post.region === feedRegionFilter) &&
       (categoryFilter === "all" || post.category === categoryFilter) &&
       (activeSearchPostIds === null || activeSearchPostIds.includes(String(post.id)))
     );
+    visible.sort((a, b) => {
+      if (feedSort === "popular") {
+        const likesDifference = (b.likes || 0) - (a.likes || 0);
+        if (likesDifference) return likesDifference;
+      }
+      return (Date.parse(b.createdAt) || 0) - (Date.parse(a.createdAt) || 0);
+    });
     feed.replaceChildren();
     if (!visible.length) {
       const empty = document.createElement("p");
-      const hasActiveFilter = categoryFilter !== "all" || Boolean($("#search-input").value.trim());
+      const hasActiveFilter = feedRegionFilter !== "all" || categoryFilter !== "all" || Boolean($("#search-input").value.trim()) || showMine;
       empty.textContent = hasActiveFilter ? text[language].noResults : text[language].empty;
       feed.append(empty);
+      $("#feed-load-more").hidden = true;
       if (!$("#search-input").value.trim()) {
         const categoryHasNoResults = categoryFilter !== "all";
         $("#search-status").textContent = categoryHasNoResults ? text[language].noResults : "";
@@ -963,7 +1055,8 @@
       $("#search-status").textContent = "";
       $("#search-reset").hidden = true;
     }
-    visible.forEach((post) => feed.append(makeCard(post)));
+    visible.slice(0, feedPostLimit).forEach((post) => feed.append(makeCard(post)));
+    $("#feed-load-more").hidden = visible.length <= feedPostLimit;
   }
 
   // 상세 모달은 게시글 데이터에서 안전하게 DOM을 만들어 내용을 표시합니다.
@@ -984,6 +1077,7 @@
     followButton.dataset.followUser = authorId;
     followButton.textContent = getFollowingIds(currentUserId).includes(authorId) ? text[language].followed : text[language].follow;
     setText("#post-detail-place-category", `${locales[post.region].name[language]} · ${categories[language][post.category] || post.category}`);
+    setText("#post-detail-created-at", `${text[language].postDateLabel}: ${formatPostDate(post.createdAt)}`);
     setText("#post-detail-story", post.story);
     const liked = (post.likedBy || []).includes(currentUserId) || getLikedPostIds().includes(post.id);
     setText("#post-detail-like", `💙 ${text[language].like} (${post.likes || 0})${liked ? " ✓" : ""}`);
@@ -1034,7 +1128,10 @@
         })
       }).addTo(map);
       marker.bindPopup(`<strong>${escapeHtml(post.place)}</strong><br>${escapeHtml(post.nickname)}`);
-      marker.on("click", () => focusPost(post));
+      marker.on("click", () => {
+        focusPost(post);
+        openPostDetail(post);
+      });
       markers.push(marker);
     });
   }
@@ -1047,7 +1144,6 @@
   function switchRegion(region) {
     if (!locales[region] || !map) return;
     currentRegion = region;
-    showMine = false;
     map.setView(locales[region].center, locales[region].zoom);
     if (searchMarker) { searchMarker.remove(); searchMarker = null; }
     $$('[data-region]').forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.region === region)));
@@ -1069,6 +1165,7 @@
 
   // 입력 중에는 앱 글 결과만 갱신하고, 외부 장소 검색은 제출할 때만 요청합니다.
   function refreshPostSearch(query) {
+    feedPostLimit = 10;
     if (!query.trim()) {
       activeSearchPostIds = null;
       lastSearchResults = [];
@@ -1242,6 +1339,7 @@
     const button = event.target.closest("button[data-action]");
     const post = posts.find((item) => item.id === card.dataset.postId);
     if (!post) return;
+    if (button?.dataset.action === "map") { focusPostOnMap(post); return; }
     if (!button) {
       openPostDetail(post);
       return;
@@ -1326,6 +1424,21 @@
     const collapsed = feedSheet.classList.toggle("is-collapsed");
     $("#feed-toggle").setAttribute("aria-expanded", String(!collapsed));
   });
+  $$("[data-feed-region]").forEach((button) => button.addEventListener("click", () => {
+    feedRegionFilter = button.dataset.feedRegion;
+    feedPostLimit = 10;
+    showMine = false;
+    applyLanguage();
+  }));
+  $$("[data-feed-sort]").forEach((button) => button.addEventListener("click", () => {
+    feedSort = button.dataset.feedSort;
+    feedPostLimit = 10;
+    applyLanguage();
+  }));
+  $("#feed-load-more")?.addEventListener("click", () => {
+    feedPostLimit += 10;
+    renderFeed();
+  });
 
   /* 검색은 Enter 또는 검색 버튼으로 실행합니다. */
   searchForm?.addEventListener("submit", (event) => {
@@ -1341,6 +1454,7 @@
     if (searchRequest) searchRequest.abort();
     searchRequest = null;
     categoryFilter = button.dataset.categoryFilter;
+    feedPostLimit = 10;
     renderCategoryControls();
     refreshPostSearch($("#search-input").value);
   }));

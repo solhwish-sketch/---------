@@ -64,7 +64,7 @@
     </section>
   </main>
 
-  <!-- 로그인 뒤에 보이는 메인 지도 화면입니다. -->
+  <!-- 로그인 뒤에는 교환일기 피드와 지도를 함께 보여줍니다. -->
   <div id="app-shell" hidden>
     <header class="app-header">
       <h1>Haru Pin <span>ハルピン</span></h1>
@@ -79,25 +79,17 @@
     </header>
 
     <main class="map-screen">
-      <!-- Leaflet 지도가 헤더 아래 화면을 채웁니다. -->
+      <!-- Leaflet 지도는 피드 옆에서 장소를 확인하는 역할을 합니다. -->
       <div id="map" role="region" aria-label="하루핀 동네 지도"></div>
 
-      <!-- 앱 게시글 우선 검색, 카테고리 필터와 지도 장소 검색을 제공합니다. -->
+      <!-- 장소 검색과 지도 지역 이동을 제공합니다. -->
       <div class="map-controls">
         <form id="place-search" role="search">
           <label class="visually-hidden" for="search-input">장소 검색</label>
           <input id="search-input" name="q" type="search" autocomplete="off" placeholder="카페, 맛집, 관광지 검색">
           <button type="submit" aria-label="검색">⌕</button>
         </form>
-        <div id="category-filters" class="category-filters" role="group" aria-label="카테고리 검색">
-          <button type="button" data-category-filter="all" aria-pressed="true">전체</button>
-          <button type="button" data-category-filter="food" aria-pressed="false">숨은 맛집</button>
-          <button type="button" data-category-filter="cafe" aria-pressed="false">동네 카페</button>
-          <button type="button" data-category-filter="school" aria-pressed="false">학교 생활</button>
-          <button type="button" data-category-filter="walk" aria-pressed="false">산책로</button>
-        </div>
         <div id="search-results" class="search-results" role="list" aria-label="게시글 검색 결과" hidden></div>
-        <div id="category-legend" class="category-legend" aria-label="카테고리별 핀 색상"></div>
         <p id="search-status" role="status" aria-live="polite"></p>
         <button type="button" id="search-reset" class="search-reset" hidden>전체로 돌아가기</button>
         <div class="city-switch" role="group" aria-label="지역 선택">
@@ -106,14 +98,34 @@
         </div>
       </div>
 
-      <!-- 아래에서 올라오는 게시글 피드입니다. -->
+      <!-- 도시 통합 일기 피드와 필터입니다. -->
       <section class="feed-sheet" id="feed-sheet" aria-labelledby="feed-heading">
         <button class="sheet-handle" id="feed-toggle" type="button" aria-expanded="true" aria-controls="post-list">
           <span class="handle-bar" aria-hidden="true"></span>
-          <span id="feed-heading">동네 피드</span>
+          <span id="feed-heading">교환일기</span>
           <span class="sheet-chevron" aria-hidden="true">⌃</span>
         </button>
+        <div class="feed-toolbar">
+          <div id="feed-region-filters" class="feed-filter-group" role="group" aria-label="도시별 피드">
+            <button type="button" data-feed-region="all" aria-pressed="true">전체</button>
+            <button type="button" data-feed-region="jeonju" aria-pressed="false">전주</button>
+            <button type="button" data-feed-region="tokyo" aria-pressed="false">도쿄</button>
+          </div>
+          <div class="feed-filter-group feed-sort-options" role="group" aria-label="피드 정렬">
+            <button type="button" data-feed-sort="newest" aria-pressed="true">최신순</button>
+            <button type="button" data-feed-sort="popular" aria-pressed="false">인기순</button>
+          </div>
+          <div id="category-filters" class="category-filters" role="group" aria-label="카테고리 검색">
+            <button type="button" data-category-filter="all" aria-pressed="true">전체</button>
+            <button type="button" data-category-filter="food" aria-pressed="false">숨은 맛집</button>
+            <button type="button" data-category-filter="cafe" aria-pressed="false">동네 카페</button>
+            <button type="button" data-category-filter="school" aria-pressed="false">학교 생활</button>
+            <button type="button" data-category-filter="walk" aria-pressed="false">산책로</button>
+          </div>
+          <div id="category-legend" class="category-legend" aria-label="카테고리별 핀 색상"></div>
+        </div>
         <div id="post-list" aria-live="polite"></div>
+        <button type="button" id="feed-load-more" hidden>더 보기</button>
         <button type="button" id="mypage-button">마이페이지</button>
       </section>
 
@@ -229,6 +241,7 @@
         <button type="button" id="post-detail-follow-button" class="inline-follow-button" hidden></button>
       </div>
       <p id="post-detail-place-category" class="post-detail-meta"></p>
+      <p id="post-detail-created-at" class="post-detail-date"></p>
       <p id="post-detail-story" class="post-detail-story"></p>
       <div class="post-detail-actions"><button type="button" id="post-detail-like"></button><button type="button" id="post-detail-share"></button></div>
       <h3 id="post-detail-comments-title"></h3>
