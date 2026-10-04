@@ -49,6 +49,45 @@ body.welcome-mode { min-height: 100svh; overflow-y: auto; background: linear-gra
   content: "";
   filter: blur(2px);
 }
+
+/* 알림, 신고, 번역, 차단 및 첫 방문 도움말의 공통 UI입니다. */
+.notifications-button { position: relative; min-width: 44px; padding: 7px 12px; background: #EAF7FC; color: #315B6A; }
+.notification-count { position: absolute; top: -5px; right: -3px; min-width: 19px; padding: 1px 5px; border-radius: 20px; background: #EF7580; color: #fff; font-size: .72rem; font-weight: 800; }
+.notifications-panel { position: absolute; z-index: 1200; top: calc(var(--header-height) - 2px); right: 18px; width: min(390px, calc(100vw - 24px)); max-height: min(70vh, 520px); overflow: auto; padding: 14px; border: 1px solid #D7EAF0; border-radius: 18px; background: #FFFDF8; box-shadow: var(--color-shadow); }
+.notifications-panel > header { display: flex; align-items: center; gap: 8px; }
+.notifications-panel h2 { flex: 1; margin: 0; font-size: 1.05rem; }
+.notifications-panel header button, .notification-item, .blocked-user-row button { padding: 7px 11px; background: #EAF7FC; color: #315B6A; }
+.notifications-panel header button:last-child { font-size: 1.2rem; }
+#notifications-list { display: grid; gap: 7px; margin-top: 10px; }
+.notification-item { display: flex; justify-content: space-between; gap: 12px; width: 100%; border-radius: 12px; text-align: left; }
+.notification-item.is-unread { background: #DDF2FA; font-weight: 700; }
+.notification-item time { flex: 0 0 auto; font-size: .75rem; color: #71828A; }
+.notification-empty { margin: 8px 0; text-align: center; color: #71828A; }
+.post-hidden-notice { padding: 18px; border: 1px dashed #D5C7B3; border-radius: 16px; background: #F7F0E5; color: #756A5B; }
+.translation-row { display: flex; justify-content: flex-end; margin-top: 8px; }
+.translation-row button, .comment-tools button, .profile-safety-actions button, .blocked-users-settings button { padding: 6px 11px; background: #E5F5FB; color: #315B6A; font-size: .85rem; }
+.translation-result { margin: 7px 0; padding: 9px 12px; border-left: 3px solid var(--color-sky-blue); border-radius: 5px 12px 12px 5px; background: #F2FAFD; color: #58717C; font-size: .9rem; white-space: pre-wrap; }
+.comment-tools { display: flex; gap: 6px; margin-top: 6px; }
+.profile-safety-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.profile-safety-actions button:first-child { background: #FFF0E9; color: #855A48; }
+.blocked-users-settings { margin-top: 14px; padding: 12px; border-radius: 14px; background: #F7F3EC; }
+.blocked-users-settings h3 { margin: 0 0 8px; font-size: .95rem; }
+#blocked-users-list { display: grid; gap: 7px; }
+.blocked-user-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.input-char-count { display: block; margin: -6px 0 8px; color: #75858B; font-size: .78rem; text-align: right; }
+.tutorial-modal .modal-card { max-width: 470px; }
+.tutorial-modal #tutorial-step { color: #628595; font-weight: 700; }
+.tutorial-modal #tutorial-title { color: #345665; }
+.tutorial-skip { display: flex; align-items: center; gap: 8px; margin: 18px 0; font-size: .9rem; }
+#report-form { display: grid; gap: 10px; }
+#report-form label { display: flex; align-items: center; gap: 9px; padding: 8px; border-radius: 10px; background: #F8F4EC; }
+#report-form input { accent-color: var(--color-sky-blue-dark); }
+
+@media (max-width: 640px) {
+  .notifications-panel { top: calc(var(--header-height) + 4px); right: 8px; }
+  .notifications-panel > header { flex-wrap: wrap; }
+  .notification-item { flex-direction: column; gap: 3px; }
+}
 .welcome-screen::before { top: 8%; left: -70px; }
 .welcome-screen::after { right: -90px; bottom: 9%; width: 290px; }
 .welcome-card {
@@ -431,18 +470,14 @@ body.app-mode { height: 100%; overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } }
 
-/* 교환일기를 중심에 두고 지도는 보조 영역으로 배치합니다. */
+/* 피드를 중심에 두고 지도는 보조 영역으로 배치합니다. */
 .map-screen {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   grid-template-rows: minmax(0, 1fr);
 }
-#map {
-  position: relative;
-  grid-column: 2;
-  grid-row: 1;
-  min-width: 0;
-}
+.map-column { display: grid; grid-column: 2; grid-row: 1; grid-template-rows: minmax(0, 1fr) auto; min-width: 0; min-height: 0; }
+#map { position: relative; grid-column: auto; grid-row: auto; width: 100%; height: 100%; min-width: 0; min-height: 0; }
 #map .leaflet-bottom.leaflet-right { bottom: 8px; }
 .map-controls {
   top: 16px;
@@ -481,6 +516,8 @@ body.app-mode { height: 100%; overflow: hidden; }
 .feed-filter-group button[aria-pressed="true"] { background: var(--color-sky-blue); }
 .feed-sort-options { margin-bottom: 8px; }
 #category-filters { justify-content: flex-start; margin-top: 0; }
+#map-category-filters { justify-content: center; flex-wrap: nowrap; gap: 7px; margin: 0; padding: 9px 10px; overflow-x: auto; background: #FFFDF8; border-top: 1px solid #E4ECEF; }
+#map-category-filters button { flex: 0 0 auto; }
 #category-legend { justify-content: flex-start; margin-top: 4px; background: #F8FAFB; }
 .feed-sheet.is-collapsed { height: 70px; }
 .feed-sheet.is-collapsed .feed-toolbar,
@@ -525,18 +562,11 @@ body.app-mode { height: 100%; overflow: hidden; }
 #compose-button { right: 18px; bottom: 18px; }
 .feed-sheet.is-collapsed ~ #compose-button { bottom: 18px; }
 .compose-sheet { right: 16px; bottom: 16px; width: min(520px,calc(40% - 32px)); }
-.diary-toggle {
-  position: absolute;
-  z-index: 850;
-  right: 18px;
-  bottom: 18px;
-  min-height: 48px;
-  padding: 9px 16px;
-  background: var(--color-sky-blue);
-  color: #203C49;
-  box-shadow: var(--color-shadow);
-  font-weight: 800;
-}
+.diary-toggle { position: relative; z-index: 1001; display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 7px 15px; border: 2px solid var(--color-sky-blue-dark); background: var(--color-beige); color: #315D70; box-shadow: 0 2px 8px rgba(30,45,55,.12); font-weight: 900; white-space: nowrap; }
+.diary-toggle-label-mobile { display: none; }
+.diary-toggle-status { color: #46798D; font-size: .72rem; font-weight: 800; }
+.diary-unwritten-dot { position: absolute; top: -5px; right: -4px; width: 12px; height: 12px; border: 2px solid #fff; border-radius: 50%; background: #E94855; animation: diary-unwritten-pulse 1.2s ease-in-out infinite; }
+@keyframes diary-unwritten-pulse { 50% { opacity: .35; transform: scale(.78); } }
 .diary-panel {
   position: absolute;
   z-index: 900;
@@ -559,6 +589,9 @@ body.app-mode { height: 100%; overflow: hidden; }
 .diary-panel-header { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; gap: 10px; }
 .diary-panel-header h2 { margin: 0; font-size: 1.25rem; }
 .diary-panel-header button { width: 36px; height: 36px; background: #EAF7FC; font-size: 1.3rem; }
+.diary-panel-intro { flex: 0 0 auto; margin: 12px 0 2px; padding: 15px 14px; border: 1px solid #DCEEF4; border-radius: 16px; background: linear-gradient(135deg, #F7F0E4, #EAF7FC); }
+.diary-panel-intro time { color: #527A89; font-size: .86rem; font-weight: 800; }
+.diary-panel-intro p { margin: 4px 0 0; color: #315D70; font-size: 1.18rem; font-weight: 900; }
 .diary-panel-tabs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; margin: 12px 0 8px; }
 .diary-panel-tabs button { min-height: 40px; padding: 7px; background: #F0F5F7; color: var(--color-text); font-weight: 700; }
 .diary-panel-tabs button[aria-selected="true"] { background: var(--color-sky-blue); }
@@ -615,24 +648,27 @@ body.app-mode { height: 100%; overflow: hidden; }
 .profile-diary-section .diary-card { margin-bottom: 8px; }
 
 @media (max-width: 760px) {
-  .diary-toggle { right: 12px; bottom: 12px; }
+  .diary-toggle { position: fixed; z-index: 1200; right: 16px; bottom: max(14px, env(safe-area-inset-bottom)); left: 16px; justify-content: center; min-height: 54px; border-radius: 999px; box-shadow: 0 7px 22px rgba(30,45,55,.24); }
+  .diary-toggle-label-desktop { display: none; }
+  .diary-toggle-status { display: inline; }
+  .diary-toggle-label-mobile { display: inline; }
+  body.diary-open .diary-toggle { display: none; }
+  body.compose-open .diary-toggle { display: none; }
   .diary-panel {
-    top: auto;
+    top: 0;
     right: 0;
     bottom: 0;
-    left: 0;
-    width: 100%;
+    left: auto;
+    width: min(420px, 100%);
     min-width: 0;
-    height: min(84%, 720px);
-    max-height: calc(100% - 12px);
+    height: 100%;
+    max-height: 100%;
     padding: 13px 14px max(12px, env(safe-area-inset-bottom));
     border: 1px solid #E3EAED;
-    border-bottom: 0;
-    border-radius: 22px 22px 0 0;
-    box-shadow: 0 -8px 28px rgba(30,45,55,.22);
-    animation-name: diary-panel-up;
+    border-radius: 20px 0 0 20px;
+    box-shadow: -8px 0 28px rgba(30,45,55,.22);
+    animation-name: diary-panel-in;
   }
-  @keyframes diary-panel-up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
   .diary-compose-section { max-height: 52%; }
   .diary-moods span { width: 36px; height: 36px; }
   .profile-tabs { gap: 5px; }
@@ -647,6 +683,8 @@ body.app-mode { height: 100%; overflow: hidden; }
     min-height: 0;
   }
   #map { grid-column: 1; grid-row: 2; }
+  .map-column { grid-column: 1; grid-row: 2; grid-template-rows: minmax(0, 1fr) auto; }
+  #map { grid-column: auto; grid-row: auto; }
   .feed-sheet {
     grid-column: 1;
     grid-row: 1;
@@ -660,11 +698,13 @@ body.app-mode { height: 100%; overflow: hidden; }
     right: 12px;
     left: 12px;
     width: auto;
-    max-height: calc(40% - 12px);
+    max-height: calc(40% - 58px);
   }
+  #map-category-filters { justify-content: flex-start; padding: 6px 9px max(6px, env(safe-area-inset-bottom)); gap: 6px; scrollbar-width: thin; }
+  #map-category-filters button { min-height: 30px; padding: 4px 10px; font-size: .76rem; }
   #map .leaflet-bottom.leaflet-right { bottom: 8px; }
   #post-list { padding-top: 8px; }
-  #compose-button { right: 16px; bottom: 14px; }
-  .feed-sheet.is-collapsed ~ #compose-button { bottom: 14px; }
+  #compose-button { right: 16px; bottom: 78px; }
+  .feed-sheet.is-collapsed ~ #compose-button { bottom: 78px; }
   .compose-sheet { right: 8px; bottom: 8px; width: calc(100% - 16px); }
 }

@@ -12,6 +12,11 @@
   const LIKES_KEY = "harupin-likes-v1";
   const FOLLOWS_KEY = "harupin-follows-v1";
   const DIARIES_KEY = "harupin-diaries-v1";
+  const NOTIFICATIONS_KEY = "harupin-notifications-v1";
+  const REPORTS_KEY = "harupin-reports-v1";
+  const BLOCKS_KEY = "harupin-blocks-v1";
+  const BOOKMARKS_KEY = "harupin-bookmarks-v1";
+  const TUTORIAL_KEY = "harupin-tutorial-seen-v1";
   const locales = {
     jeonju: { name: { ko: "전주", ja: "全州" }, center: [35.8467, 127.1296], zoom: 14 },
     tokyo: { name: { ko: "도쿄", ja: "東京" }, center: [35.6812, 139.7671], zoom: 13 }
@@ -32,21 +37,23 @@
       accountMissing: "계정이 없어요. 회원가입을 먼저 해주세요.", loginFailed: "닉네임 또는 비밀번호를 확인해주세요.",
       accountExists: "이미 가입된 아이디예요. 로그인해주세요.", signupDone: "가입이 완료됐어요. 환영합니다!",
       storageError: "브라우저 저장소를 사용할 수 없어요. 브라우저 설정을 확인해주세요.",
-      feed: "교환일기", mine: "마이페이지", all: "지역 피드 보기", write: "동네 이야기 나누기",
-      feedAll: "전체", feedJeonju: "전주", feedTokyo: "도쿄", sortNewest: "최신순", sortPopular: "인기순", feedRegionLabel: "도시별 피드", feedSortLabel: "피드 정렬", mapPost: "지도에서 보기", loadMore: "더 보기", postDateLabel: "작성일",
-      diary: "내 일기", diaryMine: "내 일기", diaryFollowing: "팔로잉 일기", diaryPrivacy: "🔒 공개 범위: 나를 팔로우하는 사람만 볼 수 있어요.", diaryTitle: "제목 (선택)", diaryMood: "오늘의 기분", diaryBody: "오늘의 일기", diaryPhoto: "사진 1장 (선택)", diaryWrite: "오늘의 일기 쓰기", diarySave: "일기 저장", diaryUpdate: "수정 완료", diaryCancel: "취소", diaryDelete: "삭제", diaryEdit: "수정", diaryTodayExists: "오늘의 일기를 이미 썼어요 ✨ 내일 또 만나요", diaryDeleteConfirm: "일기를 삭제할까요? 삭제한 뒤 오늘 다시 쓸 수 없어요.", diaryEmpty: "아직 쓴 일기가 없어요.", diaryFollowingEmpty: "팔로잉 중인 사람의 일기가 아직 없어요.", diaryFollowRequired: "팔로우하면 일기를 볼 수 있어요 🔒", diaryMutual: "🤝 서로 이웃", diaryHeart: "하트", diaryComment: "댓글", diaryCommentPlaceholder: "짧은 댓글을 남겨주세요 (100자)", diaryCommentSubmit: "등록", diaryPhotoRemove: "사진 삭제", diaryStreak: (count) => `🔥 ${count}일 연속`, diaryCalendar: "달력", diaryList: "목록", diaryNoToday: "오늘은 아직 일기를 쓰지 않았어요.", diaryPhotoError: "사진을 읽지 못했어요.", diaryImageAlt: "일기 사진",
-      welcomeGreeting: (nickname) => `안녕하세요, ${nickname}님! 오늘은 어떤 하루였나요?`, welcomeTotal: "전체 글", welcomeToday: "오늘 올라온 글", welcomeStart: "시작하기", homeLogo: "Haru Pin 홈", welcomeMapLabel: "한국과 일본의 교환일기 지도",
+      feed: "피드", mine: "마이페이지", all: "지역 피드 보기", write: "동네 이야기 나누기",
+      feedAll: "전체", feedJeonju: "전주", feedTokyo: "도쿄", sortNewest: "최신순", sortPopular: "인기순", feedRegionLabel: "도시별 피드", feedSortLabel: "피드 정렬", categoryMapFilterLabel: "지도 카테고리 필터", mapPost: "지도에서 보기", loadMore: "더 보기", postDateLabel: "작성일",
+      diary: "내 일기", diaryToggle: "📔 내 일기", diaryToggleMobile: "📔 내 일기 쓰기", diaryDone: "✓ 오늘 완료", diaryIntro: "오늘의 일기를 남겨보세요", diaryMine: "내 일기", diaryFollowing: "팔로잉 일기", diaryPrivacy: "🔒 공개 범위: 나를 팔로우하는 사람만 볼 수 있어요.", diaryTitle: "제목 (선택)", diaryMood: "오늘의 기분", diaryBody: "오늘의 일기", diaryPhoto: "사진 1장 (선택)", diaryWrite: "오늘의 일기 쓰기", diarySave: "일기 저장", diaryUpdate: "수정 완료", diaryCancel: "취소", diaryDelete: "삭제", diaryEdit: "수정", diaryTodayExists: "오늘의 일기를 이미 썼어요 ✨ 내일 또 만나요", diaryDeleteConfirm: "일기를 삭제할까요? 삭제한 뒤 오늘 다시 쓸 수 없어요.", diaryEmpty: "아직 쓴 일기가 없어요.", diaryFollowingEmpty: "팔로잉 중인 사람의 일기가 아직 없어요.", diaryFollowRequired: "팔로우하면 일기를 볼 수 있어요 🔒", diaryMutual: "🤝 서로 이웃", diaryHeart: "하트", diaryComment: "댓글", diaryCommentPlaceholder: "짧은 댓글을 남겨주세요 (100자)", diaryCommentSubmit: "등록", diaryPhotoRemove: "사진 삭제", diaryStreak: (count) => `🔥 ${count}일 연속`, diaryCalendar: "달력", diaryList: "목록", diaryNoToday: "오늘은 아직 일기를 쓰지 않았어요.", diaryPhotoError: "사진을 읽지 못했어요.", diaryImageAlt: "일기 사진",
+      welcomeGreeting: (nickname) => `안녕하세요, ${nickname}님! 오늘은 어떤 하루였나요?`, welcomeTotal: "전체 글", welcomeToday: "오늘 올라온 글", welcomeStart: "시작하기", homeLogo: "Haru Pin 홈", welcomeMapLabel: "한국과 일본의 피드 지도",
       residence: "거주 지역", place: "장소 이름", category: "카테고리",
       photo: "사진", story: "짧은 글", choose: "선택하세요", submit: "게시글 올리기",
-      like: "좋아요", comment: "댓글", remove: "삭제", example: "예시", empty: "아직 게시글이 없습니다.",
+      like: "좋아요", comment: "댓글", remove: "삭제", example: "예시", empty: "아직 게시글이 없습니다.", noPosts: "아직 피드 글이 없어요. 첫 게시글을 남겨보세요! ✨",
       searchPlaceholder: "카페, 맛집, 관광지 검색", searchButton: "검색", noResults: "검색 결과가 없어요", searchReset: "전체로 돌아가기", searchResultLabel: "게시글 검색 결과", categoryFilterLabel: "카테고리 검색", categoryLegendLabel: "카테고리별 핀 색상", categoryAll: "전체", searchResultMeta: "작성자",
       deleteCommentConfirm: "댓글을 삭제할까요?", deleteCommentPhotoConfirm: "사진만 삭제할까요?", deleteComment: "삭제", deleteCommentPhoto: "사진만 삭제",
       searchError: "검색 중 문제가 생겼어요. 잠시 후 다시 시도해 주세요.", searching: "장소를 찾고 있어요…",
       askNickname: "내 게시글을 모아볼 닉네임을 입력하세요.", commentPrompt: "댓글을 입력하세요.",
-      deleteConfirm: "이 게시글을 삭제할까요?", mapLabel: "하루핀 동네 지도", searchLabel: "장소 검색",
+      deleteConfirm: "이 게시글을 삭제할까요?", mapLabel: "하루핀 피드 지도", searchLabel: "장소 검색",
       compose: "새 게시글 작성", close: "닫기", searchAt: "검색한 장소", postAt: "게시글 위치",
       reaction: "이모티콘 반응 추가", photoAlt: "게시글 사진", saveError: "저장 공간이 부족해요. 사진 크기를 줄여 주세요.",
-      profile: "프로필", setup: "프로필 설정", start: "시작하기", edit: "프로필 수정", backMap: "← 지도로 돌아가기", myPosts: "내 포스트", myComments: "내 댓글", likesTab: "좋아요", save: "저장", nicknameRequired: "닉네임을 입력해주세요", nicknameLength: "닉네임은 2~12자로 입력해주세요.", nicknameTaken: "이미 사용 중인 닉네임이에요.", noProfileItems: "아직 표시할 내용이 없어요.", profilePhoto: "프로필 사진 (선택)", commentOn: "댓글을 단 글", delete: "삭제", profilePhotoAlt: "프로필 사진", photoPreviewAlt: "프로필 사진 미리보기", profileTabsLabel: "프로필 게시물", consentTerms: "[필수] 이용약관 동의", consentPrivacy: "[필수] 개인정보 수집·이용 동의", consentAge: "[필수] 만 14세 이상입니다", missingConsent: "필수 항목에 모두 동의해주세요.", consentAll: "전체 동의", viewFull: "전문 보기", postingWarning: "타인의 얼굴이나 개인정보가 보이는 사진은 올리지 마세요. 올린 글의 책임은 작성자에게 있습니다.", policies: "약관 및 정책", withdraw: "회원 탈퇴", withdrawTitle: "회원 탈퇴 안내", withdrawWarning: "탈퇴하면 아래 정보가 즉시 삭제되고 복구할 수 없어요.", withdrawItems: "삭제되는 정보: 계정, 닉네임, 프로필 사진, 내가 쓴 글과 사진, 내가 쓴 댓글, 좋아요 기록", withdrawCheck: "위 내용을 모두 확인했습니다", withdrawPassword: "비밀번호 재입력 (본인 확인)", cancel: "취소", withdrawSubmit: "탈퇴하기", withdrawWrong: "비밀번호를 확인해주세요.", withdrawDone: "탈퇴가 완료됐어요", policyNotice: "※ 이 문서는 시제품용 임시 초안입니다. 정식 서비스 전에 전문가 검토가 필요합니다.", policyTerms: "이용약관", policyPrivacy: "개인정보 처리방침", policyContent: "콘텐츠 저작권", policyLicense: "오픈소스·지도 라이선스", postingAgree: "게시하려면 안내를 확인하고 동의해주세요."
+      profile: "프로필", setup: "프로필 설정", start: "시작하기", edit: "프로필 수정", backMap: "← 지도로 돌아가기", myPosts: "내 포스트", myComments: "내 댓글", likesTab: "좋아요", save: "저장", nicknameRequired: "닉네임을 입력해주세요", nicknameLength: "닉네임은 2~12자로 입력해주세요.", nicknameTaken: "이미 사용 중인 닉네임이에요.", noProfileItems: "아직 표시할 내용이 없어요.", profilePhoto: "프로필 사진 (선택)", commentOn: "댓글을 단 글", delete: "삭제", profilePhotoAlt: "프로필 사진", photoPreviewAlt: "프로필 사진 미리보기", profileTabsLabel: "프로필 게시물", consentTerms: "[필수] 이용약관 동의", consentPrivacy: "[필수] 개인정보 수집·이용 동의", consentAge: "[필수] 만 14세 이상입니다", missingConsent: "필수 항목에 모두 동의해주세요.", consentAll: "전체 동의", viewFull: "전문 보기", postingWarning: "타인의 얼굴이나 개인정보가 보이는 사진은 올리지 마세요. 올린 글의 책임은 작성자에게 있습니다.", policies: "약관 및 정책", withdraw: "회원 탈퇴", withdrawTitle: "회원 탈퇴 안내", withdrawWarning: "탈퇴하면 아래 정보가 즉시 삭제되고 복구할 수 없어요.", withdrawItems: "삭제되는 정보: 계정, 닉네임, 프로필 사진, 내가 쓴 글과 사진, 내가 쓴 댓글, 좋아요 기록", withdrawCheck: "위 내용을 모두 확인했습니다", withdrawPassword: "비밀번호 재입력 (본인 확인)", cancel: "취소", withdrawSubmit: "탈퇴하기", withdrawWrong: "비밀번호를 확인해주세요.", withdrawDone: "탈퇴가 완료됐어요",       policyNotice: "※ 이 문서는 시제품용 임시 초안입니다. 정식 서비스 전에 전문가 검토가 필요합니다.", policyTerms: "이용약관", policyPrivacy: "개인정보 처리방침", policyContent: "콘텐츠 저작권", policyLicense: "오픈소스·지도 라이선스", postingAgree: "게시하려면 안내를 확인하고 동의해주세요.",
+      savedTab: "저장한 글", saved: "저장", unsaved: "저장됨 ✓", savedEmpty: "아직 저장한 글이 없어요. 마음에 드는 글을 저장해보세요! 🔖", editPost: "수정", edited: "(수정됨)", report: "🚩 신고", block: "차단", unblock: "차단 해제", blocked: "차단한 사용자", noBlocked: "차단한 사용자가 없어요.", reportTitle: "신고 사유를 선택해주세요", reportSubmit: "신고 접수", reportDone: "신고가 접수됐어요.", reportDuplicate: "이미 신고한 항목이에요.", reportOwn: "내 콘텐츠는 신고할 수 없어요.", reasonAbuse: "욕설", reasonIllegal: "불법 촬영물", reasonPrivacy: "개인정보 노출", reasonAdvertising: "광고", reasonOther: "기타", hiddenPost: "신고가 접수되어 숨겨진 글입니다.", blockedEmpty: "차단한 사용자예요.", blockConfirm: "이 사용자를 차단할까요? 서로의 팔로우가 해제됩니다.", unblockConfirm: "차단을 해제할까요?", noComments: "아직 댓글이 없어요. 첫 댓글을 남겨보세요! 💬", noPosts: "아직 피드 글이 없어요. 첫 게시글을 남겨보세요! ✨", noFollowing: "아직 팔로잉이 없어요. 마음에 드는 이웃을 찾아보세요! 🌱", translate: "번역", original: "원문 보기", translating: "번역 중…", translationFailed: "번역하지 못했어요.", titleLimit: "제목은 50자까지 입력할 수 있어요.", storyLimit: "본문은 1000자까지 입력할 수 있어요.", charsRemaining: (count) => `${count}자 남음`, spamBlocked: "같은 내용의 글을 반복해서 게시할 수 없어요.", notificationTitle: "알림", readAll: "모두 읽음", noNotifications: "새 알림이 없어요.", notificationLike: (name) => `${name}님이 내 글을 좋아합니다.`, notificationComment: (name) => `${name}님이 내 글에 댓글을 남겼어요.`, notificationFollow: (name) => `${name}님이 나를 팔로우하기 시작했어요.`, notificationDiary: (name) => `${name}님이 새 일기를 썼어요.`, tutorialHelp: "도움말 다시 보기", tutorialSkip: "다시 보지 않기", tutorialNext: "다음", tutorialPrev: "이전", tutorialDone: "시작하기", tutorialSlides: [{ title: "지도에 핀을 남겨보세요 📍", description: "장소를 골라 공개 피드에 오늘의 이야기와 사진을 공유해요." }, { title: "팔로우하고 일기를 나눠요 🤝", description: "팔로워 전용 일기는 서로 팔로우한 사람들과 더 가까이 나눌 수 있어요." }, { title: "번역으로 마음을 나눠요 🌏", description: "피드 글과 댓글을 번역해 전주와 도쿄의 이야기를 읽어보세요." }], reportPolicy: "욕설, 불법 촬영물, 개인정보 노출, 광고 등은 신고할 수 있으며, 게시글은 3회 신고 시 검토를 위해 자동으로 숨겨집니다.",
+      translationConsent: "번역을 위해 선택한 글과 댓글 내용이 MyMemory 번역 API로 전송됩니다. 계속할까요?"
     },
     ja: {
       appTitle: "Haru Pin ハルピン", tagline: "一日の場所と思い出をつなぐ", languageHeading: "言語設定", loginHeading: "ログイン",
@@ -58,21 +65,23 @@
       accountMissing: "アカウントがありません。先に新規登録してください。", loginFailed: "ニックネームまたはパスワードを確認してください。",
       accountExists: "このIDは登録済みです。ログインしてください。", signupDone: "登録が完了しました。ようこそ！",
       storageError: "ブラウザーの保存領域を利用できません。設定を確認してください。",
-      feed: "交換日記", mine: "マイページ", all: "地域の投稿を見る", write: "街の話をシェア",
-      feedAll: "すべて", feedJeonju: "全州", feedTokyo: "東京", sortNewest: "新着順", sortPopular: "人気順", feedRegionLabel: "都市別フィード", feedSortLabel: "並べ替え", mapPost: "地図で見る", loadMore: "もっと見る", postDateLabel: "投稿日",
-      diary: "日記", diaryMine: "自分の日記", diaryFollowing: "フォロー中の日記", diaryPrivacy: "🔒 公開範囲：自分をフォローしている人だけが読めます。", diaryTitle: "タイトル（任意）", diaryMood: "今日の気分", diaryBody: "今日の日記", diaryPhoto: "写真1枚（任意）", diaryWrite: "今日の日記を書く", diarySave: "日記を保存", diaryUpdate: "更新", diaryCancel: "キャンセル", diaryDelete: "削除", diaryEdit: "編集", diaryTodayExists: "今日の日記はもう書きました ✨ また明日！", diaryDeleteConfirm: "日記を削除しますか？削除後、今日は書き直せません。", diaryEmpty: "日記はまだありません。", diaryFollowingEmpty: "フォロー中の人の日記はまだありません。", diaryFollowRequired: "フォローすると日記を読めます 🔒", diaryMutual: "🤝 相互フォロー", diaryHeart: "ハート", diaryComment: "コメント", diaryCommentPlaceholder: "短いコメントを書く（100文字）", diaryCommentSubmit: "送信", diaryPhotoRemove: "写真を削除", diaryStreak: (count) => `🔥 ${count}日連続`, diaryCalendar: "カレンダー", diaryList: "リスト", diaryNoToday: "今日はまだ日記を書いていません。", diaryPhotoError: "写真を読み込めませんでした。", diaryImageAlt: "日記の写真",
-      welcomeGreeting: (nickname) => `こんにちは、${nickname}さん！今日はどんな一日でしたか？`, welcomeTotal: "全投稿", welcomeToday: "今日の投稿", welcomeStart: "始める", homeLogo: "Haru Pin ホーム", welcomeMapLabel: "韓国と日本の交換日記マップ",
+      feed: "フィード", mine: "マイページ", all: "地域の投稿を見る", write: "街の話をシェア",
+      feedAll: "すべて", feedJeonju: "全州", feedTokyo: "東京", sortNewest: "新着順", sortPopular: "人気順", feedRegionLabel: "都市別フィード", feedSortLabel: "並べ替え", categoryMapFilterLabel: "地図のカテゴリー絞り込み", mapPost: "地図で見る", loadMore: "もっと見る", postDateLabel: "投稿日",
+      diary: "マイ日記", diaryToggle: "📔 マイ日記", diaryToggleMobile: "📔 マイ日記を書く", diaryDone: "✓ 今日完了", diaryIntro: "今日の日記を書いてみましょう", diaryMine: "自分の日記", diaryFollowing: "フォロー中の日記", diaryPrivacy: "🔒 公開範囲：自分をフォローしている人だけが読めます。", diaryTitle: "タイトル（任意）", diaryMood: "今日の気分", diaryBody: "今日の日記", diaryPhoto: "写真1枚（任意）", diaryWrite: "今日の日記を書く", diarySave: "日記を保存", diaryUpdate: "更新", diaryCancel: "キャンセル", diaryDelete: "削除", diaryEdit: "編集", diaryTodayExists: "今日の日記はもう書きました ✨ また明日！", diaryDeleteConfirm: "日記を削除しますか？削除後、今日は書き直せません。", diaryEmpty: "日記はまだありません。", diaryFollowingEmpty: "フォロー中の人の日記はまだありません。", diaryFollowRequired: "フォローすると日記を読めます 🔒", diaryMutual: "🤝 相互フォロー", diaryHeart: "ハート", diaryComment: "コメント", diaryCommentPlaceholder: "短いコメントを書く（100文字）", diaryCommentSubmit: "送信", diaryPhotoRemove: "写真を削除", diaryStreak: (count) => `🔥 ${count}日連続`, diaryCalendar: "カレンダー", diaryList: "リスト", diaryNoToday: "今日はまだ日記を書いていません。", diaryPhotoError: "写真を読み込めませんでした。", diaryImageAlt: "日記の写真",
+      welcomeGreeting: (nickname) => `こんにちは、${nickname}さん！今日はどんな一日でしたか？`, welcomeTotal: "全投稿", welcomeToday: "今日の投稿", welcomeStart: "始める", homeLogo: "Haru Pin ホーム", welcomeMapLabel: "韓国と日本のフィードマップ",
       residence: "居住地", place: "場所", category: "カテゴリー",
       photo: "写真", story: "ひとこと", choose: "選択してください", submit: "投稿する",
-      like: "いいね", comment: "コメント", remove: "削除", example: "サンプル", empty: "投稿はまだありません。",
+      like: "いいね", comment: "コメント", remove: "削除", example: "サンプル", empty: "投稿はまだありません。", noPosts: "フィード投稿はまだありません。最初の投稿を残してみましょう！ ✨",
       searchPlaceholder: "カフェ、グルメ、観光地を検索", searchButton: "検索", noResults: "検索結果がありません", searchReset: "すべてに戻る", searchResultLabel: "投稿の検索結果", categoryFilterLabel: "カテゴリー検索", categoryLegendLabel: "カテゴリー別ピンの色", categoryAll: "すべて", searchResultMeta: "投稿者",
       deleteCommentConfirm: "コメントを削除しますか？", deleteCommentPhotoConfirm: "写真だけを削除しますか？", deleteComment: "削除", deleteCommentPhoto: "写真だけ削除",
       searchError: "検索中に問題が発生しました。しばらくしてから再度お試しください。", searching: "場所を検索しています…",
       askNickname: "自分の投稿を見るニックネームを入力してください。", commentPrompt: "コメントを入力してください。",
-      deleteConfirm: "この投稿を削除しますか？", mapLabel: "ハルピンの街の地図", searchLabel: "場所を検索",
+      deleteConfirm: "この投稿を削除しますか？", mapLabel: "ハルピンのフィードマップ", searchLabel: "場所を検索",
       compose: "新しい投稿を作成", close: "閉じる", searchAt: "検索した場所", postAt: "投稿の場所",
       reaction: "絵文字リアクションを追加", photoAlt: "投稿の写真", saveError: "保存容量が不足しています。写真を小さくしてください。",
-      profile: "プロフィール", setup: "プロフィール設定", start: "始める", edit: "プロフィールを編集", backMap: "← 地図に戻る", myPosts: "自分の投稿", myComments: "自分のコメント", likesTab: "いいね", save: "保存", nicknameRequired: "ニックネームを入力してください", nicknameLength: "ニックネームは2〜12文字で入力してください。", nicknameTaken: "このニックネームは使用されています。", noProfileItems: "表示する内容はまだありません。", profilePhoto: "プロフィール写真（任意）", commentOn: "コメントした投稿", delete: "削除", profilePhotoAlt: "プロフィール写真", photoPreviewAlt: "プロフィール写真のプレビュー", profileTabsLabel: "プロフィールの投稿", consentTerms: "[必須] 利用規約に同意", consentPrivacy: "[必須] 個人情報の収集・利用に同意", consentAge: "[必須] 14歳以上です", missingConsent: "必須項目すべてに同意してください。", consentAll: "すべてに同意", viewFull: "全文を見る", postingWarning: "他人の顔や個人情報が写った写真は投稿しないでください。投稿の責任は投稿者にあります。", policies: "規約とポリシー", withdraw: "退会する", withdrawTitle: "退会のご案内", withdrawWarning: "退会すると、以下の情報はすぐに削除され、元に戻せません。", withdrawItems: "削除される情報：アカウント、ニックネーム、プロフィール写真、自分の投稿と写真、自分のコメント、いいね履歴", withdrawCheck: "上記をすべて確認しました", withdrawPassword: "パスワードを再入力（本人確認）", cancel: "キャンセル", withdrawSubmit: "退会する", withdrawWrong: "パスワードを確認してください。", withdrawDone: "退会が完了しました", policyNotice: "※ この文書は試作版の仮草案です。正式サービスの前に専門家による確認が必要です。", policyTerms: "利用規約", policyPrivacy: "個人情報保護方針", policyContent: "コンテンツの著作権", policyLicense: "オープンソース・地図ライセンス", postingAgree: "投稿するには案内を確認して同意してください。"
+      profile: "プロフィール", setup: "プロフィール設定", start: "始める", edit: "プロフィールを編集", backMap: "← 地図に戻る", myPosts: "自分の投稿", myComments: "自分のコメント", likesTab: "いいね", save: "保存", nicknameRequired: "ニックネームを入力してください", nicknameLength: "ニックネームは2〜12文字で入力してください。", nicknameTaken: "このニックネームは使用されています。", noProfileItems: "表示する内容はまだありません。", profilePhoto: "プロフィール写真（任意）", commentOn: "コメントした投稿", delete: "削除", profilePhotoAlt: "プロフィール写真", photoPreviewAlt: "プロフィール写真のプレビュー", profileTabsLabel: "プロフィールの投稿", consentTerms: "[必須] 利用規約に同意", consentPrivacy: "[必須] 個人情報の収集・利用に同意", consentAge: "[必須] 14歳以上です", missingConsent: "必須項目すべてに同意してください。", consentAll: "すべてに同意", viewFull: "全文を見る", postingWarning: "他人の顔や個人情報が写った写真は投稿しないでください。投稿の責任は投稿者にあります。", policies: "規約とポリシー", withdraw: "退会する", withdrawTitle: "退会のご案内", withdrawWarning: "退会すると、以下の情報はすぐに削除され、元に戻せません。", withdrawItems: "削除される情報：アカウント、ニックネーム、プロフィール写真、自分の投稿と写真、自分のコメント、いいね履歴", withdrawCheck: "上記をすべて確認しました", withdrawPassword: "パスワードを再入力（本人確認）", cancel: "キャンセル", withdrawSubmit: "退会する", withdrawWrong: "パスワードを確認してください。", withdrawDone: "退会が完了しました",       policyNotice: "※ この文書は試作版の仮草案です。正式サービスの前に専門家による確認が必要です。", policyTerms: "利用規約", policyPrivacy: "個人情報保護方針", policyContent: "コンテンツの著作権", policyLicense: "オープンソース・地図ライセンス", postingAgree: "投稿するには案内を確認して同意してください。",
+      savedTab: "保存した投稿", saved: "保存", unsaved: "保存済み ✓", savedEmpty: "保存した投稿はまだありません。気になる投稿を保存してみましょう！ 🔖", editPost: "編集", edited: "(編集済み)", report: "🚩 報告", block: "ブロック", unblock: "ブロック解除", blocked: "ブロック中のユーザー", noBlocked: "ブロック中のユーザーはいません。", reportTitle: "報告理由を選択してください", reportSubmit: "報告する", reportDone: "報告を受け付けました。", reportDuplicate: "この項目はすでに報告されています。", reportOwn: "自分のコンテンツは報告できません。", reasonAbuse: "暴言", reasonIllegal: "違法な盗撮画像", reasonPrivacy: "個人情報の漏えい", reasonAdvertising: "広告", reasonOther: "その他", hiddenPost: "報告を受け付けたため、この投稿は非表示になっています。", blockedEmpty: "ブロック中のユーザーです。", blockConfirm: "このユーザーをブロックしますか？相互のフォローは解除されます。", unblockConfirm: "ブロックを解除しますか？", noComments: "コメントはまだありません。最初のコメントをどうぞ！ 💬", noPosts: "フィード投稿はまだありません。最初の投稿を残してみましょう！ ✨", noFollowing: "フォロー中の人はいません。気になる人を見つけましょう！ 🌱", translate: "翻訳", original: "原文を見る", translating: "翻訳中…", translationFailed: "翻訳できませんでした。", titleLimit: "タイトルは50文字まで入力できます。", storyLimit: "本文は1000文字まで入力できます。", charsRemaining: (count) => `残り${count}文字`, spamBlocked: "同じ内容の投稿を繰り返すことはできません。", notificationTitle: "通知", readAll: "すべて既読", noNotifications: "新しい通知はありません。", notificationLike: (name) => `${name}さんが投稿にいいねしました。`, notificationComment: (name) => `${name}さんが投稿にコメントしました。`, notificationFollow: (name) => `${name}さんがフォローしました。`, notificationDiary: (name) => `${name}さんが新しい日記を書きました。`, tutorialHelp: "ヘルプをもう一度見る", tutorialSkip: "次回から表示しない", tutorialNext: "次へ", tutorialPrev: "戻る", tutorialDone: "始める", tutorialSlides: [{ title: "地図にピンを残しましょう 📍", description: "場所を選び、公開フィードに今日の話や写真を共有しましょう。" }, { title: "フォローして日記を共有 🤝", description: "フォロワー限定の日記は相互フォローの人と分かち合えます。" }, { title: "翻訳で気持ちを共有 🌏", description: "フィード投稿やコメントを翻訳して、全州と東京の話を読みましょう。" }], reportPolicy: "暴言、違法な盗撮画像、個人情報の漏えい、広告などを報告できます。投稿は3回報告されると確認のため自動的に非表示になります。",
+      translationConsent: "翻訳のため、選択した投稿やコメントの内容がMyMemory翻訳APIに送信されます。続けますか？"
     }
   };
   const examples = [
@@ -117,6 +126,10 @@
   let registrationMode = false;
   let activeDetailPostId = "";
   let pendingSignupProfile = false;
+  let postEditId = "";
+  let reportTarget = null;
+  let tutorialIndex = 0;
+  let translationConsentGranted = false;
   let profilePhotoDraft = "";
   let commentPhotoDraft = "";
   let draftLocation = null;
@@ -201,6 +214,8 @@
     if (pendingSignupProfile || !savedProfile) { openProfileSetup(); return; }
     $("#profile-setup-screen").hidden = true;
     $("#profile-page").hidden = true;
+    renderNotifications();
+    updateDiaryToggleState();
     if (showLoginWelcome) showWelcomeMap();
     else {
       $("#welcome-map-screen").hidden = true;
@@ -281,7 +296,7 @@
 
   function fitWelcomeMap() {
     if (!welcomeMap) return;
-    const points = posts.filter((post) => Number.isFinite(post.lat) && Number.isFinite(post.lng))
+    const points = posts.filter((post) => Number.isFinite(post.lat) && Number.isFinite(post.lng) && !isPostHidden(post) && !isBlockedContent(post))
       .map((post) => [post.lat, post.lng]);
     const bounds = L.latLngBounds([[33, 124], [46, 146]]);
     points.forEach((point) => bounds.extend(point));
@@ -291,7 +306,7 @@
   function renderWelcomeMarkers() {
     if (!welcomeMap || !welcomePostLayer) return;
     welcomePostLayer.clearLayers();
-    posts.filter((post) => Number.isFinite(post.lat) && Number.isFinite(post.lng))
+    posts.filter((post) => Number.isFinite(post.lat) && Number.isFinite(post.lng) && !isPostHidden(post) && !isBlockedContent(post))
       .forEach((post) => {
         const marker = L.marker([post.lat, post.lng]);
         const popup = `<strong>${escapeHtml(post.place || post.title || "")}</strong><br>${escapeHtml(post.nickname)}<br><time>${escapeHtml(formatPostDate(post.createdAt))}</time>`;
@@ -303,12 +318,19 @@
 
   /* 로그아웃하면 시작 화면으로 돌아가며 계정은 이 브라우저에 남습니다. */
   function showWelcome() {
+    if (!composePanel.hidden) closeCompose();
     $("#app-shell").hidden = true;
     $("#welcome-screen").hidden = false;
     document.body.classList.remove("app-mode");
+    document.body.classList.remove("diary-open");
+    document.body.classList.remove("compose-open");
     document.body.classList.add("welcome-mode");
     currentNickname = "";
     currentUserId = "";
+    $("#notifications-panel").hidden = true;
+    $("#notifications-button").setAttribute("aria-expanded", "false");
+    $("#diary-panel").hidden = true;
+    $("#diary-toggle").setAttribute("aria-expanded", "false");
     viewingProfileId = "";
     profileHistory = [];
     profileOrigin = { kind: "map" };
@@ -356,6 +378,26 @@
   function getDiaryDate(timestamp = Date.now()) {
     return new Date(timestamp + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
   }
+  // 공개 피드와 하루 한 편의 팔로워 전용 일기는 서로 다른 작성 규칙을 사용합니다.
+  function updateDiaryToggleState() {
+    const now = Date.now();
+    const today = getDiaryDate(now);
+    const done = getDiaries().some((diary) => diary.userId === currentUserId && diary.dateKey === today);
+    const locale = language === "ja" ? "ja-JP" : "ko-KR";
+    const date = new Date(`${today}T12:00:00+09:00`);
+    $("#diary-panel-today").textContent = new Intl.DateTimeFormat(locale, {
+      year: "numeric", month: "long", day: "numeric", weekday: "long", timeZone: "Asia/Tokyo"
+    }).format(date);
+    setText("#diary-panel-prompt", text[language].diaryIntro);
+    setText(".diary-toggle-label-desktop", text[language].diaryToggle);
+    setText(".diary-toggle-label-mobile", text[language].diaryToggleMobile);
+    const status = $("#diary-toggle-status");
+    status.textContent = done ? text[language].diaryDone : "";
+    status.hidden = !done;
+    $("#diary-unwritten-dot").hidden = done;
+    $("#diary-toggle").classList.toggle("has-unwritten-diary", !done);
+    $("#diary-toggle").setAttribute("aria-label", done ? `${text[language].diaryToggle} · ${text[language].diaryDone}` : text[language].diaryToggle);
+  }
   function getDiaries() {
     try {
       const saved = JSON.parse(localStorage.getItem(DIARIES_KEY) || "[]");
@@ -382,7 +424,7 @@
     }
   }
   function visibleDiaryForViewer(diary, viewerId = currentUserId) {
-    return !diary.deleted && (diary.userId === viewerId || getFollowingIds(viewerId).includes(diary.userId));
+    return !diary.deleted && !getBlockedIds(viewerId).includes(diary.userId) && (diary.userId === viewerId || getFollowingIds(viewerId).includes(diary.userId));
   }
   function diaryDateLabel(dateKey) {
     const date = new Date(`${dateKey}T12:00:00+09:00`);
@@ -419,6 +461,234 @@
       if (!data.following[followerId].length) delete data.following[followerId];
     });
     return saveFollowData(data);
+  }
+  // 알림, 신고, 차단, 저장 목록은 현재 사용자별 localStorage 데이터로 관리합니다.
+  function readUserMap(key) {
+    try {
+      const value = JSON.parse(localStorage.getItem(key) || "{}");
+      return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+    } catch (error) {
+      console.warn(`저장 데이터(${key})를 읽지 못했습니다.`, error);
+      return {};
+    }
+  }
+  function getBlockedIds(userId = currentUserId) {
+    const blocks = readUserMap(BLOCKS_KEY);
+    return Array.isArray(blocks[userId]) ? blocks[userId] : [];
+  }
+  function getBookmarks(userId = currentUserId) {
+    const bookmarks = readUserMap(BOOKMARKS_KEY);
+    return Array.isArray(bookmarks[userId]) ? bookmarks[userId] : [];
+  }
+  function saveBookmarks(ids) {
+    const bookmarks = readUserMap(BOOKMARKS_KEY);
+    bookmarks[currentUserId] = [...new Set(ids)];
+    try { localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(bookmarks)); return true; }
+    catch (error) { console.error("저장한 글을 저장하지 못했습니다.", error); alert(text[language].storageError); return false; }
+  }
+  function getReports() {
+    try {
+      const reports = JSON.parse(localStorage.getItem(REPORTS_KEY) || "[]");
+      return Array.isArray(reports) ? reports.filter((report) => report && report.reporterId && report.targetType) : [];
+    } catch (error) { console.warn("신고 정보를 읽지 못했습니다.", error); return []; }
+  }
+  function isPostHidden(post) {
+    return Boolean(post.hiddenByReports) || getReports().filter((report) => report.targetType === "post" && report.targetId === String(post.id)).length >= 3;
+  }
+  function isBlockedContent(post) {
+    return getBlockedIds().includes(userIdForPost(post));
+  }
+  function getNotifications() {
+    try {
+      const notifications = JSON.parse(localStorage.getItem(NOTIFICATIONS_KEY) || "[]");
+      return Array.isArray(notifications) ? notifications.filter((item) => item && item.id && item.recipientId) : [];
+    } catch (error) { console.warn("알림을 읽지 못했습니다.", error); return []; }
+  }
+  function saveNotifications(items) {
+    try { localStorage.setItem(NOTIFICATIONS_KEY, JSON.stringify(items)); return true; }
+    catch (error) { console.error("알림을 저장하지 못했습니다.", error); return false; }
+  }
+  function addNotification(recipientId, type, actorId, postId = "") {
+    if (!recipientId || !actorId || recipientId === actorId || getBlockedIds(recipientId).includes(actorId)) return;
+    const notifications = getNotifications();
+    notifications.unshift({
+      id: `notice-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      recipientId, actorId, type, postId: String(postId || ""), createdAt: new Date().toISOString(), read: false
+    });
+    if (saveNotifications(notifications)) renderNotifications();
+  }
+  function renderNotifications() {
+    const w = text[language], items = getNotifications().filter((item) => item.recipientId === currentUserId);
+    const unread = items.filter((item) => !item.read).length;
+    const badge = $("#notification-count");
+    badge.textContent = String(unread);
+    badge.hidden = !unread;
+    setText("#notifications-title", w.notificationTitle);
+    $("#notifications-panel")?.setAttribute("aria-label", w.notificationTitle);
+    setText("#notifications-read-all", w.readAll);
+    const list = $("#notifications-list");
+    if (!list) return;
+    list.replaceChildren();
+    if (!items.length) {
+      const empty = document.createElement("p"); empty.className = "notification-empty"; empty.textContent = w.noNotifications; list.append(empty); return;
+    }
+    items.slice(0, 50).forEach((item) => {
+      const button = document.createElement("button");
+      button.type = "button"; button.className = `notification-item${item.read ? "" : " is-unread"}`; button.dataset.notificationId = item.id;
+      button.dataset.notificationActor = item.actorId; button.dataset.notificationPost = item.postId;
+      const actor = getPublicProfile(item.actorId).nickname;
+      const message = item.type === "like" ? w.notificationLike(actor) : item.type === "comment" ? w.notificationComment(actor) : item.type === "follow" ? w.notificationFollow(actor) : w.notificationDiary(actor);
+      const label = document.createElement("span"); label.textContent = message;
+      const date = document.createElement("time"); date.dateTime = item.createdAt; date.textContent = formatPostDate(item.createdAt);
+      button.append(label, date); list.append(button);
+    });
+  }
+  function setUserBlocked(userId, block) {
+    if (!userId || userId === currentUserId) return;
+    const blocks = readUserMap(BLOCKS_KEY);
+    const current = Array.isArray(blocks[currentUserId]) ? blocks[currentUserId] : [];
+    blocks[currentUserId] = block ? [...new Set([...current, userId])] : current.filter((id) => id !== userId);
+    if (!blocks[currentUserId].length) delete blocks[currentUserId];
+    try { localStorage.setItem(BLOCKS_KEY, JSON.stringify(blocks)); }
+    catch (error) { console.error("차단 설정을 저장하지 못했습니다.", error); alert(text[language].storageError); return; }
+    if (block) {
+      const previous = getFollowData();
+      previous.following[currentUserId] = getFollowingIds(currentUserId).filter((id) => id !== userId);
+      previous.following[userId] = getFollowingIds(userId).filter((id) => id !== currentUserId);
+      if (!previous.following[currentUserId].length) delete previous.following[currentUserId];
+      if (!previous.following[userId].length) delete previous.following[userId];
+      if (!saveFollowData(previous)) {
+        blocks[currentUserId] = current;
+        if (!blocks[currentUserId].length) delete blocks[currentUserId];
+        try { localStorage.setItem(BLOCKS_KEY, JSON.stringify(blocks)); } catch (error) { console.error("차단 설정을 복구하지 못했습니다.", error); }
+        alert(text[language].storageError);
+        return;
+      }
+    }
+    renderBlockedUsers();
+    renderFeed(); renderMarkers();
+    if (!$("#diary-panel").hidden) renderDiaries();
+    if (welcomeMap && !$("#welcome-map-screen").hidden) renderWelcomeMarkers();
+    if (viewingProfileId) { renderProfileStats(viewingProfileId); renderProfileDiary(viewingProfileId); }
+    if (!$("#post-detail-modal").hidden && activeDetailPostId) {
+      const post = posts.find((entry) => String(entry.id) === activeDetailPostId);
+      if (!post || isBlockedContent(post)) $("#post-detail-modal").hidden = true;
+      else renderPostDetail(post);
+    }
+  }
+  function renderBlockedUsers() {
+    const target = $("#blocked-users-list"); if (!target) return;
+    target.replaceChildren();
+    const ids = getBlockedIds();
+    if (!ids.length) { const empty = document.createElement("p"); empty.textContent = text[language].noBlocked; target.append(empty); return; }
+    ids.forEach((id) => {
+      const row = document.createElement("div"); row.className = "blocked-user-row";
+      const name = document.createElement("span"); name.textContent = getPublicProfile(id).nickname;
+      const button = document.createElement("button"); button.type = "button"; button.dataset.unblockUser = id; button.textContent = text[language].unblock;
+      row.append(name, button); target.append(row);
+    });
+  }
+  function openReport(type, id, postId = "", commentIndex = -1) {
+    reportTarget = { type, id: String(id || ""), postId: String(postId || ""), commentIndex };
+    $("#report-form").reset();
+    $("#report-status").textContent = "";
+    delete $("#report-status").dataset.state;
+    $("#report-modal").hidden = false;
+    setText("#report-title", text[language].reportTitle);
+  }
+  // 번역 요청은 사용자가 동의한 뒤에만 외부 API로 전송합니다.
+  function translateText(source, button, output) {
+    if (!source.trim()) {
+      output.textContent = text[language].translationFailed;
+      output.hidden = false;
+      return;
+    }
+    if (button.dataset.translated === "true") {
+      output.hidden = true;
+      button.dataset.translated = "false";
+      button.textContent = text[language].translate;
+      return;
+    }
+    if (button.dataset.translation) {
+      output.textContent = button.dataset.translation;
+      output.hidden = false;
+      button.dataset.translated = "true";
+      button.textContent = text[language].original;
+      return;
+    }
+    if (!translationConsentGranted) {
+      if (!confirm(text[language].translationConsent)) return;
+      translationConsentGranted = true;
+    }
+    const korean = /[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(source);
+    const japanese = /[ぁ-ゟ゠-ヿ]/.test(source);
+    const sourceLanguage = korean ? "ko" : japanese ? "ja" : button.dataset.sourceLanguage || (language === "ko" ? "ja" : "ko");
+    const pair = `${sourceLanguage}|${sourceLanguage === "ko" ? "ja" : "ko"}`;
+    button.disabled = true;
+    button.textContent = text[language].translating;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 15000);
+    fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(source)}&langpair=${pair}`, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error(`Translation API returned ${response.status}`);
+        return response.json();
+      })
+      .then((result) => {
+        const translated = result?.responseData?.translatedText;
+        if (!translated || result.responseStatus !== 200) throw new Error("Translation API did not return a translation.");
+        button.dataset.translation = translated;
+        button.dataset.translated = "true";
+        delete output.dataset.translationError;
+        output.textContent = translated;
+        output.hidden = false;
+        button.textContent = text[language].original;
+      })
+      .catch((error) => {
+        console.warn("번역 요청에 실패했습니다.", error);
+        output.textContent = text[language].translationFailed;
+        output.dataset.translationError = "true";
+        output.hidden = false;
+        button.textContent = text[language].translate;
+      })
+      .finally(() => { window.clearTimeout(timeout); button.disabled = false; });
+  }
+  function addCommentExtras(item, post, comment, index) {
+    const tools = document.createElement("div"); tools.className = "comment-tools";
+    const translate = document.createElement("button");
+    translate.type = "button"; translate.dataset.translateTarget = `comment-${post.id}-${index}`; translate.textContent = text[language].translate;
+    const commentProfile = getPublicProfile(comment.userId || userIdForNickname(comment.nickname));
+    translate.dataset.sourceLanguage = commentProfile.residence === "tokyo" ? "ja" : "ko";
+    translate.disabled = !comment.text?.trim();
+    const report = document.createElement("button");
+    report.type = "button"; report.dataset.reportType = "comment"; report.dataset.reportPostId = post.id; report.dataset.reportCommentIndex = String(index); report.textContent = text[language].report;
+    tools.append(translate, report); item.append(tools);
+    const translation = document.createElement("p");
+    translation.className = "translation-result"; translation.dataset.translationOutput = `comment-${post.id}-${index}`; translation.hidden = true;
+    item.append(translation);
+  }
+  // 가입 직후에만 자동으로 보여주고, 프로필 도움말에서 다시 열 수 있습니다.
+  function showTutorial() {
+    tutorialIndex = 0;
+    $("#tutorial-skip-checkbox").checked = false;
+    renderTutorial();
+    $("#tutorial-modal").hidden = false;
+  }
+  function renderTutorial() {
+    const w = text[language], slide = w.tutorialSlides[tutorialIndex];
+    setText("#tutorial-step", `${tutorialIndex + 1} / ${w.tutorialSlides.length}`);
+    setText("#tutorial-title", slide.title);
+    setText("#tutorial-description", slide.description);
+    setText("#tutorial-skip-label", w.tutorialSkip);
+    setText("#tutorial-prev", w.tutorialPrev);
+    setText("#tutorial-next", tutorialIndex === w.tutorialSlides.length - 1 ? w.tutorialDone : w.tutorialNext);
+    $("#tutorial-prev").disabled = tutorialIndex === 0;
+  }
+  function closeTutorial() {
+    const seen = readUserMap(TUTORIAL_KEY);
+    seen[currentUserId] = true;
+    try { localStorage.setItem(TUTORIAL_KEY, JSON.stringify(seen)); }
+    catch (error) { console.error("튜토리얼 설정을 저장하지 못했습니다.", error); }
+    $("#tutorial-modal").hidden = true;
   }
   function userIdForNickname(nickname) {
     const normalized = String(nickname || "").toLocaleLowerCase();
@@ -512,6 +782,8 @@
     $("#profile-tabs").hidden = !own;
     $("#profile-diary-section").hidden = own;
     $("#policies-button").hidden = !own;
+    $("#profile-safety-actions").hidden = own;
+    $(".blocked-users-settings").hidden = !own;
     const profile = getPublicProfile(userId);
     setText("#profile-name", profile.nickname);
     setAvatar($("#profile-avatar"), profile);
@@ -522,6 +794,7 @@
       $("#edit-residence").value = profile.residence;
       profilePhotoDraft = profile.photo || "";
       setAvatar($("#edit-avatar-preview"), profile);
+      renderBlockedUsers();
       activeProfileTab = "posts";
     }
     renderProfileStats(userId);
@@ -578,14 +851,19 @@
     requestAnimationFrame(() => map?.invalidateSize());
   }
   function renderProfileStats(userId) {
-    setText("#profile-post-count", `${text[language].postsCount} ${getUserPosts(userId).length} ·`);
+    setText("#profile-post-count", `${text[language].postsCount} ${getUserPosts(userId).filter((post) => !isPostHidden(post) && !isBlockedContent(post)).length} ·`);
     $('[data-follow-list="followers"]').textContent = `${text[language].followers} ${getFollowerIds(userId).length} ·`;
     $('[data-follow-list="following"]').textContent = `${text[language].following} ${getFollowingIds(userId).length}`;
     const button = $("#profile-follow-button");
     button.hidden = userId === currentUserId;
     if (!button.hidden) {
-      button.textContent = getFollowingIds(currentUserId).includes(userId) ? text[language].followed : text[language].follow;
+      const blocked = getBlockedIds().includes(userId);
+      button.disabled = blocked;
+      button.textContent = blocked ? text[language].blockedEmpty : getFollowingIds(currentUserId).includes(userId) ? text[language].followed : text[language].follow;
       button.dataset.followUser = userId;
+      $("#profile-block-button").textContent = getBlockedIds().includes(userId) ? text[language].unblock : text[language].block;
+      $("#profile-block-button").dataset.blockUser = userId;
+      $("#profile-report-button").dataset.reportUserId = userId;
     }
   }
   function renderFollowList(kind) {
@@ -596,7 +874,7 @@
     setText("#follow-list-title", kind === "followers" ? text[language].followers : text[language].following);
     if (!ids.length) {
       const empty = document.createElement("p");
-      empty.textContent = text[language].noFollowList;
+      empty.textContent = kind === "following" && userId === currentUserId ? text[language].noFollowing : text[language].noFollowList;
       target.append(empty);
     }
     ids.forEach((id) => {
@@ -617,12 +895,14 @@
   }
   function toggleFollow(userId) {
     if (!userId || userId === currentUserId) return;
+    if (getBlockedIds().includes(userId)) return;
     const isFollowing = getFollowingIds(currentUserId).includes(userId);
     if (isFollowing && !confirm(text[language].unfollowConfirm)) return;
     if (!setFollowing(userId, !isFollowing)) {
       alert(text[language].storageError);
       return;
     }
+    if (!isFollowing) addNotification(userId, "follow", currentUserId);
     if (viewingProfileId) renderProfileStats(viewingProfileId);
     if (!$("#post-detail-modal").hidden && activeDetailPostId) {
       const post = posts.find((item) => String(item.id) === activeDetailPostId);
@@ -664,23 +944,34 @@
     $$("[data-profile-tab]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.profileTab === activeProfileTab)));
     target.replaceChildren();
     const owner = viewingProfileId === currentUserId;
-    const ownPosts = getUserPosts(viewingProfileId || currentUserId);
+    const ownPosts = getUserPosts(viewingProfileId || currentUserId).filter((post) => !isBlockedContent(post) && !isPostHidden(post));
     let entries = [];
     if (!owner || activeProfileTab === "posts") entries = ownPosts.map((post) => ({ type: "post", post }));
-    if (owner && activeProfileTab === "comments") entries = posts.flatMap((post) => (post.comments || []).map((comment, commentIndex) => ({ type: "comment", post, comment, commentIndex })).filter((entry) => isOwnComment(entry.post, entry.comment)));
-    if (owner && activeProfileTab === "likes") entries = posts.filter((post) => getLikedPostIds().includes(post.id)).map((post) => ({ type: "like", post }));
+    if (owner && activeProfileTab === "comments") entries = posts.filter((post) => !isBlockedContent(post) && !isPostHidden(post)).flatMap((post) => (post.comments || []).map((comment, commentIndex) => ({ type: "comment", post, comment, commentIndex })).filter((entry) => isOwnComment(entry.post, entry.comment) && !getBlockedIds().includes(entry.comment.userId || userIdForNickname(entry.comment.nickname))));
+    if (owner && activeProfileTab === "likes") entries = posts.filter((post) => getLikedPostIds().includes(post.id) && !isBlockedContent(post) && !isPostHidden(post)).map((post) => ({ type: "like", post }));
+    if (owner && activeProfileTab === "saved") entries = posts.filter((post) => getBookmarks().includes(String(post.id)) && !isBlockedContent(post) && !isPostHidden(post)).map((post) => ({ type: "saved", post }));
     if (owner && activeProfileTab === "diary") {
       renderOwnDiaryHistory(target);
       return;
     }
-    if (!entries.length) { const empty = document.createElement("p"); empty.textContent = text[language].noProfileItems; target.append(empty); return; }
+    if (!entries.length) {
+      const empty = document.createElement("p");
+      empty.textContent = activeProfileTab === "saved" ? text[language].savedEmpty : activeProfileTab === "comments" ? text[language].noComments : text[language].noPosts;
+      target.append(empty); return;
+    }
     entries.forEach((entry) => {
       const card = document.createElement("article"); card.className = "profile-item"; card.dataset.profilePostId = entry.post.id; card.tabIndex = 0;
       const title = document.createElement("h3"); title.textContent = entry.type === "comment" ? `${text[language].commentOn}: ${entry.post.place}` : entry.post.place; card.append(title);
       const body = document.createElement("p"); body.textContent = entry.type === "comment" ? entry.comment.text : entry.post.story; card.append(body);
       if (entry.type === "comment" && entry.comment.photo) { const image = document.createElement("img"); image.className = "comment-photo-thumb profile-comment-photo"; image.src = entry.comment.photo; image.alt = text[language].commentPhotoAlt; image.dataset.commentPhoto = "true"; card.append(image); }
       if (entry.type === "comment") appendCommentActions(card, entry.commentIndex, entry.comment);
-      if (owner && entry.type === "post") { const del = document.createElement("button"); del.type = "button"; del.textContent = text[language].delete; del.dataset.profileDelete = entry.post.id; card.append(del); }
+      if (entry.type !== "comment") {
+        const report = document.createElement("button"); report.type = "button"; report.dataset.reportType = "post"; report.dataset.reportPostId = entry.post.id; report.textContent = text[language].report; card.append(report);
+      }
+      if (owner && entry.type === "post") {
+        const edit = document.createElement("button"); edit.type = "button"; edit.textContent = text[language].editPost; edit.dataset.profileEdit = entry.post.id; card.append(edit);
+        const del = document.createElement("button"); del.type = "button"; del.textContent = text[language].delete; del.dataset.profileDelete = entry.post.id; card.append(del);
+      }
       target.append(card);
     });
   }
@@ -733,6 +1024,7 @@
       const comments = document.createElement("ul");
       comments.className = "diary-comments";
       (diary.comments || []).forEach((comment) => {
+        if (getBlockedIds().includes(comment.userId || userIdForNickname(comment.nickname))) return;
         const item = document.createElement("li");
         item.textContent = `${comment.nickname}: ${comment.text}`;
         comments.append(item);
@@ -815,6 +1107,7 @@
     const todayDiary = diaries.find((diary) => diary.userId === currentUserId && diary.dateKey === today);
     const editing = todayDiary && !todayDiary.deleted && editingDiaryId === todayDiary.id;
     const blocked = Boolean(todayDiary && (!editing || todayDiary.deleted));
+    updateDiaryToggleState();
     const form = $("#diary-form");
     if (!form) return;
     $("#diary-daily-status").textContent = blocked ? text[language].diaryTodayExists : "";
@@ -864,7 +1157,7 @@
     const following = getFollowingIds(currentUserId).includes(userId);
     setText("#profile-diary-heading", `${getPublicProfile(userId).nickname} · ${text[language].diary}`);
     target.replaceChildren();
-    if (!following) {
+    if (!following || getBlockedIds().includes(userId)) {
       const locked = document.createElement("p");
       locked.className = "diary-locked";
       locked.textContent = text[language].diaryFollowRequired;
@@ -1067,13 +1360,13 @@
       const select = $(selector);
       if (select) [...select.options].forEach((option) => { option.textContent = locales[option.value].name[language]; });
     });
-    const tabLabels = { posts: w.myPosts, comments: w.myComments, likes: w.likesTab, diary: w.diaryMine };
+    const tabLabels = { posts: w.myPosts, comments: w.myComments, likes: w.likesTab, diary: w.diaryMine, saved: w.savedTab };
     $$('[data-profile-tab]').forEach((button) => { button.textContent = tabLabels[button.dataset.profileTab]; });
     setText("#diary-panel-title", `📔 ${w.diary}`);
     $("#diary-panel")?.setAttribute("aria-label", w.diary);
     $("#diary-panel [role=tablist]")?.setAttribute("aria-label", w.diary);
-    setText("#diary-toggle", `📔 ${w.diary}`);
     $("#diary-toggle")?.setAttribute("aria-expanded", String(!$("#diary-panel").hidden));
+    updateDiaryToggleState();
     $("#diary-close")?.setAttribute("aria-label", w.close);
     $$("[data-diary-tab]").forEach((button) => {
       button.textContent = button.dataset.diaryTab === "following" ? w.diaryFollowing : w.diaryMine;
@@ -1133,6 +1426,7 @@
     $("#search-input")?.setAttribute("aria-label", w.searchLabel);
     $("#place-search button")?.setAttribute("aria-label", w.searchButton);
     $("#category-filters")?.setAttribute("aria-label", w.categoryFilterLabel);
+    $("#map-category-filters")?.setAttribute("aria-label", w.categoryMapFilterLabel);
     $("#category-legend")?.setAttribute("aria-label", w.categoryLegendLabel);
     $("#search-results")?.setAttribute("aria-label", w.searchResultLabel);
     setText("#search-reset", w.searchReset);
@@ -1145,7 +1439,7 @@
     }
     const labels = { nickname: w.nickname, "post-region": w.residence, place: w.place, category: w.category, photo: w.photo, story: w.story };
     Object.entries(labels).forEach(([id, value]) => { const label = $(`label[for="${id}"]`); if (label) label.textContent = value; });
-    setText("#post-form button[type=submit]", w.submit);
+    setText("#post-form button[type=submit]", postEditId ? w.save : w.submit);
     if ($("#profile-page") && !$("#profile-page").hidden) {
       renderProfileTab();
       renderProfileDiary(viewingProfileId);
@@ -1168,6 +1462,28 @@
       button.setAttribute("aria-pressed", String(button.dataset.region === currentRegion));
     });
     updateSignupValidation();
+    setText("#notifications-title", w.notificationTitle);
+    setText("#notifications-read-all", w.readAll);
+    setText("#blocked-users-heading", w.blocked);
+    setText("#tutorial-help-button", w.tutorialHelp);
+    setText("#report-reason-abuse", w.reasonAbuse);
+    setText("#report-reason-illegal", w.reasonIllegal);
+    setText("#report-reason-privacy", w.reasonPrivacy);
+    setText("#report-reason-advertising", w.reasonAdvertising);
+    setText("#report-reason-other", w.reasonOther);
+    setText("#report-submit", w.reportSubmit);
+    setText("#report-title", w.reportTitle);
+    const reportStatus = $("#report-status");
+    if (reportStatus.dataset.state === "done") reportStatus.textContent = w.reportDone;
+    if (reportStatus.dataset.state === "duplicate") reportStatus.textContent = w.reportDuplicate;
+    if (reportStatus.dataset.state === "storage") reportStatus.textContent = w.storageError;
+    $$(".translation-result[data-translation-error='true']").forEach((output) => { output.textContent = w.translationFailed; });
+    $$('[data-report-type]').forEach((button) => { if (button.id !== "post-detail-report") button.textContent = w.report; });
+    $$('[data-translate-target]').forEach((button) => { if (button.dataset.translated !== "true" && button.disabled === false) button.textContent = w.translate; });
+    setText("#post-title-count", w.charsRemaining(Math.max(0, 50 - [...$("#place").value].length)));
+    setText("#post-story-count", w.charsRemaining(Math.max(0, 1000 - [...$("#story").value].length)));
+    if (currentUserId) { renderNotifications(); renderBlockedUsers(); }
+    if (!$("#tutorial-modal").hidden) renderTutorial();
     renderFeed();
     if (viewingProfileId) {
       const profile = getPublicProfile(viewingProfileId);
@@ -1260,13 +1576,13 @@
     }
     const ja = language === "ja";
     const docs = ja ? {
-      terms: ["利用規約", "Haru Pinは全州と東京の大学生が日常を交換する地図サービスです。", "中傷、違法撮影物、著作権侵害、個人情報の公開、差別表現は禁止です。", "報告された投稿は確認のため非表示にする場合があります。サービスを変更または中断する場合があります。"],
-      privacy: ["個人情報保護方針", "ニックネーム、プロフィール写真、パスワード、投稿・写真・コメント・いいねをサービス提供のために扱います。", "退会まで保管し、退会時にすぐ削除します。第三者には提供しません。閲覧・修正・削除・退会を求められます。現在はこのブラウザー内だけに保存されます。"],
+      terms: ["利用規約", "Haru Pinは全州と東京の大学生が日常を共有するフィードサービスです。フォロワー限定の日記は1日1件まで投稿できます。", "中傷、違法撮影物、著作権侵害、個人情報の公開、差別表現、迷惑広告は禁止です。", text[language].reportPolicy, "投稿・コメント・ユーザーを暴言、違法な盗撮画像、個人情報の漏えい、広告、その他の理由で報告できます。報告された投稿は確認のため非表示にする場合があります。"],
+      privacy: ["個人情報保護方針", "ニックネーム、プロフィール写真、パスワード、投稿・写真・コメント・いいねをサービス提供のために扱います。", "退会まで保管し、退会時にすぐ削除します。翻訳ボタンを使用すると、選択した投稿やコメントの文章がMyMemory翻訳APIに送信されます。それ以外の第三者提供はありません。閲覧・修正・削除・退会を求められます。現在はこのブラウザー内だけに保存されます。"],
       content: ["コンテンツの著作権", "投稿した文章と写真の著作権は投稿者にあります。運営のためアプリ内で表示することに同意します。", "他人の写真や顔が写った写真は、同意なく投稿しないでください。"],
       license: ["オープンソース・地図ライセンス", "地図データ © OpenStreetMap contributors（ODbL）。地図表示にはLeaflet、場所検索にはNominatimを使用しています。"]
     } : {
-      terms: ["이용약관", "하루핀은 전주와 도쿄 대학생이 일상을 교환하는 지도 서비스예요.", "타인 비방, 불법 촬영물, 저작권 침해, 개인정보 노출, 혐오 표현은 금지해요.", "신고된 게시글은 확인을 위해 숨길 수 있어요. 서비스를 변경하거나 중단할 수 있어요."],
-      privacy: ["개인정보 처리방침", "닉네임, 프로필 사진, 비밀번호, 작성한 글·사진·댓글·좋아요를 서비스 제공을 위해 수집해요.", "탈퇴할 때까지 보관하고 탈퇴하면 즉시 삭제해요. 제3자에게 제공하지 않아요. 열람·수정·삭제를 요청하거나 탈퇴할 수 있어요. 현재 정보는 이 브라우저에만 저장돼요."],
+      terms: ["이용약관", "하루핀은 전주와 도쿄 대학생이 일상을 나누는 피드 서비스예요. 팔로워 전용 일기는 하루 1개까지 쓸 수 있어요.", "타인 비방, 불법 촬영물, 저작권 침해, 개인정보 노출, 혐오 표현과 스팸 광고는 금지해요.", text[language].reportPolicy, "게시글·댓글·사용자를 욕설, 불법 촬영물, 개인정보 노출, 광고, 기타 사유로 신고할 수 있어요. 서비스를 변경하거나 중단할 수 있어요."],
+      privacy: ["개인정보 처리방침", "닉네임, 프로필 사진, 비밀번호, 작성한 글·사진·댓글·좋아요를 서비스 제공을 위해 수집해요.", "탈퇴할 때까지 보관하고 탈퇴하면 즉시 삭제해요. 번역 버튼을 사용하면 선택한 글과 댓글 내용이 MyMemory 번역 API로 전송돼요. 그 외에는 제3자에게 제공하지 않아요. 열람·수정·삭제를 요청하거나 탈퇴할 수 있어요. 현재 정보는 이 브라우저에만 저장돼요."],
       content: ["콘텐츠 저작권", "올린 글과 사진의 저작권은 작성자에게 있어요. 서비스 운영을 위해 앱 안에서 표시하는 것에 동의해요.", "타인의 사진이나 얼굴이 나온 사진은 동의 없이 올리지 마세요."],
       license: ["오픈소스·지도 라이선스", "지도 데이터 © OpenStreetMap contributors (ODbL). 지도 표시는 Leaflet, 장소 검색은 Nominatim을 사용해요."]
     };
@@ -1305,24 +1621,45 @@
   }
 
   /* 새 게시글을 만들 때 지도에서 고른 위치를 임시 핀으로 표시합니다. */
-  function openCompose(location = null) {
+  function openCompose(location = null, editPost = null) {
+    postEditId = editPost ? String(editPost.id) : "";
+    setText("#post-form-status", "");
     draftLocation = location;
     if (draftMarker) draftMarker.remove();
     draftMarker = location ? L.marker([location.lat, location.lng]).addTo(map) : null;
     if (draftMarker) draftMarker.bindPopup(text[language].postAt).openPopup();
     composePanel.hidden = false;
+    document.body.classList.add("compose-open");
     feedSheet.classList.add("is-collapsed");
     $("#feed-toggle")?.setAttribute("aria-expanded", "false");
     if (location) $("#post-region").value = currentRegion;
     $("#nickname").value = currentNickname;
+    if (editPost) {
+      $("#post-region").value = editPost.region;
+      $("#place").value = editPost.place;
+      $("#category").value = editPost.category;
+      $("#story").value = editPost.story;
+      $("#posting-agreement").checked = true;
+      $("#post-submit-button").disabled = false;
+    } else {
+      form.reset();
+      $("#nickname").value = currentNickname;
+      $("#posting-agreement").checked = false;
+      $("#post-submit-button").disabled = true;
+    }
+    setText("#write-heading", editPost ? text[language].editPost : text[language].write);
+    setText("#post-submit-button", editPost ? text[language].save : text[language].submit);
+    updatePostCharCounts();
     $("#nickname")?.focus({ preventScroll: true });
   }
 
   function closeCompose() {
     composePanel.hidden = true;
+    document.body.classList.remove("compose-open");
     draftLocation = null;
     if (draftMarker) draftMarker.remove();
     draftMarker = null;
+    postEditId = "";
   }
 
   // 작성자 링크와 팔로우 버튼을 공유 렌더링 함수로 만들어 카드·상세 화면을 일치시킵니다.
@@ -1350,6 +1687,11 @@
     const card = document.createElement("article");
     card.className = "post-card";
     card.dataset.postId = post.id;
+    if (isPostHidden(post)) {
+      card.classList.add("post-hidden-notice");
+      const notice = document.createElement("p"); notice.textContent = w.hiddenPost; card.append(notice);
+      return card;
+    }
     card.tabIndex = 0;
     const userId = userIdForPost(post);
     const author = document.createElement("div");
@@ -1379,7 +1721,7 @@
     const date = document.createElement("time");
     date.className = "post-card-date";
     date.dateTime = post.createdAt;
-    date.textContent = formatPostDate(post.createdAt);
+    date.textContent = `${formatPostDate(post.createdAt)}${post.editedAt ? ` ${w.edited}` : ""}`;
     card.append(detail, date);
     const story = document.createElement("p");
     story.textContent = post.story;
@@ -1401,6 +1743,10 @@
     like.type = "button"; like.dataset.action = "like";
     like.textContent = `💙 ${w.like} (${post.likes || 0})`;
     actions.append(like);
+    const bookmark = document.createElement("button");
+    bookmark.type = "button"; bookmark.dataset.action = "bookmark";
+    bookmark.textContent = getBookmarks().includes(String(post.id)) ? `🔖 ${w.unsaved}` : `🔖 ${w.saved}`;
+    actions.append(bookmark);
     const reaction = document.createElement("button");
     reaction.type = "button"; reaction.dataset.action = "reaction";
     reaction.textContent = `${(post.reactions || []).join(" ") || "😊"} +`;
@@ -1414,22 +1760,35 @@
     share.type = "button"; share.dataset.action = "share";
     share.textContent = `🔗 ${w.shareCount} (${post.shares || 0})`;
     actions.append(share);
+    const report = document.createElement("button");
+    report.type = "button"; report.dataset.action = "report"; report.dataset.reportType = "post"; report.textContent = w.report;
+    actions.append(report);
     if (!post.isExample) {
+      if (userId === currentUserId) {
+        const edit = document.createElement("button");
+        edit.type = "button"; edit.dataset.action = "edit"; edit.textContent = w.editPost;
+        actions.append(edit);
+      }
       const remove = document.createElement("button");
       remove.type = "button"; remove.dataset.action = "delete"; remove.textContent = w.remove;
       actions.append(remove);
     }
     card.append(actions);
-    if (post.comments?.length) {
+    const visibleComments = (post.comments || []).filter((entry) => !getBlockedIds().includes(entry.userId || userIdForNickname(entry.nickname)));
+    if (visibleComments.length) {
       const list = document.createElement("ul"); list.className = "comment-list";
       post.comments.forEach((entry, index) => {
+        if (getBlockedIds().includes(entry.userId || userIdForNickname(entry.nickname))) return;
         const item = document.createElement("li");
         item.append(makeProfileLink(entry.nickname, entry.userId || userIdForNickname(entry.nickname), "profile-link-name"), document.createTextNode(`: ${entry.text || ""}`));
         if (entry.photo) { const image = document.createElement("img"); image.className = "comment-photo-thumb"; image.src = entry.photo; image.alt = w.commentPhotoAlt; image.dataset.commentPhoto = "true"; item.append(image); }
         if (isOwnComment(post, entry)) appendCommentActions(item, index, entry);
+        const commentReport = document.createElement("button"); commentReport.type = "button"; commentReport.dataset.reportType = "comment"; commentReport.dataset.reportPostId = post.id; commentReport.dataset.reportCommentIndex = String(index); commentReport.textContent = w.report; item.append(commentReport);
         list.append(item);
       });
       card.append(list);
+    } else {
+      const empty = document.createElement("p"); empty.className = "comment-empty"; empty.textContent = w.noComments; card.append(empty);
     }
     return card;
   }
@@ -1463,6 +1822,7 @@
   function renderFeed() {
     const visible = posts.filter((post) =>
       (!showMine || post.nickname === currentNickname) &&
+      !isBlockedContent(post) &&
       (feedRegionFilter === "all" || post.region === feedRegionFilter) &&
       (categoryFilter === "all" || post.category === categoryFilter) &&
       (activeSearchPostIds === null || activeSearchPostIds.includes(String(post.id)))
@@ -1478,7 +1838,7 @@
     if (!visible.length) {
       const empty = document.createElement("p");
       const hasActiveFilter = feedRegionFilter !== "all" || categoryFilter !== "all" || Boolean($("#search-input").value.trim()) || showMine;
-      empty.textContent = hasActiveFilter ? text[language].noResults : text[language].empty;
+      empty.textContent = hasActiveFilter ? text[language].noResults : text[language].noPosts;
       feed.append(empty);
       $("#feed-load-more").hidden = true;
       if (!$("#search-input").value.trim()) {
@@ -1501,7 +1861,7 @@
 
   // 상세 모달은 게시글 데이터에서 안전하게 DOM을 만들어 내용을 표시합니다.
   function renderPostDetail(post) {
-    if (!post) return;
+    if (!post || isBlockedContent(post) || isPostHidden(post)) return;
     activeDetailPostId = String(post.id);
     const photo = $("#post-detail-photo");
     photo.hidden = !post.photo; photo.src = post.photo || ""; photo.alt = text[language].photoAlt;
@@ -1518,28 +1878,46 @@
     followButton.textContent = getFollowingIds(currentUserId).includes(authorId) ? text[language].followed : text[language].follow;
     const regionName = locales[post.region]?.name[language] || post.city || post.region;
     setText("#post-detail-place-category", `${regionName} · ${categories[language][post.category] || post.category}`);
-    setText("#post-detail-created-at", `${text[language].postDateLabel}: ${formatPostDate(post.createdAt)}`);
+    setText("#post-detail-created-at", `${text[language].postDateLabel}: ${formatPostDate(post.createdAt)}${post.editedAt ? ` ${text[language].edited}` : ""}`);
     setText("#post-detail-story", post.story);
+    $("#post-detail-story-translation").hidden = true;
+    $("#post-detail-story-translation").textContent = "";
+    const translationButton = $('[data-translate-target="post-detail-story"]');
+    translationButton.textContent = text[language].translate;
+    translationButton.dataset.sourceLanguage = getPublicProfile(authorId).residence === "tokyo" ? "ja" : "ko";
+    translationButton.dataset.translation = "";
+    translationButton.dataset.translated = "false";
     const liked = (post.likedBy || []).includes(currentUserId) || getLikedPostIds().includes(post.id);
     setText("#post-detail-like", `💙 ${text[language].like} (${post.likes || 0})${liked ? " ✓" : ""}`);
+    const saved = getBookmarks().includes(String(post.id));
+    setText("#post-detail-bookmark", `🔖 ${saved ? text[language].unsaved : text[language].saved}`);
+    setText("#post-detail-report", text[language].report);
+    $("#post-detail-report").dataset.reportType = "post";
+    $("#post-detail-edit").hidden = userIdForPost(post) !== currentUserId || post.isExample;
+    setText("#post-detail-edit", text[language].editPost);
     setText("#post-detail-share", `🔗 ${text[language].shareCount} (${post.shares || 0})`);
     const list = $("#post-detail-comments"); list.replaceChildren();
     (post.comments || []).forEach((comment, index) => {
+      if (getBlockedIds().includes(comment.userId || userIdForNickname(comment.nickname))) return;
       const item = document.createElement("li");
-      item.append(makeProfileLink(comment.nickname, comment.userId || userIdForNickname(comment.nickname), "profile-link-name"), document.createTextNode(`: ${comment.text || ""}`));
+      const body = document.createElement("span"); body.id = `comment-${post.id}-${index}`; body.textContent = comment.text || "";
+      item.append(makeProfileLink(comment.nickname, comment.userId || userIdForNickname(comment.nickname), "profile-link-name"), document.createTextNode(": "), body);
       if (comment.photo) {
         const image = document.createElement("img"); image.className = "comment-photo-thumb"; image.src = comment.photo;
         image.alt = text[language].commentPhotoAlt; image.dataset.commentPhoto = "true"; item.append(image);
       }
       if (isOwnComment(post, comment)) appendCommentActions(item, index, comment);
+      addCommentExtras(item, post, comment, index);
       list.append(item);
     });
-    if (!post.comments?.length) { const empty = document.createElement("li"); empty.className = "detail-no-comments"; empty.textContent = language === "ko" ? "아직 댓글이 없어요." : "コメントはまだありません。"; list.append(empty); }
+    if (!list.children.length) { const empty = document.createElement("li"); empty.className = "detail-no-comments"; empty.textContent = text[language].noComments; list.append(empty); }
   }
 
   // 카드를 선택하면 해당 핀으로 지도를 옮기고 상세 창을 엽니다.
   function openPostDetail(post) {
     if (!post) return;
+    if (isBlockedContent(post)) { alert(text[language].blockedEmpty); return; }
+    if (isPostHidden(post)) { alert(text[language].hiddenPost); return; }
     clearCommentPhotoDraft();
     detailBackToProfile = Boolean(viewingProfileId && viewingProfileId !== currentUserId);
     $("#post-detail-back").hidden = !detailBackToProfile;
@@ -1554,6 +1932,7 @@
     markers.forEach((marker) => marker.remove());
     markers = [];
     posts.filter((post) =>
+    !isPostHidden(post) && !isBlockedContent(post) &&
       post.region === currentRegion &&
       (categoryFilter === "all" || post.category === categoryFilter) &&
       (activeSearchPostIds === null || activeSearchPostIds.includes(String(post.id))) &&
@@ -1596,12 +1975,12 @@
   // 앱 글 검색은 전체 지역의 게시글 중 선택 카테고리에 해당하는 내용만 찾습니다.
   function findAppPosts(query) {
     const needle = query.trim().toLocaleLowerCase(language);
-    return posts.filter((post) => {
+    return posts.filter((post) => !isPostHidden(post) && !isBlockedContent(post) && (() => {
       if (categoryFilter !== "all" && post.category !== categoryFilter) return false;
       const searchable = [post.title, post.place, post.story, post.nickname]
         .filter(Boolean).join(" ").toLocaleLowerCase(language);
       return searchable.includes(needle);
-    });
+    })());
   }
 
   // 입력 중에는 앱 글 결과만 갱신하고, 외부 장소 검색은 제출할 때만 요청합니다.
@@ -1740,12 +2119,40 @@
     const nickname = $("#nickname").value.trim();
     const region = $("#post-region").value;
     let photo = "";
-    try { photo = await readPhoto($("#photo").files[0]); }
+    const previousPost = postEditId ? posts.find((entry) => String(entry.id) === postEditId) : null;
+    try { photo = $("#photo").files[0] ? await readPhoto($("#photo").files[0]) : previousPost?.photo || ""; }
     catch (error) { console.warn("사진을 읽지 못했습니다.", error); }
+    const place = $("#place").value.trim(), story = $("#story").value.trim();
+    if ([...place].length > 50 || [...story].length > 1000) {
+      setText("#post-form-status", [...place].length > 50 ? text[language].titleLimit : text[language].storyLimit);
+      return;
+    }
+    if (!previousPost) {
+      const normalized = `${place}\n${story}`.replace(/\s+/g, " ").trim().toLocaleLowerCase();
+      const ownRecent = posts.filter((entry) => userIdForPost(entry) === currentUserId && !entry.isExample)
+        .sort((a, b) => (Date.parse(b.createdAt) || 0) - (Date.parse(a.createdAt) || 0));
+      const repeats = ownRecent.findIndex((entry) => `${entry.place}\n${entry.story}`.replace(/\s+/g, " ").trim().toLocaleLowerCase() !== normalized);
+      if (repeats === -1 && ownRecent.length >= 4 || repeats >= 4) {
+        setText("#post-form-status", text[language].spamBlocked);
+        return;
+      }
+    }
+    if (previousPost) {
+      previousPost.place = place;
+      previousPost.story = story;
+      previousPost.region = region;
+      previousPost.category = $("#category").value;
+      previousPost.photo = photo;
+      previousPost.editedAt = new Date().toISOString();
+      savePosts();
+      closeCompose();
+      renderFeed(); renderMarkers();
+      return;
+    }
     const post = {
       id: `post-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-      nickname, region, place: $("#place").value.trim(), category: $("#category").value,
-      story: $("#story").value.trim(), photo, authorId: currentUserId, authorPhoto: getProfile(currentUserId)?.photo || "",
+      nickname, region, place, category: $("#category").value,
+      story, photo, authorId: currentUserId, authorPhoto: getProfile(currentUserId)?.photo || "",
       lat: draftLocation?.lat ?? locales[region].center[0],
       lng: draftLocation?.lng ?? locales[region].center[1],
       likes: 0, reactions: [], comments: [], createdAt: new Date().toISOString(), isExample: false
@@ -1762,6 +2169,12 @@
     $("#feed-toggle").setAttribute("aria-expanded", "true");
     renderMarkers(); renderFeed();
   });
+  function updatePostCharCounts() {
+    setText("#post-title-count", text[language].charsRemaining(Math.max(0, 50 - [...$("#place").value].length)));
+    setText("#post-story-count", text[language].charsRemaining(Math.max(0, 1000 - [...$("#story").value].length)));
+  }
+  $("#place")?.addEventListener("input", updatePostCharCounts);
+  $("#story")?.addEventListener("input", updatePostCharCounts);
 
   /* 카드의 좋아요, 이모티콘, 댓글, 삭제 버튼을 처리합니다. */
   feed.addEventListener("click", (event) => {
@@ -1780,13 +2193,28 @@
     const button = event.target.closest("button[data-action]");
     const post = posts.find((item) => item.id === card.dataset.postId);
     if (!post) return;
+    if (isPostHidden(post)) { alert(text[language].hiddenPost); return; }
     if (button?.dataset.action === "map") { focusPostOnMap(post); return; }
     if (!button) {
       openPostDetail(post);
       return;
     }
     if (button.dataset.action === "share") { sharePost(post); return; }
-    if (button.dataset.action === "like") { post.likedBy = post.likedBy || []; if (!post.likedBy.includes(currentUserId)) { post.likedBy.push(currentUserId); post.likes = (post.likes || 0) + 1; } const liked = getLikedPostIds(); if (!liked.includes(post.id)) saveLikedPostIds([...liked, post.id]); }
+    if (button.dataset.action === "bookmark") {
+      const saved = getBookmarks(), id = String(post.id);
+      saveBookmarks(saved.includes(id) ? saved.filter((entry) => entry !== id) : [...saved, id]);
+      renderFeed(); return;
+    }
+    if (button.dataset.action === "edit") { openCompose(null, post); return; }
+    if (button.dataset.action === "report") return;
+    if (button.dataset.action === "like") {
+      post.likedBy = post.likedBy || [];
+      if (!post.likedBy.includes(currentUserId)) {
+        post.likedBy.push(currentUserId); post.likes = (post.likes || 0) + 1;
+        addNotification(userIdForPost(post), "like", currentUserId, post.id);
+      }
+      const liked = getLikedPostIds(); if (!liked.includes(post.id)) saveLikedPostIds([...liked, post.id]);
+    }
     if (button.dataset.action === "reaction") {
       const options = ["💙", "😊", "☕", "🌿", "😋", "📚", "🎉"];
       const choice = prompt(language === "ko" ? `반응 이모티콘을 골라주세요: ${options.join(" ")}` : `絵文字を選んでください: ${options.join(" ")}`, "💙");
@@ -1794,7 +2222,10 @@
     }
     if (button.dataset.action === "comment") {
       const comment = prompt(text[language].commentPrompt);
-      if (comment?.trim()) post.comments = [...(post.comments || []), { userId: currentUserId, nickname: currentNickname || (language === "ko" ? "이웃" : "ご近所さん"), text: comment.trim() }];
+      if (comment?.trim()) {
+        post.comments = [...(post.comments || []), { id: `comment-${Date.now()}`, userId: currentUserId, nickname: currentNickname || (language === "ko" ? "이웃" : "ご近所さん"), text: [...comment.trim()].slice(0, 500).join("") }];
+        addNotification(userIdForPost(post), "comment", currentUserId, post.id);
+      }
     }
     if (button.dataset.action === "delete") {
       if (!confirm(text[language].deleteConfirm)) return;
@@ -1841,9 +2272,28 @@
   $("#post-detail-like")?.addEventListener("click", () => {
     const post = posts.find((item) => String(item.id) === activeDetailPostId); if (!post) return;
     post.likedBy = post.likedBy || [];
-    if (!post.likedBy.includes(currentUserId)) { post.likedBy.push(currentUserId); post.likes = (post.likes || 0) + 1; }
+    if (!post.likedBy.includes(currentUserId)) {
+      post.likedBy.push(currentUserId); post.likes = (post.likes || 0) + 1;
+      addNotification(userIdForPost(post), "like", currentUserId, post.id);
+    }
     const liked = getLikedPostIds(); if (!liked.includes(post.id)) saveLikedPostIds([...liked, post.id]);
     savePosts(); renderFeed(); renderPostDetail(post); renderMarkers();
+  });
+  $("#post-detail-bookmark")?.addEventListener("click", () => {
+    const id = activeDetailPostId, saved = getBookmarks();
+    if (!id) return;
+    if (saveBookmarks(saved.includes(id) ? saved.filter((entry) => entry !== id) : [...saved, id])) {
+      const post = posts.find((item) => String(item.id) === id);
+      if (post) renderPostDetail(post);
+      renderFeed();
+    }
+  });
+  $("#post-detail-edit")?.addEventListener("click", () => {
+    const post = posts.find((item) => String(item.id) === activeDetailPostId);
+    if (post && userIdForPost(post) === currentUserId && !post.isExample) {
+      $("#post-detail-modal").hidden = true;
+      openCompose(null, post);
+    }
   });
   $("#post-detail-share")?.addEventListener("click", () => { const post = posts.find((item) => String(item.id) === activeDetailPostId); if (post) sharePost(post); });
   $("#post-detail-comment-form")?.addEventListener("submit", (event) => {
@@ -1851,25 +2301,130 @@
     if (!post) return;
     if (!body && !commentPhotoDraft) { $("#post-detail-comment-status").textContent = text[language].commentEmpty; return; }
     post.comments = post.comments || [];
-    post.comments.push({ userId: currentUserId, nickname: currentNickname, text: body, photo: commentPhotoDraft });
+    post.comments.push({ id: `comment-${Date.now()}-${Math.random().toString(36).slice(2, 5)}`, userId: currentUserId, nickname: currentNickname, text: body, photo: commentPhotoDraft });
     if (!savePosts(text[language].commentSaveError)) { post.comments.pop(); return; }
+    addNotification(userIdForPost(post), "comment", currentUserId, post.id);
     $("#post-detail-comment-form").reset(); clearCommentPhotoDraft(); $("#post-detail-comment-status").textContent = ""; renderFeed(); renderPostDetail(post);
   });
   $("#post-detail-comments")?.addEventListener("click", (event) => {
     const action = event.target.closest("[data-comment-action]");
     if (action) updateComment(activeDetailPostId, Number(action.dataset.commentIndex), action.dataset.commentAction);
   });
+  document.addEventListener("click", (event) => {
+    const translateButton = event.target.closest("[data-translate-target]");
+    if (translateButton) {
+      const id = translateButton.dataset.translateTarget;
+      const sourceElement = document.getElementById(id);
+      const output = $$("[data-translation-output]").find((entry) => entry.dataset.translationOutput === id)
+        || document.getElementById(`${id}-translation`);
+      if (sourceElement && output) translateText(sourceElement.textContent, translateButton, output);
+      return;
+    }
+    const blockButton = event.target.closest("[data-block-user]");
+    if (blockButton) {
+      const userId = blockButton.dataset.blockUser;
+      const isBlocked = getBlockedIds().includes(userId);
+      if (!confirm(isBlocked ? text[language].unblockConfirm : text[language].blockConfirm)) return;
+      setUserBlocked(userId, !isBlocked);
+      if (viewingProfileId) renderProfileStats(viewingProfileId);
+      return;
+    }
+    const unblockButton = event.target.closest("[data-unblock-user]");
+    if (unblockButton) {
+      if (confirm(text[language].unblockConfirm)) setUserBlocked(unblockButton.dataset.unblockUser, false);
+      return;
+    }
+    const reportButton = event.target.closest("[data-report-type]");
+    if (reportButton) {
+      const type = reportButton.dataset.reportType;
+      const card = reportButton.closest("[data-post-id]");
+      const postId = reportButton.dataset.reportPostId || card?.dataset.postId || activeDetailPostId;
+      const commentIndex = Number(reportButton.dataset.reportCommentIndex ?? -1);
+      const userId = reportButton.dataset.reportUserId || reportButton.dataset.reportUser || (type === "user" ? viewingProfileId : "");
+      const post = posts.find((item) => String(item.id) === String(postId));
+      const comment = type === "comment" ? post?.comments?.[commentIndex] : null;
+      const targetId = type === "user" ? userId : type === "comment" ? String(comment?.id || `${postId}:${commentIndex}`) : String(postId);
+      if (type === "user" && userId === currentUserId || type === "post" && post && userIdForPost(post) === currentUserId || type === "comment" && comment && (comment.userId || userIdForNickname(comment.nickname)) === currentUserId) {
+        alert(text[language].reportOwn); return;
+      }
+      openReport(type, targetId, postId, commentIndex);
+      return;
+    }
+    const notificationButton = event.target.closest("[data-notification-id]");
+    if (notificationButton) {
+      const notices = getNotifications();
+      const notice = notices.find((item) => item.id === notificationButton.dataset.notificationId && item.recipientId === currentUserId);
+      if (!notice) return;
+      notice.read = true; saveNotifications(notices); renderNotifications();
+      $("#notifications-panel").hidden = true; $("#notifications-button").setAttribute("aria-expanded", "false");
+      $("#welcome-map-screen").hidden = true; $(".map-screen").hidden = false;
+      $("#profile-page").hidden = true; viewingProfileId = ""; profileHistory = [];
+      const post = posts.find((item) => String(item.id) === notice.postId);
+      if (post && !isPostHidden(post) && !isBlockedContent(post)) openPostDetail(post);
+      else openUserProfile(notice.actorId, { kind: "map" });
+      return;
+    }
+  });
+  $("#report-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!reportTarget || !currentUserId) return;
+    const reason = $('input[name="report-reason"]:checked', event.currentTarget)?.value;
+    if (!reason) return;
+    const reports = getReports();
+    const duplicate = reports.some((item) => item.reporterId === currentUserId && item.targetType === reportTarget.type && item.targetId === reportTarget.id && item.postId === reportTarget.postId);
+    if (duplicate) { setText("#report-status", text[language].reportDuplicate); $("#report-status").dataset.state = "duplicate"; return; }
+    reports.push({ reporterId: currentUserId, targetType: reportTarget.type, targetId: reportTarget.id, postId: reportTarget.postId, reason, createdAt: new Date().toISOString() });
+    try { localStorage.setItem(REPORTS_KEY, JSON.stringify(reports)); }
+    catch (error) { console.error("신고를 저장하지 못했습니다.", error); setText("#report-status", text[language].storageError); $("#report-status").dataset.state = "storage"; return; }
+    setText("#report-status", text[language].reportDone);
+    $("#report-status").dataset.state = "done";
+    if (reportTarget.type === "post" && reports.filter((item) => item.targetType === "post" && item.targetId === reportTarget.id).length >= 3) {
+      const reported = posts.find((item) => String(item.id) === reportTarget.id);
+      if (reported) reported.hiddenByReports = true;
+      savePosts();
+    }
+    renderFeed(); renderMarkers();
+    if (welcomeMap) renderWelcomeMarkers();
+    if (activeDetailPostId === reportTarget.id && reportTarget.type === "post" && isPostHidden(posts.find((item) => String(item.id) === activeDetailPostId) || {})) $("#post-detail-modal").hidden = true;
+    window.setTimeout(() => { $("#report-modal").hidden = true; }, 700);
+  });
+  $("#notifications-button")?.addEventListener("click", () => {
+    const panel = $("#notifications-panel"); panel.hidden = !panel.hidden;
+    $("#notifications-button").setAttribute("aria-expanded", String(!panel.hidden));
+    if (!panel.hidden) renderNotifications();
+  });
+  $("#notifications-close")?.addEventListener("click", () => { $("#notifications-panel").hidden = true; $("#notifications-button").setAttribute("aria-expanded", "false"); });
+  $("#notifications-read-all")?.addEventListener("click", () => {
+    const notices = getNotifications().map((item) => item.recipientId === currentUserId ? { ...item, read: true } : item);
+    if (saveNotifications(notices)) renderNotifications();
+  });
+  $("#notifications-panel")?.addEventListener("click", (event) => {
+    if (event.target === $("#notifications-panel")) return;
+    if (event.target.closest("[data-notification-id]")) return;
+  });
+  $$("[data-report-close]").forEach((button) => button.addEventListener("click", () => { $("#report-modal").hidden = true; }));
+  $("#report-modal")?.addEventListener("click", (event) => { if (event.target === $("#report-modal")) $("#report-modal").hidden = true; });
+  $("#tutorial-next")?.addEventListener("click", () => {
+    if (tutorialIndex < text[language].tutorialSlides.length - 1) { tutorialIndex += 1; renderTutorial(); }
+    else closeTutorial();
+  });
+  $("#tutorial-prev")?.addEventListener("click", () => { if (tutorialIndex > 0) { tutorialIndex -= 1; renderTutorial(); } });
+  $("#tutorial-close")?.addEventListener("click", closeTutorial);
+  $("#tutorial-help-button")?.addEventListener("click", showTutorial);
 
   /* 피드 패널을 눌러 펼치거나 접습니다. */
   function openDiaryPanel(tab = "mine") {
     activeDiaryTab = tab;
     $("#diary-panel").hidden = false;
     $("#diary-toggle").setAttribute("aria-expanded", "true");
+    document.body.classList.add("diary-open");
+    updateDiaryToggleState();
     renderDiaries();
   }
   function closeDiaryPanel() {
     $("#diary-panel").hidden = true;
     $("#diary-toggle").setAttribute("aria-expanded", "false");
+    document.body.classList.remove("diary-open");
   }
   $("#diary-toggle")?.addEventListener("click", () => {
     if ($("#diary-panel").hidden) openDiaryPanel();
@@ -1947,6 +2502,7 @@
       });
     }
     if (!saveDiaries(diaries)) return;
+    if (!editing) getFollowerIds(currentUserId).forEach((followerId) => addNotification(followerId, "diary", currentUserId));
     editingDiaryId = "";
     renderDiaries();
     if (viewingProfileId === currentUserId && activeProfileTab === "diary") renderProfileTab();
@@ -2008,7 +2564,7 @@
     const diaryId = form.dataset.diaryComment;
     const diaries = getDiaries();
     const diary = diaries.find((entry) => entry.id === diaryId && !entry.deleted);
-    if (!diary || diary.userId === currentUserId || !getFollowingIds(currentUserId).includes(diary.userId)) return;
+    if (!diary || diary.userId === currentUserId || getBlockedIds().includes(diary.userId) || !getFollowingIds(currentUserId).includes(diary.userId)) return;
     const input = $("input", form);
     const commentText = [...input.value.trim()].slice(0, 100).join("");
     if (!commentText) return;
@@ -2047,6 +2603,7 @@
     const localNow = new Date(now + 9 * 60 * 60 * 1000);
     const nextUtc9Midnight = Date.UTC(localNow.getUTCFullYear(), localNow.getUTCMonth(), localNow.getUTCDate() + 1) - 9 * 60 * 60 * 1000;
     diaryMidnightTimer = window.setTimeout(() => {
+      updateDiaryToggleState();
       if (!$("#diary-panel").hidden) renderDiaries();
       if (viewingProfileId === currentUserId && activeProfileTab === "diary") renderProfileTab();
       scheduleDiaryMidnight();
@@ -2054,6 +2611,7 @@
   }
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) {
+      updateDiaryToggleState();
       if (!$("#diary-panel").hidden) renderDiaries();
       if (viewingProfileId === currentUserId && activeProfileTab === "diary") renderProfileTab();
       scheduleDiaryMidnight();
@@ -2145,12 +2703,14 @@
   $("#start-button")?.addEventListener("click", () => {
     const result = saveProfile($("#setup-nickname").value, profilePhotoDraft, $("#setup-residence").value);
     if (!result.ok) { $("#setup-status").textContent = result.message; return; }
+    const firstSignup = pendingSignupProfile;
     pendingSignupProfile = false;
     $("#profile-setup-screen").hidden = true;
     $("#profile-open-button").hidden = false;
     setText("#signed-in-name", currentNickname);
     applyLanguage();
     showWelcomeMap();
+    if (firstSignup && !readUserMap(TUTORIAL_KEY)[currentUserId]) window.setTimeout(showTutorial, 0);
   });
   $("#profile-open-button")?.addEventListener("click", openProfilePage);
   $("#home-logo")?.addEventListener("click", showWelcomeMap);
@@ -2185,6 +2745,7 @@
   $$('[data-profile-tab]').forEach((button) => button.addEventListener("click", () => { activeProfileTab = button.dataset.profileTab; renderProfileTab(); }));
   $("#profile-content")?.addEventListener("click", (event) => {
     if (event.target.closest("img[data-comment-photo]")) return;
+    if (event.target.closest("[data-report-type]")) return;
     const profileLink = event.target.closest("[data-profile-id]");
     if (profileLink) { openUserProfile(profileLink.dataset.profileId); return; }
     const followButton = event.target.closest("[data-follow-user]");
@@ -2199,6 +2760,15 @@
     if (remove) {
       const id = remove.dataset.profileDelete, post = posts.find((item) => item.id === id);
       if (post && !post.isExample && confirm(text[language].deleteConfirm)) { posts = posts.filter((item) => item.id !== id); savePosts(); renderProfileTab(); renderMarkers(); renderFeed(); }
+      return;
+    }
+    const edit = event.target.closest("[data-profile-edit]");
+    if (edit) {
+      const post = posts.find((item) => String(item.id) === edit.dataset.profileEdit);
+      if (post && userIdForPost(post) === currentUserId) {
+        $("#profile-page").hidden = true; $(".map-screen").hidden = false; viewingProfileId = "";
+        openCompose(null, post); requestAnimationFrame(() => map?.invalidateSize());
+      }
       return;
     }
     const card = event.target.closest("[data-profile-post-id]"); if (!card) return;
@@ -2234,6 +2804,8 @@
       return;
     }
     let oldLikedIds = []; try { oldLikedIds = JSON.parse(localStorage.getItem(LIKES_KEY) || "{}")[userId] || []; } catch (_) {}
+    const deletedPostIds = posts.filter((post) => post.authorId === userId || (!post.authorId && post.nickname === currentNickname)).map((post) => String(post.id));
+    const deletedCommentIds = posts.flatMap((post) => (post.comments || []).filter((comment) => comment.userId === userId || comment.nickname === currentNickname).map((comment) => String(comment.id || "")));
     posts = posts.filter((post) => post.authorId !== userId && (post.authorId || post.nickname !== currentNickname));
     posts.forEach((post) => { const removedLikes = (post.likedBy || []).filter((id) => id === userId).length || (oldLikedIds.includes(post.id) ? 1 : 0); post.likedBy = (post.likedBy || []).filter((id) => id !== userId); post.likes = Math.max(0, (post.likes || 0) - removedLikes); post.comments = (post.comments || []).filter((comment) => comment.userId !== userId && comment.nickname !== currentNickname); });
     savePosts();
@@ -2241,8 +2813,20 @@
       localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(demoAuth.getAccounts().filter((item) => item.nickname !== account.nickname)));
       const profiles = getProfiles(); delete profiles[userId]; localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles));
       const likes = JSON.parse(localStorage.getItem(LIKES_KEY) || "{}"); delete likes[userId]; localStorage.setItem(LIKES_KEY, JSON.stringify(likes));
+      const bookmarks = readUserMap(BOOKMARKS_KEY); delete bookmarks[userId];
+      Object.keys(bookmarks).forEach((id) => { bookmarks[id] = (bookmarks[id] || []).filter((postId) => !deletedPostIds.includes(String(postId))); });
+      localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(bookmarks));
+      const blocks = readUserMap(BLOCKS_KEY); delete blocks[userId];
+      Object.keys(blocks).forEach((id) => { blocks[id] = (blocks[id] || []).filter((blockedId) => blockedId !== userId); });
+      localStorage.setItem(BLOCKS_KEY, JSON.stringify(blocks));
+      const notices = getNotifications().filter((item) => item.recipientId !== userId && item.actorId !== userId && !deletedPostIds.includes(item.postId));
+      saveNotifications(notices);
+      const reports = getReports().filter((item) => item.reporterId !== userId && !(item.targetType === "user" && item.targetId === userId) && !deletedPostIds.includes(item.postId) && !deletedCommentIds.includes(item.targetId));
+      localStorage.setItem(REPORTS_KEY, JSON.stringify(reports));
+      const tutorialSeen = readUserMap(TUTORIAL_KEY); delete tutorialSeen[userId];
+      localStorage.setItem(TUTORIAL_KEY, JSON.stringify(tutorialSeen));
       localStorage.removeItem(SESSION_KEY); localStorage.removeItem(PROFILE_KEY); localStorage.removeItem(ACCOUNT_KEY);
-    } catch (_) {}
+    } catch (error) { console.error("탈퇴 후 계정 데이터를 모두 정리하지 못했습니다.", error); }
     $("#withdraw-modal").hidden = true; showWelcome(); $("#auth-status").textContent = text[language].withdrawDone;
   });
   const syncSignupConsent = () => { const all = [...$$('[data-consent]')].every((box) => box.checked); $("#consent-all").checked = all; updateSignupValidation(); };
@@ -2255,6 +2839,9 @@
     if (!$("#comment-photo-viewer").hidden) $("#comment-photo-viewer").hidden = true;
     if (!$("#policy-modal").hidden) $("#policy-modal").hidden = true;
     if (!$("#withdraw-modal").hidden) $("#withdraw-modal").hidden = true;
+    if (!$("#report-modal").hidden) $("#report-modal").hidden = true;
+    if (!$("#tutorial-modal").hidden) closeTutorial();
+    if (!$("#notifications-panel").hidden) { $("#notifications-panel").hidden = true; $("#notifications-button").setAttribute("aria-expanded", "false"); }
     if (!composePanel.hidden) closeCompose();
   });
 
