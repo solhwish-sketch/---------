@@ -174,6 +174,7 @@
         <div class="diary-panel-tabs" role="tablist" aria-label="일기 보기">
           <button type="button" data-diary-tab="mine" role="tab" aria-selected="true">내 일기</button>
           <button type="button" data-diary-tab="following" role="tab" aria-selected="false">팔로잉 일기</button>
+          <button type="button" data-diary-tab="map" role="tab" aria-selected="false">🗺 일기 지도</button>
         </div>
         <p id="diary-privacy-note" class="diary-privacy-note"></p>
         <section id="diary-compose-section" class="diary-compose-section">
@@ -195,6 +196,20 @@
             <label id="diary-photo-label" for="diary-photo">사진 1장 (선택)</label>
             <input id="diary-photo" type="file" accept="image/*">
             <div id="diary-photo-preview" class="diary-photo-preview" hidden><img alt=""><button type="button" id="diary-photo-remove">×</button></div>
+            <fieldset id="diary-location-controls" class="diary-location-controls">
+              <legend id="diary-location-label"></legend>
+              <div class="diary-location-search">
+                <input id="diary-location-query" type="search" autocomplete="off">
+                <button type="button" id="diary-location-search-button"></button>
+              </div>
+              <p id="diary-location-status" role="status" aria-live="polite"></p>
+              <div id="diary-location-results" class="diary-location-results"></div>
+              <div id="diary-location-picker-map" class="diary-location-picker-map" role="region"></div>
+              <div id="diary-location-preview" class="diary-location-preview" hidden>
+                <input id="diary-location-name" type="text" maxlength="150">
+                <button type="button" id="diary-location-remove"></button>
+              </div>
+            </fieldset>
             <div class="diary-form-actions">
               <button type="submit" id="diary-submit"></button>
               <button type="button" id="diary-cancel-edit" hidden></button>
@@ -202,6 +217,11 @@
           </form>
         </section>
         <div id="diary-content" class="diary-content" aria-live="polite"></div>
+        <section id="diary-map-section" class="diary-map-section" hidden aria-label="일기 지도">
+          <p id="diary-map-privacy-note"></p>
+          <p id="diary-map-empty" class="diary-empty" hidden></p>
+          <div id="diary-map" role="region" aria-label="나와 팔로잉 중인 사람의 일기 위치"></div>
+        </section>
       </aside>
 
       <!-- 빨간색 + 버튼으로 게시글 쓰기를 시작합니다. -->

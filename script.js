@@ -39,7 +39,7 @@
       storageError: "브라우저 저장소를 사용할 수 없어요. 브라우저 설정을 확인해주세요.",
       feed: "피드", mine: "마이페이지", all: "지역 피드 보기", write: "동네 이야기 나누기",
       feedAll: "전체", feedJeonju: "전주", feedTokyo: "도쿄", sortNewest: "최신순", sortPopular: "인기순", feedRegionLabel: "도시별 피드", feedSortLabel: "피드 정렬", categoryMapFilterLabel: "지도 카테고리 필터", mapPost: "지도에서 보기", loadMore: "더 보기", postDateLabel: "작성일",
-      diary: "내 일기", diaryToggle: "📔 내 일기", diaryToggleMobile: "📔 내 일기 쓰기", diaryDone: "✓ 오늘 완료", diaryIntro: "오늘의 일기를 남겨보세요", diaryMine: "내 일기", diaryFollowing: "팔로잉 일기", diaryPrivacy: "🔒 공개 범위: 나를 팔로우하는 사람만 볼 수 있어요.", diaryTitle: "제목 (선택)", diaryMood: "오늘의 기분", diaryBody: "오늘의 일기", diaryPhoto: "사진 1장 (선택)", diaryWrite: "오늘의 일기 쓰기", diarySave: "일기 저장", diaryUpdate: "수정 완료", diaryCancel: "취소", diaryDelete: "삭제", diaryEdit: "수정", diaryTodayExists: "오늘의 일기를 이미 썼어요 ✨ 내일 또 만나요", diaryDeleteConfirm: "일기를 삭제할까요? 삭제한 뒤 오늘 다시 쓸 수 없어요.", diaryEmpty: "아직 쓴 일기가 없어요.", diaryFollowingEmpty: "팔로잉 중인 사람의 일기가 아직 없어요.", diaryFollowRequired: "팔로우하면 일기를 볼 수 있어요 🔒", diaryMutual: "🤝 서로 이웃", diaryHeart: "하트", diaryComment: "댓글", diaryCommentPlaceholder: "짧은 댓글을 남겨주세요 (100자)", diaryCommentSubmit: "등록", diaryPhotoRemove: "사진 삭제", diaryStreak: (count) => `🔥 ${count}일 연속`, diaryCalendar: "달력", diaryList: "목록", diaryNoToday: "오늘은 아직 일기를 쓰지 않았어요.", diaryPhotoError: "사진을 읽지 못했어요.", diaryImageAlt: "일기 사진",
+      diary: "내 일기", diaryToggle: "📔 내 일기", diaryToggleMobile: "📔 내 일기 쓰기", diaryDone: "✓ 오늘 완료", diaryIntro: "오늘의 일기를 남겨보세요", diaryMine: "내 일기", diaryFollowing: "팔로잉 일기", diaryMap: "🗺 일기 지도", diaryPrivacy: "🔒 일기는 나를 팔로우하는 사람에게만 보여요. 일기 위치도 본인과 팔로워에게만 공개돼요.", diaryTitle: "제목 (선택)", diaryMood: "오늘의 기분", diaryBody: "오늘의 일기", diaryPhoto: "사진 1장 (선택)", diaryLocation: "📍 장소 추가 (선택)", diaryLocationSearch: "장소 검색 (Nominatim)", diaryLocationSearchButton: "검색", diaryLocationSearchPlaceholder: "장소 이름을 검색하세요", diaryLocationLoading: "장소를 찾고 있어요…", diaryLocationEmpty: "장소를 찾지 못했어요.", diaryLocationError: "장소를 검색하지 못했어요. 잠시 후 다시 시도해 주세요.", diaryLocationMapLabel: "지도를 클릭해 일기 위치를 선택", diaryLocationRemove: "장소 삭제", diaryLocationSelected: "선택한 위치", diaryLocationAt: (lat, lng) => `지도에서 선택 (${lat.toFixed(5)}, ${lng.toFixed(5)})`, diaryMapPrivacy: "나와 내가 팔로우하는 사람의 일기 위치만 표시됩니다.", diaryMapEmpty: "표시할 일기 장소가 아직 없어요.", diaryMapPopup: (date, author, mood, body) => `<strong>${date}</strong><br>${author} · ${mood}<br>${body}`, diaryLocationLink: (name) => `📍 ${name}`, diaryWrite: "오늘의 일기 쓰기", diarySave: "일기 저장", diaryUpdate: "수정 완료", diaryCancel: "취소", diaryDelete: "삭제", diaryEdit: "수정", diaryTodayExists: "오늘의 일기를 이미 썼어요 ✨ 내일 또 만나요", diaryDeleteConfirm: "일기를 삭제할까요? 삭제한 뒤 오늘 다시 쓸 수 없어요.", diaryEmpty: "아직 쓴 일기가 없어요.", diaryFollowingEmpty: "팔로잉 중인 사람의 일기가 아직 없어요.", diaryFollowRequired: "팔로우하면 일기를 볼 수 있어요 🔒", diaryMutual: "🤝 서로 이웃", diaryHeart: "하트", diaryComment: "댓글", diaryCommentPlaceholder: "짧은 댓글을 남겨주세요 (100자)", diaryCommentSubmit: "등록", diaryPhotoRemove: "사진 삭제", diaryStreak: (count) => `🔥 ${count}일 연속`, diaryCalendar: "달력", diaryList: "목록", diaryNoToday: "오늘은 아직 일기를 쓰지 않았어요.", diaryPhotoError: "사진을 읽지 못했어요.", diaryImageAlt: "일기 사진",
       welcomeGreeting: (nickname) => `안녕하세요, ${nickname}님! 오늘은 어떤 하루였나요?`, welcomeTotal: "전체 글", welcomeToday: "오늘 올라온 글", welcomeStart: "시작하기", homeLogo: "Haru Pin 홈", welcomeMapLabel: "한국과 일본의 피드 지도",
       residence: "거주 지역", place: "장소 이름", category: "카테고리",
       photo: "사진", story: "짧은 글", choose: "선택하세요", submit: "게시글 올리기",
@@ -51,7 +51,7 @@
       deleteConfirm: "이 게시글을 삭제할까요?", mapLabel: "하루핀 피드 지도", searchLabel: "장소 검색",
       compose: "새 게시글 작성", close: "닫기", searchAt: "검색한 장소", postAt: "게시글 위치",
       reaction: "이모티콘 반응 추가", photoAlt: "게시글 사진", saveError: "저장 공간이 부족해요. 사진 크기를 줄여 주세요.",
-      profile: "프로필", setup: "프로필 설정", start: "시작하기", edit: "프로필 수정", backMap: "← 지도로 돌아가기", myPosts: "내 포스트", myComments: "내 댓글", likesTab: "좋아요", save: "저장", nicknameRequired: "닉네임을 입력해주세요", nicknameLength: "닉네임은 2~12자로 입력해주세요.", nicknameTaken: "이미 사용 중인 닉네임이에요.", noProfileItems: "아직 표시할 내용이 없어요.", profilePhoto: "프로필 사진 (선택)", commentOn: "댓글을 단 글", delete: "삭제", profilePhotoAlt: "프로필 사진", photoPreviewAlt: "프로필 사진 미리보기", profileTabsLabel: "프로필 게시물", consentTerms: "[필수] 이용약관 동의", consentPrivacy: "[필수] 개인정보 수집·이용 동의", consentAge: "[필수] 만 14세 이상입니다", missingConsent: "필수 항목에 모두 동의해주세요.", consentAll: "전체 동의", viewFull: "전문 보기", postingWarning: "타인의 얼굴이나 개인정보가 보이는 사진은 올리지 마세요. 올린 글의 책임은 작성자에게 있습니다.", policies: "약관 및 정책", withdraw: "회원 탈퇴", withdrawTitle: "회원 탈퇴 안내", withdrawWarning: "탈퇴하면 아래 정보가 즉시 삭제되고 복구할 수 없어요.", withdrawItems: "삭제되는 정보: 계정, 닉네임, 프로필 사진, 내가 쓴 글과 사진, 내가 쓴 댓글, 좋아요 기록", withdrawCheck: "위 내용을 모두 확인했습니다", withdrawPassword: "비밀번호 재입력 (본인 확인)", cancel: "취소", withdrawSubmit: "탈퇴하기", withdrawWrong: "비밀번호를 확인해주세요.", withdrawDone: "탈퇴가 완료됐어요",       policyNotice: "※ 이 문서는 시제품용 임시 초안입니다. 정식 서비스 전에 전문가 검토가 필요합니다.", policyTerms: "이용약관", policyPrivacy: "개인정보 처리방침", policyContent: "콘텐츠 저작권", policyLicense: "오픈소스·지도 라이선스", postingAgree: "게시하려면 안내를 확인하고 동의해주세요.",
+      profile: "프로필", setup: "프로필 설정", start: "시작하기", edit: "프로필 수정", backMap: "← 지도로 돌아가기", myPosts: "내 포스트", myComments: "내 댓글", likesTab: "좋아요", save: "저장", nicknameRequired: "닉네임을 입력해주세요", nicknameLength: "닉네임은 2~12자로 입력해주세요.", nicknameTaken: "이미 사용 중인 닉네임이에요.", noProfileItems: "아직 표시할 내용이 없어요.", profilePhoto: "프로필 사진 (선택)", commentOn: "댓글을 단 글", delete: "삭제", profilePhotoAlt: "프로필 사진", photoPreviewAlt: "프로필 사진 미리보기", profileTabsLabel: "프로필 게시물", consentTerms: "[필수] 이용약관 동의", consentPrivacy: "[필수] 개인정보 수집·이용 동의", consentAge: "[필수] 만 14세 이상입니다", missingConsent: "필수 항목에 모두 동의해주세요.", consentAll: "전체 동의", viewFull: "전문 보기", postingWarning: "타인의 얼굴이나 개인정보가 보이는 사진은 올리지 마세요. 올린 글의 책임은 작성자에게 있습니다.", policies: "약관 및 정책", withdraw: "회원 탈퇴", withdrawTitle: "회원 탈퇴 안내", withdrawWarning: "탈퇴하면 아래 정보가 즉시 삭제되고 복구할 수 없어요.", withdrawItems: "삭제되는 정보: 계정, 프로필, 내가 쓴 글·사진·댓글·일기·일기 위치, 반응과 팔로우 기록", withdrawCheck: "위 내용을 모두 확인했습니다", withdrawPassword: "비밀번호 재입력 (본인 확인)", cancel: "취소", withdrawSubmit: "탈퇴하기", withdrawWrong: "비밀번호를 확인해주세요.", withdrawDone: "탈퇴가 완료됐어요",       policyNotice: "※ 이 문서는 시제품용 임시 초안입니다. 정식 서비스 전에 전문가 검토가 필요합니다.", policyTerms: "이용약관", policyPrivacy: "개인정보 처리방침", policyContent: "콘텐츠 저작권", policyLicense: "오픈소스·지도 라이선스", postingAgree: "게시하려면 안내를 확인하고 동의해주세요.",
       savedTab: "저장한 글", saved: "저장", unsaved: "저장됨 ✓", savedEmpty: "아직 저장한 글이 없어요. 마음에 드는 글을 저장해보세요! 🔖", editPost: "수정", edited: "(수정됨)", report: "🚩 신고", block: "차단", unblock: "차단 해제", blocked: "차단한 사용자", noBlocked: "차단한 사용자가 없어요.", reportTitle: "신고 사유를 선택해주세요", reportSubmit: "신고 접수", reportDone: "신고가 접수됐어요.", reportDuplicate: "이미 신고한 항목이에요.", reportOwn: "내 콘텐츠는 신고할 수 없어요.", reasonAbuse: "욕설", reasonIllegal: "불법 촬영물", reasonPrivacy: "개인정보 노출", reasonAdvertising: "광고", reasonOther: "기타", hiddenPost: "신고가 접수되어 숨겨진 글입니다.", blockedEmpty: "차단한 사용자예요.", blockConfirm: "이 사용자를 차단할까요? 서로의 팔로우가 해제됩니다.", unblockConfirm: "차단을 해제할까요?", noComments: "아직 댓글이 없어요. 첫 댓글을 남겨보세요! 💬", noPosts: "아직 피드 글이 없어요. 첫 게시글을 남겨보세요! ✨", noFollowing: "아직 팔로잉이 없어요. 마음에 드는 이웃을 찾아보세요! 🌱", translate: "번역", original: "원문 보기", translating: "번역 중…", translationFailed: "번역하지 못했어요.", titleLimit: "제목은 50자까지 입력할 수 있어요.", storyLimit: "본문은 1000자까지 입력할 수 있어요.", charsRemaining: (count) => `${count}자 남음`, spamBlocked: "같은 내용의 글을 반복해서 게시할 수 없어요.", notificationTitle: "알림", readAll: "모두 읽음", noNotifications: "새 알림이 없어요.", notificationLike: (name) => `${name}님이 내 글을 좋아합니다.`, notificationComment: (name) => `${name}님이 내 글에 댓글을 남겼어요.`, notificationFollow: (name) => `${name}님이 나를 팔로우하기 시작했어요.`, notificationDiary: (name) => `${name}님이 새 일기를 썼어요.`, tutorialHelp: "도움말 다시 보기", tutorialSkip: "다시 보지 않기", tutorialNext: "다음", tutorialPrev: "이전", tutorialDone: "시작하기", tutorialSlides: [{ title: "지도에 핀을 남겨보세요 📍", description: "장소를 골라 공개 피드에 오늘의 이야기와 사진을 공유해요." }, { title: "팔로우하고 일기를 나눠요 🤝", description: "팔로워 전용 일기는 서로 팔로우한 사람들과 더 가까이 나눌 수 있어요." }, { title: "번역으로 마음을 나눠요 🌏", description: "피드 글과 댓글을 번역해 전주와 도쿄의 이야기를 읽어보세요." }], reportPolicy: "욕설, 불법 촬영물, 개인정보 노출, 광고 등은 신고할 수 있으며, 게시글은 3회 신고 시 검토를 위해 자동으로 숨겨집니다.",
       translationConsent: "번역을 위해 선택한 글과 댓글 내용이 MyMemory 번역 API로 전송됩니다. 계속할까요?"
     },
@@ -67,7 +67,7 @@
       storageError: "ブラウザーの保存領域を利用できません。設定を確認してください。",
       feed: "フィード", mine: "マイページ", all: "地域の投稿を見る", write: "街の話をシェア",
       feedAll: "すべて", feedJeonju: "全州", feedTokyo: "東京", sortNewest: "新着順", sortPopular: "人気順", feedRegionLabel: "都市別フィード", feedSortLabel: "並べ替え", categoryMapFilterLabel: "地図のカテゴリー絞り込み", mapPost: "地図で見る", loadMore: "もっと見る", postDateLabel: "投稿日",
-      diary: "マイ日記", diaryToggle: "📔 マイ日記", diaryToggleMobile: "📔 マイ日記を書く", diaryDone: "✓ 今日完了", diaryIntro: "今日の日記を書いてみましょう", diaryMine: "自分の日記", diaryFollowing: "フォロー中の日記", diaryPrivacy: "🔒 公開範囲：自分をフォローしている人だけが読めます。", diaryTitle: "タイトル（任意）", diaryMood: "今日の気分", diaryBody: "今日の日記", diaryPhoto: "写真1枚（任意）", diaryWrite: "今日の日記を書く", diarySave: "日記を保存", diaryUpdate: "更新", diaryCancel: "キャンセル", diaryDelete: "削除", diaryEdit: "編集", diaryTodayExists: "今日の日記はもう書きました ✨ また明日！", diaryDeleteConfirm: "日記を削除しますか？削除後、今日は書き直せません。", diaryEmpty: "日記はまだありません。", diaryFollowingEmpty: "フォロー中の人の日記はまだありません。", diaryFollowRequired: "フォローすると日記を読めます 🔒", diaryMutual: "🤝 相互フォロー", diaryHeart: "ハート", diaryComment: "コメント", diaryCommentPlaceholder: "短いコメントを書く（100文字）", diaryCommentSubmit: "送信", diaryPhotoRemove: "写真を削除", diaryStreak: (count) => `🔥 ${count}日連続`, diaryCalendar: "カレンダー", diaryList: "リスト", diaryNoToday: "今日はまだ日記を書いていません。", diaryPhotoError: "写真を読み込めませんでした。", diaryImageAlt: "日記の写真",
+      diary: "マイ日記", diaryToggle: "📔 マイ日記", diaryToggleMobile: "📔 マイ日記を書く", diaryDone: "✓ 今日完了", diaryIntro: "今日の日記を書いてみましょう", diaryMine: "自分の日記", diaryFollowing: "フォロー中の日記", diaryMap: "🗺 日記マップ", diaryPrivacy: "🔒 日記は自分をフォローしている人だけに表示されます。日記の位置情報も本人とフォロワーだけに公開されます。", diaryTitle: "タイトル（任意）", diaryMood: "今日の気分", diaryBody: "今日の日記", diaryPhoto: "写真1枚（任意）", diaryLocation: "📍 場所を追加（任意）", diaryLocationSearch: "場所を検索（Nominatim）", diaryLocationSearchButton: "検索", diaryLocationSearchPlaceholder: "場所の名前を検索", diaryLocationLoading: "場所を検索しています…", diaryLocationEmpty: "場所が見つかりませんでした。", diaryLocationError: "場所を検索できませんでした。しばらくしてからもう一度お試しください。", diaryLocationMapLabel: "地図をクリックして日記の場所を選択", diaryLocationRemove: "場所を削除", diaryLocationSelected: "選択した場所", diaryLocationAt: (lat, lng) => `地図で選択 (${lat.toFixed(5)}, ${lng.toFixed(5)})`, diaryMapPrivacy: "自分と自分がフォローしている人の日記の場所だけが表示されます。", diaryMapEmpty: "表示できる日記の場所はまだありません。", diaryMapPopup: (date, author, mood, body) => `<strong>${date}</strong><br>${author} · ${mood}<br>${body}`, diaryLocationLink: (name) => `📍 ${name}`, diaryWrite: "今日の日記を書く", diarySave: "日記を保存", diaryUpdate: "更新", diaryCancel: "キャンセル", diaryDelete: "削除", diaryEdit: "編集", diaryTodayExists: "今日の日記はもう書きました ✨ また明日！", diaryDeleteConfirm: "日記を削除しますか？削除後、今日は書き直せません。", diaryEmpty: "日記はまだありません。", diaryFollowingEmpty: "フォロー中の人の日記はまだありません。", diaryFollowRequired: "フォローすると日記を読めます 🔒", diaryMutual: "🤝 相互フォロー", diaryHeart: "ハート", diaryComment: "コメント", diaryCommentPlaceholder: "短いコメントを書く（100文字）", diaryCommentSubmit: "送信", diaryPhotoRemove: "写真を削除", diaryStreak: (count) => `🔥 ${count}日連続`, diaryCalendar: "カレンダー", diaryList: "リスト", diaryNoToday: "今日はまだ日記を書いていません。", diaryPhotoError: "写真を読み込めませんでした。", diaryImageAlt: "日記の写真",
       welcomeGreeting: (nickname) => `こんにちは、${nickname}さん！今日はどんな一日でしたか？`, welcomeTotal: "全投稿", welcomeToday: "今日の投稿", welcomeStart: "始める", homeLogo: "Haru Pin ホーム", welcomeMapLabel: "韓国と日本のフィードマップ",
       residence: "居住地", place: "場所", category: "カテゴリー",
       photo: "写真", story: "ひとこと", choose: "選択してください", submit: "投稿する",
@@ -79,7 +79,7 @@
       deleteConfirm: "この投稿を削除しますか？", mapLabel: "ハルピンのフィードマップ", searchLabel: "場所を検索",
       compose: "新しい投稿を作成", close: "閉じる", searchAt: "検索した場所", postAt: "投稿の場所",
       reaction: "絵文字リアクションを追加", photoAlt: "投稿の写真", saveError: "保存容量が不足しています。写真を小さくしてください。",
-      profile: "プロフィール", setup: "プロフィール設定", start: "始める", edit: "プロフィールを編集", backMap: "← 地図に戻る", myPosts: "自分の投稿", myComments: "自分のコメント", likesTab: "いいね", save: "保存", nicknameRequired: "ニックネームを入力してください", nicknameLength: "ニックネームは2〜12文字で入力してください。", nicknameTaken: "このニックネームは使用されています。", noProfileItems: "表示する内容はまだありません。", profilePhoto: "プロフィール写真（任意）", commentOn: "コメントした投稿", delete: "削除", profilePhotoAlt: "プロフィール写真", photoPreviewAlt: "プロフィール写真のプレビュー", profileTabsLabel: "プロフィールの投稿", consentTerms: "[必須] 利用規約に同意", consentPrivacy: "[必須] 個人情報の収集・利用に同意", consentAge: "[必須] 14歳以上です", missingConsent: "必須項目すべてに同意してください。", consentAll: "すべてに同意", viewFull: "全文を見る", postingWarning: "他人の顔や個人情報が写った写真は投稿しないでください。投稿の責任は投稿者にあります。", policies: "規約とポリシー", withdraw: "退会する", withdrawTitle: "退会のご案内", withdrawWarning: "退会すると、以下の情報はすぐに削除され、元に戻せません。", withdrawItems: "削除される情報：アカウント、ニックネーム、プロフィール写真、自分の投稿と写真、自分のコメント、いいね履歴", withdrawCheck: "上記をすべて確認しました", withdrawPassword: "パスワードを再入力（本人確認）", cancel: "キャンセル", withdrawSubmit: "退会する", withdrawWrong: "パスワードを確認してください。", withdrawDone: "退会が完了しました",       policyNotice: "※ この文書は試作版の仮草案です。正式サービスの前に専門家による確認が必要です。", policyTerms: "利用規約", policyPrivacy: "個人情報保護方針", policyContent: "コンテンツの著作権", policyLicense: "オープンソース・地図ライセンス", postingAgree: "投稿するには案内を確認して同意してください。",
+      profile: "プロフィール", setup: "プロフィール設定", start: "始める", edit: "プロフィールを編集", backMap: "← 地図に戻る", myPosts: "自分の投稿", myComments: "自分のコメント", likesTab: "いいね", save: "保存", nicknameRequired: "ニックネームを入力してください", nicknameLength: "ニックネームは2〜12文字で入力してください。", nicknameTaken: "このニックネームは使用されています。", noProfileItems: "表示する内容はまだありません。", profilePhoto: "プロフィール写真（任意）", commentOn: "コメントした投稿", delete: "削除", profilePhotoAlt: "プロフィール写真", photoPreviewAlt: "プロフィール写真のプレビュー", profileTabsLabel: "プロフィールの投稿", consentTerms: "[必須] 利用規約に同意", consentPrivacy: "[必須] 個人情報の収集・利用に同意", consentAge: "[必須] 14歳以上です", missingConsent: "必須項目すべてに同意してください。", consentAll: "すべてに同意", viewFull: "全文を見る", postingWarning: "他人の顔や個人情報が写った写真は投稿しないでください。投稿の責任は投稿者にあります。", policies: "規約とポリシー", withdraw: "退会する", withdrawTitle: "退会のご案内", withdrawWarning: "退会すると、以下の情報はすぐに削除され、元に戻せません。", withdrawItems: "削除される情報：アカウント、プロフィール、自分の投稿・写真・コメント・日記・日記の位置情報、リアクションとフォロー履歴", withdrawCheck: "上記をすべて確認しました", withdrawPassword: "パスワードを再入力（本人確認）", cancel: "キャンセル", withdrawSubmit: "退会する", withdrawWrong: "パスワードを確認してください。", withdrawDone: "退会が完了しました",       policyNotice: "※ この文書は試作版の仮草案です。正式サービスの前に専門家による確認が必要です。", policyTerms: "利用規約", policyPrivacy: "個人情報保護方針", policyContent: "コンテンツの著作権", policyLicense: "オープンソース・地図ライセンス", postingAgree: "投稿するには案内を確認して同意してください。",
       savedTab: "保存した投稿", saved: "保存", unsaved: "保存済み ✓", savedEmpty: "保存した投稿はまだありません。気になる投稿を保存してみましょう！ 🔖", editPost: "編集", edited: "(編集済み)", report: "🚩 報告", block: "ブロック", unblock: "ブロック解除", blocked: "ブロック中のユーザー", noBlocked: "ブロック中のユーザーはいません。", reportTitle: "報告理由を選択してください", reportSubmit: "報告する", reportDone: "報告を受け付けました。", reportDuplicate: "この項目はすでに報告されています。", reportOwn: "自分のコンテンツは報告できません。", reasonAbuse: "暴言", reasonIllegal: "違法な盗撮画像", reasonPrivacy: "個人情報の漏えい", reasonAdvertising: "広告", reasonOther: "その他", hiddenPost: "報告を受け付けたため、この投稿は非表示になっています。", blockedEmpty: "ブロック中のユーザーです。", blockConfirm: "このユーザーをブロックしますか？相互のフォローは解除されます。", unblockConfirm: "ブロックを解除しますか？", noComments: "コメントはまだありません。最初のコメントをどうぞ！ 💬", noPosts: "フィード投稿はまだありません。最初の投稿を残してみましょう！ ✨", noFollowing: "フォロー中の人はいません。気になる人を見つけましょう！ 🌱", translate: "翻訳", original: "原文を見る", translating: "翻訳中…", translationFailed: "翻訳できませんでした。", titleLimit: "タイトルは50文字まで入力できます。", storyLimit: "本文は1000文字まで入力できます。", charsRemaining: (count) => `残り${count}文字`, spamBlocked: "同じ内容の投稿を繰り返すことはできません。", notificationTitle: "通知", readAll: "すべて既読", noNotifications: "新しい通知はありません。", notificationLike: (name) => `${name}さんが投稿にいいねしました。`, notificationComment: (name) => `${name}さんが投稿にコメントしました。`, notificationFollow: (name) => `${name}さんがフォローしました。`, notificationDiary: (name) => `${name}さんが新しい日記を書きました。`, tutorialHelp: "ヘルプをもう一度見る", tutorialSkip: "次回から表示しない", tutorialNext: "次へ", tutorialPrev: "戻る", tutorialDone: "始める", tutorialSlides: [{ title: "地図にピンを残しましょう 📍", description: "場所を選び、公開フィードに今日の話や写真を共有しましょう。" }, { title: "フォローして日記を共有 🤝", description: "フォロワー限定の日記は相互フォローの人と分かち合えます。" }, { title: "翻訳で気持ちを共有 🌏", description: "フィード投稿やコメントを翻訳して、全州と東京の話を読みましょう。" }], reportPolicy: "暴言、違法な盗撮画像、個人情報の漏えい、広告などを報告できます。投稿は3回報告されると確認のため自動的に非表示になります。",
       translationConsent: "翻訳のため、選択した投稿やコメントの内容がMyMemory翻訳APIに送信されます。続けますか？"
     }
@@ -139,6 +139,15 @@
   let welcomeMap;
   let welcomePostLayer;
   let diaryPhotoDraft = "";
+  let diaryLocationDraft = null;
+  let diaryLocationPickerMap = null;
+  let diaryLocationPickerMarker = null;
+  let diaryLocationSearchRequest = null;
+  let diaryMap = null;
+  let diaryMapLayer = null;
+  let diaryMapMarkers = new Map();
+  let diaryFormInitialized = false;
+  let diaryFormDateKey = "";
   let editingDiaryId = "";
   let activeDiaryTab = "mine";
   let diaryViewMode = "list";
@@ -405,6 +414,11 @@
         .filter((diary) => diary && diary.id && diary.userId && /^\d{4}-\d{2}-\d{2}$/.test(diary.dateKey))
         .map((diary) => ({
           ...diary,
+          location: isValidDiaryLocation(diary.location) &&
+            Number.isFinite(Number(diary.location.lat)) && Math.abs(Number(diary.location.lat)) <= 90 &&
+            Number.isFinite(Number(diary.location.lng)) && Math.abs(Number(diary.location.lng)) <= 180
+            ? { name: diary.location.name.slice(0, 150), lat: Number(diary.location.lat), lng: Number(diary.location.lng) }
+            : null,
           heartBy: Array.isArray(diary.heartBy) ? diary.heartBy : [],
           comments: Array.isArray(diary.comments) ? diary.comments.filter((comment) => comment && typeof comment.text === "string") : []
         })) : [];
@@ -423,8 +437,175 @@
       return false;
     }
   }
+  function isValidDiaryLocation(location) {
+    return Boolean(location && typeof location.name === "string" && location.name.trim() &&
+      location.lat !== null && location.lat !== "" && Number.isFinite(Number(location.lat)) &&
+      location.lng !== null && location.lng !== "" && Number.isFinite(Number(location.lng)));
+  }
   function visibleDiaryForViewer(diary, viewerId = currentUserId) {
     return !diary.deleted && !getBlockedIds(viewerId).includes(diary.userId) && (diary.userId === viewerId || getFollowingIds(viewerId).includes(diary.userId));
+  }
+  function setDiaryLocation(location) {
+    const valid = isValidDiaryLocation(location) &&
+      Math.abs(Number(location.lat)) <= 90 && Math.abs(Number(location.lng)) <= 180;
+    diaryLocationDraft = valid
+      ? { name: location.name.trim().slice(0, 150) || text[language].diaryLocationSelected, lat: Number(location.lat), lng: Number(location.lng) }
+      : null;
+    const preview = $("#diary-location-preview");
+    preview.hidden = !diaryLocationDraft;
+    $("#diary-location-name").value = diaryLocationDraft?.name || "";
+    if (diaryLocationPickerMarker) {
+      diaryLocationPickerMarker.remove();
+      diaryLocationPickerMarker = null;
+    }
+    if (diaryLocationDraft && diaryLocationPickerMap) {
+      const point = [diaryLocationDraft.lat, diaryLocationDraft.lng];
+      diaryLocationPickerMarker = L.marker(point).addTo(diaryLocationPickerMap);
+      diaryLocationPickerMarker.bindPopup(escapeHtml(diaryLocationDraft.name));
+      diaryLocationPickerMap.setView(point, Math.max(14, diaryLocationPickerMap.getZoom()));
+    }
+  }
+  function initializeDiaryLocationPicker() {
+    const element = $("#diary-location-picker-map");
+    if (!element || diaryLocationPickerMap || !window.L) return;
+    diaryLocationPickerMap = L.map(element, { zoomControl: true });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    }).addTo(diaryLocationPickerMap);
+    diaryLocationPickerMap.setView(locales[currentRegion].center, 12);
+    diaryLocationPickerMap.on("click", (event) => {
+      setDiaryLocation({
+        name: text[language].diaryLocationAt(event.latlng.lat, event.latlng.lng),
+        lat: event.latlng.lat,
+        lng: event.latlng.lng
+      });
+    });
+    requestAnimationFrame(() => {
+      diaryLocationPickerMap.invalidateSize();
+      if (diaryLocationDraft) setDiaryLocation(diaryLocationDraft);
+    });
+  }
+  async function searchDiaryLocation() {
+    const query = $("#diary-location-query").value.trim();
+    const status = $("#diary-location-status");
+    const resultsTarget = $("#diary-location-results");
+    resultsTarget.replaceChildren();
+    if (!query) {
+      status.textContent = text[language].diaryLocationEmpty;
+      return;
+    }
+    if (diaryLocationSearchRequest) diaryLocationSearchRequest.abort();
+    const request = new AbortController();
+    diaryLocationSearchRequest = request;
+    status.textContent = text[language].diaryLocationLoading;
+    try {
+      const wait = Math.max(0, 1100 - (Date.now() - lastSearchTime));
+      if (wait) await new Promise((resolve) => setTimeout(resolve, wait));
+      if (request.signal.aborted) return;
+      lastSearchTime = Date.now();
+      const params = new URLSearchParams({
+        format: "jsonv2",
+        q: query,
+        limit: "5",
+        addressdetails: "1",
+        "accept-language": language
+      });
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
+        headers: { Accept: "application/json" },
+        signal: request.signal
+      });
+      if (!response.ok) throw new Error(`Nominatim returned ${response.status}`);
+      const results = await response.json();
+      if (diaryLocationSearchRequest !== request) return;
+      if (!Array.isArray(results) || !results.length) {
+        status.textContent = text[language].diaryLocationEmpty;
+        return;
+      }
+      status.textContent = "";
+      results.forEach((result) => {
+        const lat = Number(result.lat);
+        const lng = Number(result.lon);
+        if (!Number.isFinite(lat) || Math.abs(lat) > 90 || !Number.isFinite(lng) || Math.abs(lng) > 180) return;
+        const name = String(result.name || result.display_name || query).slice(0, 150);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = String(result.display_name || name);
+        button.addEventListener("click", () => {
+          setDiaryLocation({ name, lat, lng });
+          resultsTarget.replaceChildren();
+          status.textContent = "";
+        });
+        resultsTarget.append(button);
+      });
+      if (!resultsTarget.childElementCount) status.textContent = text[language].diaryLocationEmpty;
+    } catch (error) {
+      if (error.name === "AbortError") return;
+      console.error("일기 장소를 검색하지 못했습니다.", error);
+      if (diaryLocationSearchRequest === request) status.textContent = text[language].diaryLocationError;
+    } finally {
+      if (diaryLocationSearchRequest === request) diaryLocationSearchRequest = null;
+    }
+  }
+  function initializeDiaryMap() {
+    const element = $("#diary-map");
+    if (!element || diaryMap || !window.L) return;
+    diaryMap = L.map(element, { zoomControl: true });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    }).addTo(diaryMap);
+    diaryMapLayer = L.layerGroup().addTo(diaryMap);
+    diaryMap.setView([36.5, 134], 4);
+  }
+  // 일기 위치는 공개 피드 핀과 분리해 작성자와 팔로워에게만 표시합니다.
+  function renderDiaryMap(focusDiaryId = "") {
+    initializeDiaryMap();
+    if (!diaryMap || !diaryMapLayer) return;
+    diaryMapLayer.clearLayers();
+    diaryMapMarkers = new Map();
+    const entries = getDiaries().filter((diary) => visibleDiaryForViewer(diary) && diary.location);
+    $("#diary-map-empty").hidden = entries.length > 0;
+    $("#diary-map-empty").textContent = text[language].diaryMapEmpty;
+    entries.forEach((diary) => {
+      const location = diary.location;
+      const marker = L.marker([location.lat, location.lng], {
+        icon: L.divIcon({
+          className: "diary-location-marker",
+          html: '<span class="diary-location-pin" aria-hidden="true">★</span>',
+          iconSize: [34, 40],
+          iconAnchor: [17, 34]
+        })
+      }).addTo(diaryMapLayer);
+      const excerpt = [...String(diary.body || "")].slice(0, 110).join("");
+      const popup = document.createElement("div");
+      popup.className = "diary-map-popup";
+      const heading = document.createElement("strong");
+      heading.textContent = diaryDateLabel(diary.dateKey);
+      const author = document.createElement("div");
+      author.textContent = `${getPublicProfile(diary.userId).nickname} · ${diary.mood || "😊"}`;
+      const body = document.createElement("div");
+      body.className = "diary-map-popup-body";
+      body.textContent = excerpt;
+      popup.append(heading, author, body);
+      marker.bindPopup(popup);
+      diaryMapMarkers.set(diary.id, marker);
+    });
+    requestAnimationFrame(() => {
+      diaryMap.invalidateSize();
+      if (focusDiaryId && diaryMapMarkers.has(focusDiaryId)) {
+        const marker = diaryMapMarkers.get(focusDiaryId);
+        diaryMap.setView(marker.getLatLng(), 15);
+        marker.openPopup();
+      } else if (entries.length === 1) {
+        const location = entries[0].location;
+        diaryMap.setView([location.lat, location.lng], 12);
+      } else if (entries.length > 1) {
+        diaryMap.fitBounds(L.latLngBounds(entries.map((diary) => [diary.location.lat, diary.location.lng])), { padding: [24, 24], maxZoom: 11 });
+      } else {
+        diaryMap.setView([36.5, 134], 4);
+      }
+    });
   }
   function diaryDateLabel(dateKey) {
     const date = new Date(`${dateKey}T12:00:00+09:00`);
@@ -1003,6 +1184,15 @@
     body.className = "diary-card-body";
     body.textContent = diary.body || "";
     card.append(heading, meta, body);
+    if (diary.location) {
+      const location = document.createElement("button");
+      location.type = "button";
+      location.className = "diary-location-link";
+      location.dataset.diaryAction = "location";
+      location.setAttribute("aria-label", w.diaryLocationLink(diary.location.name));
+      location.textContent = w.diaryLocationLink(diary.location.name);
+      card.append(location);
+    }
     if (diary.photo) {
       const image = document.createElement("img");
       image.className = "diary-card-photo";
@@ -1069,13 +1259,20 @@
   function renderDiaries() {
     const target = $("#diary-content");
     if (!target) return;
+    const mapTab = activeDiaryTab === "map";
     const followingTab = activeDiaryTab === "following";
-    $("#diary-compose-section").hidden = followingTab;
+    $("#diary-compose-section").hidden = followingTab || mapTab;
     $("#diary-privacy-note").hidden = followingTab;
+    $("#diary-map-section").hidden = !mapTab;
+    target.hidden = mapTab;
     $$("[data-diary-tab]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.diaryTab === activeDiaryTab)));
+    if (mapTab) {
+      renderDiaryMap();
+      return;
+    }
     target.replaceChildren();
     if (!followingTab) {
-      const mine = getDiaries().filter((diary) => diary.userId === currentUserId && !diary.deleted)
+      const mine = getDiaries().filter((diary) => diary.userId === currentUserId && visibleDiaryForViewer(diary))
         .sort((a, b) => b.dateKey.localeCompare(a.dateKey));
       if (!mine.length) {
         const empty = document.createElement("p");
@@ -1084,10 +1281,10 @@
         target.append(empty);
       } else mine.forEach((diary) => target.append(makeDiaryCard(diary, { ownerControls: true, canEdit: diary.dateKey === getDiaryDate() })));
       syncDiaryForm();
+      initializeDiaryLocationPicker();
       return;
     }
-    const following = new Set(getFollowingIds(currentUserId));
-    const entries = getDiaries().filter((diary) => !diary.deleted && following.has(diary.userId))
+    const entries = getDiaries().filter((diary) => diary.userId !== currentUserId && visibleDiaryForViewer(diary))
       .sort((a, b) => b.dateKey.localeCompare(a.dateKey) || (Date.parse(b.updatedAt || b.createdAt) || 0) - (Date.parse(a.updatedAt || a.createdAt) || 0));
     if (!entries.length) {
       const empty = document.createElement("p");
@@ -1096,9 +1293,7 @@
       target.append(empty);
       return;
     }
-    entries.forEach((diary) => {
-      if (following.has(diary.userId)) target.append(makeDiaryCard(diary, { interactive: true }));
-    });
+    entries.forEach((diary) => target.append(makeDiaryCard(diary, { interactive: true })));
   }
 
   function syncDiaryForm() {
@@ -1121,10 +1316,18 @@
     $("#diary-cancel-edit").hidden = !editing;
     $("#diary-cancel-edit").textContent = text[language].diaryCancel;
     if (!editing) {
-      form.reset();
-      diaryPhotoDraft = "";
-      $("#diary-photo-preview").hidden = true;
-      $("#diary-char-count").textContent = "0 / 500";
+      const resetDraft = blocked || !diaryFormInitialized || diaryFormDateKey !== today;
+      if (resetDraft) {
+        form.reset();
+        diaryPhotoDraft = "";
+        $("#diary-photo-preview").hidden = true;
+        $("#diary-char-count").textContent = "0 / 500";
+        setDiaryLocation(null);
+        $("#diary-location-results").replaceChildren();
+        $("#diary-location-status").textContent = "";
+      }
+      diaryFormInitialized = true;
+      diaryFormDateKey = today;
     } else {
       const diary = todayDiary;
       $("#diary-title").value = diary.title || "";
@@ -1134,6 +1337,9 @@
       diaryPhotoDraft = diary.photo || "";
       setDiaryPhotoPreview(diaryPhotoDraft);
       $("#diary-char-count").textContent = `${[...diary.body].length} / 500`;
+      setDiaryLocation(diary.location || null);
+      diaryFormInitialized = true;
+      diaryFormDateKey = today;
     }
   }
 
@@ -1369,7 +1575,8 @@
     updateDiaryToggleState();
     $("#diary-close")?.setAttribute("aria-label", w.close);
     $$("[data-diary-tab]").forEach((button) => {
-      button.textContent = button.dataset.diaryTab === "following" ? w.diaryFollowing : w.diaryMine;
+      button.textContent = button.dataset.diaryTab === "following" ? w.diaryFollowing
+        : button.dataset.diaryTab === "map" ? w.diaryMap : w.diaryMine;
       button.setAttribute("aria-selected", String(button.dataset.diaryTab === activeDiaryTab));
     });
     setText("#diary-privacy-note", w.diaryPrivacy);
@@ -1377,6 +1584,16 @@
     setText("#diary-mood-label", w.diaryMood);
     setText("#diary-body-label", w.diaryBody);
     setText("#diary-photo-label", w.diaryPhoto);
+    setText("#diary-location-label", w.diaryLocation);
+    $("#diary-location-query")?.setAttribute("placeholder", w.diaryLocationSearchPlaceholder);
+    $("#diary-location-query")?.setAttribute("aria-label", w.diaryLocationSearch);
+    $("#diary-location-name")?.setAttribute("aria-label", w.diaryLocationSelected);
+    setText("#diary-location-search-button", w.diaryLocationSearchButton);
+    setText("#diary-location-remove", w.diaryLocationRemove);
+    $("#diary-location-picker-map")?.setAttribute("aria-label", w.diaryLocationMapLabel);
+    $("#diary-map-section")?.setAttribute("aria-label", w.diaryMap);
+    $("#diary-map")?.setAttribute("aria-label", w.diaryMap);
+    setText("#diary-map-privacy-note", w.diaryMapPrivacy);
     setText("#diary-photo-remove", "×");
     $("#diary-photo-remove")?.setAttribute("aria-label", w.diaryPhotoRemove);
     setText("#profile-diary-heading", `${getPublicProfile(viewingProfileId || currentUserId).nickname} · ${w.diary}`);
@@ -1485,6 +1702,7 @@
     if (currentUserId) { renderNotifications(); renderBlockedUsers(); }
     if (!$("#tutorial-modal").hidden) renderTutorial();
     renderFeed();
+    if (currentUserId && !$("#diary-panel").hidden && activeDiaryTab === "map") renderDiaryMap();
     if (viewingProfileId) {
       const profile = getPublicProfile(viewingProfileId);
       $("#profile-joined").textContent = `${w.joinedAt}: ${formatJoinedAt(profile.joinedAt)}`;
@@ -1576,13 +1794,13 @@
     }
     const ja = language === "ja";
     const docs = ja ? {
-      terms: ["利用規約", "Haru Pinは全州と東京の大学生が日常を共有するフィードサービスです。フォロワー限定の日記は1日1件まで投稿できます。", "中傷、違法撮影物、著作権侵害、個人情報の公開、差別表現、迷惑広告は禁止です。", text[language].reportPolicy, "投稿・コメント・ユーザーを暴言、違法な盗撮画像、個人情報の漏えい、広告、その他の理由で報告できます。報告された投稿は確認のため非表示にする場合があります。"],
-      privacy: ["個人情報保護方針", "ニックネーム、プロフィール写真、パスワード、投稿・写真・コメント・いいねをサービス提供のために扱います。", "退会まで保管し、退会時にすぐ削除します。翻訳ボタンを使用すると、選択した投稿やコメントの文章がMyMemory翻訳APIに送信されます。それ以外の第三者提供はありません。閲覧・修正・削除・退会を求められます。現在はこのブラウザー内だけに保存されます。"],
+      terms: ["利用規約", "Haru Pinは全州と東京の大学生が日常を共有するフィードサービスです。フォロワー限定の日記は1日1件まで投稿できます。日記の位置情報は本人とそのフォロワーだけに公開されます。", "中傷、違法撮影物、著作権侵害、個人情報の公開、差別表現、迷惑広告は禁止です。", text[language].reportPolicy, "投稿・コメント・ユーザーを暴言、違法な盗撮画像、個人情報の漏えい、広告、その他の理由で報告できます。報告された投稿は確認のため非表示にする場合があります。"],
+      privacy: ["個人情報保護方針", "ニックネーム、プロフィール写真、パスワード、投稿・写真・コメント・日記・日記の位置情報・いいねをサービス提供のために扱います。日記の位置情報は本人とそのフォロワーだけに公開され、公開フィード、地図、検索結果には表示されません。", "退会まで保管し、退会時にすぐ削除します。翻訳ボタンを使用すると、選択した投稿やコメントの文章がMyMemory翻訳APIに送信されます。場所検索では検索語がNominatimに送信され、地図タイルの表示要求がOpenStreetMapに送信されます。アプリ内で日記の正確な位置情報をフォロワー以外に公開することはありません。閲覧・修正・削除・退会を求められます。現在はこのブラウザー内だけに保存されます。"],
       content: ["コンテンツの著作権", "投稿した文章と写真の著作権は投稿者にあります。運営のためアプリ内で表示することに同意します。", "他人の写真や顔が写った写真は、同意なく投稿しないでください。"],
       license: ["オープンソース・地図ライセンス", "地図データ © OpenStreetMap contributors（ODbL）。地図表示にはLeaflet、場所検索にはNominatimを使用しています。"]
     } : {
-      terms: ["이용약관", "하루핀은 전주와 도쿄 대학생이 일상을 나누는 피드 서비스예요. 팔로워 전용 일기는 하루 1개까지 쓸 수 있어요.", "타인 비방, 불법 촬영물, 저작권 침해, 개인정보 노출, 혐오 표현과 스팸 광고는 금지해요.", text[language].reportPolicy, "게시글·댓글·사용자를 욕설, 불법 촬영물, 개인정보 노출, 광고, 기타 사유로 신고할 수 있어요. 서비스를 변경하거나 중단할 수 있어요."],
-      privacy: ["개인정보 처리방침", "닉네임, 프로필 사진, 비밀번호, 작성한 글·사진·댓글·좋아요를 서비스 제공을 위해 수집해요.", "탈퇴할 때까지 보관하고 탈퇴하면 즉시 삭제해요. 번역 버튼을 사용하면 선택한 글과 댓글 내용이 MyMemory 번역 API로 전송돼요. 그 외에는 제3자에게 제공하지 않아요. 열람·수정·삭제를 요청하거나 탈퇴할 수 있어요. 현재 정보는 이 브라우저에만 저장돼요."],
+      terms: ["이용약관", "하루핀은 전주와 도쿄 대학생이 일상을 나누는 피드 서비스예요. 팔로워 전용 일기는 하루 1개까지 쓸 수 있어요. 일기의 위치 정보는 작성자 본인과 그 사람의 팔로워에게만 공개돼요.", "타인 비방, 불법 촬영물, 저작권 침해, 개인정보 노출, 혐오 표현과 스팸 광고는 금지해요.", text[language].reportPolicy, "게시글·댓글·사용자를 욕설, 불법 촬영물, 개인정보 노출, 광고, 기타 사유로 신고할 수 있어요. 서비스를 변경하거나 중단할 수 있어요."],
+      privacy: ["개인정보 처리방침", "닉네임, 프로필 사진, 비밀번호, 작성한 글·사진·댓글·일기·일기 위치 정보·좋아요를 서비스 제공을 위해 수집해요. 일기 위치 정보는 작성자 본인과 그 사람의 팔로워에게만 공개되고, 공개 피드·지도·검색 결과에는 표시되지 않아요.", "탈퇴할 때까지 보관하고 탈퇴하면 즉시 삭제해요. 번역 버튼을 사용하면 선택한 글과 댓글 내용이 MyMemory 번역 API로 전송돼요. 장소 검색어는 Nominatim으로, 지도 타일 요청은 OpenStreetMap으로 전송돼요. 앱에서 일기의 정확한 위치 정보를 팔로워가 아닌 사용자에게 공개하지 않아요. 열람·수정·삭제를 요청하거나 탈퇴할 수 있어요. 현재 정보는 이 브라우저에만 저장돼요."],
       content: ["콘텐츠 저작권", "올린 글과 사진의 저작권은 작성자에게 있어요. 서비스 운영을 위해 앱 안에서 표시하는 것에 동의해요.", "타인의 사진이나 얼굴이 나온 사진은 동의 없이 올리지 마세요."],
       license: ["오픈소스·지도 라이선스", "지도 데이터 © OpenStreetMap contributors (ODbL). 지도 표시는 Leaflet, 장소 검색은 Nominatim을 사용해요."]
     };
@@ -2425,6 +2643,10 @@
     $("#diary-panel").hidden = true;
     $("#diary-toggle").setAttribute("aria-expanded", "false");
     document.body.classList.remove("diary-open");
+    if (diaryLocationSearchRequest) {
+      diaryLocationSearchRequest.abort();
+      diaryLocationSearchRequest = null;
+    }
   }
   $("#diary-toggle")?.addEventListener("click", () => {
     if ($("#diary-panel").hidden) openDiaryPanel();
@@ -2435,6 +2657,21 @@
     activeDiaryTab = button.dataset.diaryTab;
     renderDiaries();
   }));
+  $("#diary-location-search-button")?.addEventListener("click", searchDiaryLocation);
+  $("#diary-location-query")?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      searchDiaryLocation();
+    }
+  });
+  $("#diary-location-remove")?.addEventListener("click", () => {
+    setDiaryLocation(null);
+    $("#diary-location-status").textContent = "";
+    $("#diary-location-results").replaceChildren();
+  });
+  $("#diary-location-name")?.addEventListener("input", (event) => {
+    if (diaryLocationDraft) diaryLocationDraft.name = [...event.target.value].slice(0, 150).join("");
+  });
   $("#diary-body")?.addEventListener("input", (event) => {
     const chars = [...event.target.value];
     if (chars.length > 500) event.target.value = chars.slice(0, 500).join("");
@@ -2476,6 +2713,9 @@
       $("#diary-body").focus();
       return;
     }
+    const location = diaryLocationDraft
+      ? { ...diaryLocationDraft, name: $("#diary-location-name").value.trim() || text[language].diaryLocationSelected }
+      : null;
     const mood = $('input[name="diary-mood"]:checked')?.value || "😊";
     const timestamp = new Date().toISOString();
     if (editing) {
@@ -2484,6 +2724,7 @@
       existing.mood = mood;
       existing.body = body.join("");
       existing.photo = diaryPhotoDraft;
+      existing.location = location;
       existing.updatedAt = timestamp;
     } else {
       diaries.push({
@@ -2493,6 +2734,7 @@
         mood,
         body: body.join(""),
         photo: diaryPhotoDraft,
+        location,
         dateKey,
         createdAt: timestamp,
         updatedAt: timestamp,
@@ -2516,7 +2758,20 @@
     const diaryId = card?.dataset.diaryId;
     const diaries = getDiaries();
     const diary = diaries.find((entry) => entry.id === diaryId && !entry.deleted);
-    if (!diary) return;
+    if (!diary || !visibleDiaryForViewer(diary)) return;
+    if (button.dataset.diaryAction === "location") {
+      if (!diary.location) return;
+      if (!$("#profile-page").hidden) {
+        $("#profile-page").hidden = true;
+        $(".map-screen").hidden = false;
+        $("#profile-open-button").hidden = false;
+        viewingProfileId = "";
+        requestAnimationFrame(() => map?.invalidateSize());
+      }
+      openDiaryPanel("map");
+      requestAnimationFrame(() => renderDiaryMap(diary.id));
+      return;
+    }
     if (button.dataset.diaryAction === "heart") {
       if (diary.userId === currentUserId || !getFollowingIds(currentUserId).includes(diary.userId)) return;
       diary.heartBy = Array.isArray(diary.heartBy) ? diary.heartBy : [];
@@ -2546,6 +2801,7 @@
       diary.body = "";
       diary.title = "";
       diary.photo = "";
+      diary.location = null;
       diary.heartBy = [];
       diary.comments = [];
       diary.updatedAt = new Date().toISOString();

@@ -592,7 +592,7 @@ body.app-mode { height: 100%; overflow: hidden; }
 .diary-panel-intro { flex: 0 0 auto; margin: 12px 0 2px; padding: 15px 14px; border: 1px solid #DCEEF4; border-radius: 16px; background: linear-gradient(135deg, #F7F0E4, #EAF7FC); }
 .diary-panel-intro time { color: #527A89; font-size: .86rem; font-weight: 800; }
 .diary-panel-intro p { margin: 4px 0 0; color: #315D70; font-size: 1.18rem; font-weight: 900; }
-.diary-panel-tabs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; margin: 12px 0 8px; }
+.diary-panel-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin: 12px 0 8px; }
 .diary-panel-tabs button { min-height: 40px; padding: 7px; background: #F0F5F7; color: var(--color-text); font-weight: 700; }
 .diary-panel-tabs button[aria-selected="true"] { background: var(--color-sky-blue); }
 .diary-privacy-note { flex: 0 0 auto; margin: 0 0 9px; padding: 9px 11px; border-radius: 12px; background: #F5EBDD; color: #685A43; font-size: .82rem; }
@@ -603,6 +603,30 @@ body.app-mode { height: 100%; overflow: hidden; }
 #diary-form > input:not([type=file]), #diary-form textarea { width: 100%; min-height: 38px; padding: 8px 10px; border: 1px solid #D5E0E3; border-radius: 10px; background: #FFFEFC; color: var(--color-text); }
 #diary-form textarea { min-height: 78px; resize: vertical; }
 #diary-form input[type=file] { width: 100%; font-size: .8rem; }
+.diary-location-controls { display: grid; gap: 7px; margin: 4px 0 0; padding: 9px; border: 1px solid #E1DDF0; border-radius: 13px; background: #FCFAFF; }
+.diary-location-controls legend { padding: 0 4px; color: #655582; font-size: .86rem; font-weight: 800; }
+.diary-location-search { display: flex; gap: 6px; }
+.diary-location-search input { flex: 1; min-width: 0; min-height: 36px; padding: 7px 9px; border: 1px solid #D8D1E7; border-radius: 9px; background: #fff; color: var(--color-text); }
+.diary-location-search button, .diary-location-preview button { min-height: 34px; padding: 6px 10px; border-radius: 9px; background: #EEE8F7; color: #56466F; font-size: .8rem; font-weight: 800; }
+#diary-location-status { margin: 0; color: #68757A; font-size: .76rem; }
+.diary-location-results { display: grid; gap: 4px; }
+.diary-location-results button { padding: 7px 9px; border-radius: 8px; background: #F2EDF9; color: #433958; text-align: left; font-size: .78rem; overflow-wrap: anywhere; }
+.diary-location-picker-map { height: 150px; border: 1px solid #D8D1E7; border-radius: 10px; overflow: hidden; }
+.diary-location-preview { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 9px; border-radius: 9px; background: #F2EDF9; color: #51416C; font-size: .8rem; overflow-wrap: anywhere; }
+.diary-location-preview[hidden] { display: none; }
+.diary-location-preview input { flex: 1; min-width: 0; padding: 5px 7px; border: 1px solid #D8D1E7; border-radius: 7px; background: #fff; color: #51416C; }
+.diary-location-link { display: inline-flex; margin: 0 0 6px; padding: 4px 9px; border-radius: 999px; background: #F1EAF9; color: #604F7B; font-size: .82rem; font-weight: 800; text-align: left; overflow-wrap: anywhere; }
+.diary-location-link:hover { background: #E8DDF5; }
+.diary-location-pin { display: grid; width: 32px; height: 38px; place-items: center; color: #D5B4E9; filter: drop-shadow(0 2px 3px rgba(55, 34, 75, .35)); font-size: 29px; line-height: 1; -webkit-text-stroke: 1px #A97DC7; }
+.diary-location-marker { border: 0; background: transparent; }
+.diary-map-section { display: flex; flex: 1 1 auto; min-height: 0; flex-direction: column; gap: 8px; padding-top: 8px; }
+.diary-map-section[hidden] { display: none; }
+.diary-map-section > p { flex: 0 0 auto; margin: 0; }
+#diary-map { flex: 1 1 auto; min-height: 260px; border: 1px solid #E4DBEF; border-radius: 14px; overflow: hidden; background: #F7F2FB; }
+.diary-map-empty { margin: 0; }
+.diary-map-popup { min-width: 150px; max-width: 240px; color: #3E3549; line-height: 1.5; }
+.diary-map-popup strong { color: #69558A; }
+.diary-map-popup-body { margin-top: 4px; color: #5C6267; overflow-wrap: anywhere; }
 .diary-moods { display: flex; align-items: center; justify-content: space-between; gap: 5px; margin: 0; padding: 4px 0; border: 0; }
 .diary-moods legend { margin-bottom: 4px; font-size: .86rem; font-weight: 700; }
 .diary-moods label { position: relative; cursor: pointer; }
