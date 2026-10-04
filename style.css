@@ -226,12 +226,68 @@ body.app-mode { height: 100%; overflow: hidden; }
 }
 .app-header h1 { margin: 0; font-size: clamp(1.1rem, 3vw, 1.55rem); }
 .app-header h1 span { font-size: .78em; }
+.app-logo {
+  padding: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-text);
+  font-size: clamp(1.1rem, 3vw, 1.55rem);
+  font-weight: 800;
+}
+.app-logo span { font-size: .78em; }
+.app-logo:hover { transform: none; box-shadow: none; }
 .app-language-switch { display: flex; gap: 4px; margin-left: auto; }
 .app-language-switch button { padding: 6px 9px; background: rgba(255,255,255,.62); color: var(--color-text); font-size: .78rem; }
 .app-language-switch button[aria-pressed="true"] { background: #fff; font-weight: 800; }
 .user-actions { display: flex; align-items: center; gap: 10px; }
 #signed-in-name { max-width: 30vw; overflow: hidden; color: #274957; font-size: .9rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
 #profile-open-button { min-height: 38px; padding: 6px 14px; background: rgba(255,255,255,.88); color: var(--color-text); font-size: .88rem; font-weight: 700; }
+.welcome-map-screen {
+  position: relative;
+  width: 100%;
+  height: calc(100dvh - var(--header-height));
+  min-height: 300px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #e6edf0;
+}
+#welcome-map { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; background: #e6edf0; }
+.welcome-map-greeting {
+  position: absolute;
+  z-index: 500;
+  top: clamp(16px, 4vh, 36px);
+  left: 50%;
+  width: min(760px, calc(100% - 32px));
+  padding: 18px 24px;
+  border: 1px solid rgba(255,255,255,.9);
+  border-radius: 22px;
+  background: rgba(255,255,255,.92);
+  box-shadow: var(--color-shadow);
+  text-align: center;
+  transform: translateX(-50%);
+  backdrop-filter: blur(8px);
+}
+.welcome-map-greeting h2 { margin: 0 0 5px; font-size: clamp(1.1rem, 3vw, 1.65rem); }
+.welcome-map-greeting p { margin: 0; color: #55727E; font-weight: 700; }
+.welcome-map-start {
+  position: absolute;
+  z-index: 500;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  left: 50%;
+  min-width: 220px;
+  min-height: 62px;
+  padding: 12px 36px;
+  background: var(--color-sky-blue);
+  color: #203C49;
+  box-shadow: 0 8px 24px rgba(30,45,55,.25);
+  font-size: 1.25rem;
+  font-weight: 900;
+  transform: translateX(-50%);
+}
+.welcome-map-start:hover { background: var(--color-sky-blue-dark); transform: translate(-50%, -2px); }
+.welcome-post-popup { min-width: 140px; }
+.welcome-post-popup strong, .welcome-post-popup span, .welcome-post-popup time { display: block; }
+.welcome-post-popup span, .welcome-post-popup time { margin-top: 3px; color: #617680; font-size: .82rem; }
 .map-screen {
   position: relative;
   width: 100%;
@@ -348,12 +404,14 @@ body.app-mode { height: 100%; overflow: hidden; }
   .post-detail-comment-form button { padding-inline: 9px; font-size: .82rem; }
   #brand-title { margin-bottom: 20px; }
   .app-header { padding-inline: 12px; }
-  .app-header h1 { font-size: 1.05rem; }
+  .app-header h1, .app-logo { font-size: 1.05rem; }
   .app-language-switch { gap: 2px; }
   .app-language-switch button { padding-inline: 6px; font-size: .7rem; }
   .user-actions { gap: 6px; }
   #signed-in-name { max-width: 24vw; font-size: .8rem; }
   #profile-open-button { min-height: 34px; padding-inline: 10px; font-size: .8rem; }
+  .welcome-map-greeting { top: 12px; width: calc(100% - 24px); padding: 14px 12px; border-radius: 17px; }
+  .welcome-map-start { min-width: 190px; min-height: 56px; font-size: 1.1rem; }
   .map-controls { top: 12px; width: calc(100% - 24px); }
   #place-search { height: 50px; padding-left: 16px; }
   #search-input { font-size: .92rem; }

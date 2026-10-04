@@ -33,6 +33,7 @@
       storageError: "브라우저 저장소를 사용할 수 없어요. 브라우저 설정을 확인해주세요.",
       feed: "교환일기", mine: "마이페이지", all: "지역 피드 보기", write: "동네 이야기 나누기",
       feedAll: "전체", feedJeonju: "전주", feedTokyo: "도쿄", sortNewest: "최신순", sortPopular: "인기순", feedRegionLabel: "도시별 피드", feedSortLabel: "피드 정렬", mapPost: "지도에서 보기", loadMore: "더 보기", postDateLabel: "작성일",
+      welcomeGreeting: (nickname) => `안녕하세요, ${nickname}님! 오늘은 어떤 하루였나요?`, welcomeTotal: "전체 글", welcomeToday: "오늘 올라온 글", welcomeStart: "시작하기", homeLogo: "Haru Pin 홈", welcomeMapLabel: "한국과 일본의 교환일기 지도",
       residence: "거주 지역", place: "장소 이름", category: "카테고리",
       photo: "사진", story: "짧은 글", choose: "선택하세요", submit: "게시글 올리기",
       like: "좋아요", comment: "댓글", remove: "삭제", example: "예시", empty: "아직 게시글이 없습니다.",
@@ -57,6 +58,7 @@
       storageError: "ブラウザーの保存領域を利用できません。設定を確認してください。",
       feed: "交換日記", mine: "マイページ", all: "地域の投稿を見る", write: "街の話をシェア",
       feedAll: "すべて", feedJeonju: "全州", feedTokyo: "東京", sortNewest: "新着順", sortPopular: "人気順", feedRegionLabel: "都市別フィード", feedSortLabel: "並べ替え", mapPost: "地図で見る", loadMore: "もっと見る", postDateLabel: "投稿日",
+      welcomeGreeting: (nickname) => `こんにちは、${nickname}さん！今日はどんな一日でしたか？`, welcomeTotal: "全投稿", welcomeToday: "今日の投稿", welcomeStart: "始める", homeLogo: "Haru Pin ホーム", welcomeMapLabel: "韓国と日本の交換日記マップ",
       residence: "居住地", place: "場所", category: "カテゴリー",
       photo: "写真", story: "ひとこと", choose: "選択してください", submit: "投稿する",
       like: "いいね", comment: "コメント", remove: "削除", example: "サンプル", empty: "投稿はまだありません。",
@@ -118,6 +120,8 @@
   let draftMarker = null;
   let searchMarker = null;
   let map;
+  let welcomeMap;
+  let welcomePostLayer;
   let markers = [];
   let posts = loadPosts();
   let lastSearchResults = [];
@@ -173,7 +177,7 @@
   };
 
   /* 로그인 성공 뒤 앱을 표시하고, 지도 크기를 다시 계산합니다. */
-  function showApp(nickname) {
+  function showApp(nickname, showLoginWelcome = false) {
     currentUserId = nickname;
     const savedProfile = getProfile(nickname);
     currentNickname = savedProfile?.nickname || nickname;
@@ -188,22 +192,104 @@
     if (pendingSignupProfile || !savedProfile) { openProfileSetup(); return; }
     $("#profile-setup-screen").hidden = true;
     $("#profile-page").hidden = true;
-    $(".map-screen").hidden = false;
-    if (pendingSharedPostId) {
-      const post = posts.find((item) => String(item.id) === pendingSharedPostId);
-      pendingSharedPostId = null;
-      if (post) requestAnimationFrame(() => {
-        switchRegion(post.region);
-        if (Number.isFinite(post.lat) && Number.isFinite(post.lng)) map.setView([post.lat, post.lng], 16);
-        focusPost(post);
-        const marker = markers.find((item) => {
-          const point = item.getLatLng();
-          return point.lat === post.lat && point.lng === post.lng;
-        });
-        marker?.openPopup();
-      });
-      else window.setTimeout(() => alert("해당 게시글을 찾을 수 없어요. 같은 브라우저에 저장된 게시글인지 확인해주세요."), 0);
+    if (showLoginWelcome) showWelcomeMap();
+    else {
+      $("#welcome-map-screen").hidden = true;
+      $(".map-screen").hidden = false;
     }
+    if (pendingSharedPostId && !showLoginWelcome) openPendingSharedPost();
+  }
+
+  function openPendingSharedPost() {
+    if (!pendingSharedPostId) return;
+    const post = posts.find((item) => String(item.id) === pendingSharedPostId);
+    pendingSharedPostId = null;
+    if (post) requestAnimationFrame(() => {
+      switchRegion(post.region);
+      if (Number.isFinite(post.lat) && Number.isFinite(post.lng)) map.setView([post.lat, post.lng], 16);
+      focusPost(post);
+      const marker = markers.find((item) => {
+        const point = item.getLatLng();
+        return point.lat === post.lat && point.lng === post.lng;
+      });
+      marker?.openPopup();
+    });
+    else window.setTimeout(() => alert("해당 게시글을 찾을 수 없어요. 같은 브라우저에 저장된 게시글인지 확인해주세요."), 0);
+  }
+
+  // 환영 지도에서 한국과 일본, 현재까지 작성된 모든 게시글을 함께 보여줍니다.
+  function showWelcomeMap() {
+    if (!composePanel.hidden) closeCompose();
+    $("#profile-setup-screen").hidden = true;
+    $("#profile-page").hidden = true;
+    $(".map-screen").hidden = true;
+    $("#welcome-map-screen").hidden = false;
+    $("#profile-open-button").hidden = true;
+    renderWelcomeMapSummary();
+    if (!welcomeMap) initializeWelcomeMap();
+    else {
+      renderWelcomeMarkers();
+      requestAnimationFrame(() => welcomeMap.invalidateSize());
+    }
+  }
+
+  function renderWelcomeMapSummary() {
+    const w = text[language];
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const todayCount = posts.filter((post) => {
+      const createdAt = Date.parse(post.createdAt || "");
+      return Number.isFinite(createdAt) && createdAt >= startOfToday.getTime();
+    }).length;
+    setText("#welcome-map-greeting", w.welcomeGreeting(currentNickname || currentUserId));
+    setText("#welcome-map-summary", `${w.welcomeTotal} ${posts.length} · ${w.welcomeToday} ${todayCount}`);
+    setText("#welcome-map-start", w.welcomeStart);
+    $("#welcome-map")?.setAttribute("aria-label", w.welcomeMapLabel);
+    $("#home-logo")?.setAttribute("aria-label", w.homeLogo);
+  }
+
+  function initializeWelcomeMap() {
+    const element = $("#welcome-map");
+    if (!element || !window.L || typeof L.markerClusterGroup !== "function") {
+      if (element) element.textContent = language === "ko"
+        ? "환영 지도를 불러오지 못했습니다. 지도 연결을 확인해주세요."
+        : "ウェルカムマップを読み込めませんでした。接続を確認してください。";
+      return;
+    }
+    welcomeMap = L.map(element, { zoomControl: true, scrollWheelZoom: true });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    }).addTo(welcomeMap);
+    welcomePostLayer = L.markerClusterGroup();
+    welcomeMap.addLayer(welcomePostLayer);
+    renderWelcomeMarkers();
+    requestAnimationFrame(() => {
+      welcomeMap.invalidateSize();
+      fitWelcomeMap();
+    });
+  }
+
+  function fitWelcomeMap() {
+    if (!welcomeMap) return;
+    const points = posts.filter((post) => Number.isFinite(post.lat) && Number.isFinite(post.lng))
+      .map((post) => [post.lat, post.lng]);
+    const bounds = L.latLngBounds([[33, 124], [46, 146]]);
+    points.forEach((point) => bounds.extend(point));
+    welcomeMap.fitBounds(bounds, { padding: [36, 36], maxZoom: 6 });
+  }
+
+  function renderWelcomeMarkers() {
+    if (!welcomeMap || !welcomePostLayer) return;
+    welcomePostLayer.clearLayers();
+    posts.filter((post) => Number.isFinite(post.lat) && Number.isFinite(post.lng))
+      .forEach((post) => {
+        const marker = L.marker([post.lat, post.lng]);
+        const popup = `<strong>${escapeHtml(post.place || post.title || "")}</strong><br>${escapeHtml(post.nickname)}<br><time>${escapeHtml(formatPostDate(post.createdAt))}</time>`;
+        marker.bindPopup(popup, { className: "welcome-post-popup" });
+        welcomePostLayer.addLayer(marker);
+      });
+    fitWelcomeMap();
   }
 
   /* 로그아웃하면 시작 화면으로 돌아가며 계정은 이 브라우저에 남습니다. */
@@ -292,7 +378,7 @@
   }
   function setAvatar(image, profile = getProfile(currentUserId)) { if (image) image.src = avatarSource(profile); }
   function openProfileSetup() {
-    $(".map-screen").hidden = true; $("#profile-page").hidden = true; $("#profile-setup-screen").hidden = false;
+    $(".map-screen").hidden = true; $("#welcome-map-screen").hidden = true; $("#profile-page").hidden = true; $("#profile-setup-screen").hidden = false;
     $("#profile-open-button").hidden = true;
     const profile = getProfile(currentUserId); $("#setup-nickname").value = profile?.nickname || "";
     $("#setup-residence").value = profile?.residence || "jeonju";
@@ -588,7 +674,9 @@
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
       if (Array.isArray(saved)) {
         let migrated = false;
-        const loaded = saved.filter((post) => post && locales[post.region]).map((post) => {
+        const loaded = saved.filter((post) => post && (
+          locales[post.region] || (Number.isFinite(post.lat) && Number.isFinite(post.lng))
+        )).map((post) => {
           if (Number.isFinite(Date.parse(post.createdAt || ""))) return post;
           migrated = true;
           return { ...post, createdAt: new Date().toISOString() };
@@ -607,6 +695,8 @@
   function savePosts(errorMessage = text[language].saveError) {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(posts)); }
     catch (error) { alert(errorMessage); console.warn("게시글을 저장하지 못했습니다.", error); return false; }
+    renderWelcomeMapSummary();
+    renderWelcomeMarkers();
     return true;
   }
 
@@ -676,8 +766,10 @@
       button.classList.toggle("is-selected", selected);
       button.setAttribute("aria-pressed", String(selected));
     });
+    $("header nav")?.setAttribute("aria-label", w.languageHeading);
     mapElement.setAttribute("aria-label", w.mapLabel);
     setText("#feed-heading", w.feed);
+    renderWelcomeMapSummary();
     $("#feed-region-filters")?.setAttribute("aria-label", w.feedRegionLabel);
     $$("[data-feed-region]").forEach((button) => {
       const labels = { all: w.feedAll, jeonju: w.feedJeonju, tokyo: w.feedTokyo };
@@ -704,6 +796,7 @@
     setText("#search-reset", w.searchReset);
     renderCategoryControls();
     renderSearchResults(lastSearchResults);
+    if (welcomeMap && !$("#welcome-map-screen").hidden) renderWelcomeMarkers();
     if ($("#search-input").value.trim()) {
       $("#search-status").textContent = lastSearchResults.length ? "" : w.noResults;
       $("#search-reset").hidden = lastSearchResults.length > 0;
@@ -932,7 +1025,9 @@
     card.append(author, title);
     const badge = document.createElement("span");
     badge.className = "post-city-badge";
-    badge.textContent = `${post.region === "jeonju" ? "🇰🇷" : "🇯🇵"} ${locales[post.region].name[language]}`;
+    const regionName = locales[post.region]?.name[language] || post.city || post.region;
+    const regionFlag = post.region === "tokyo" ? "🇯🇵" : post.region === "jeonju" ? "🇰🇷" : "📍";
+    badge.textContent = `${regionFlag} ${regionName}`;
     const detail = document.createElement("p");
     detail.className = "post-card-meta";
     detail.append(badge, document.createTextNode(` · ${categories[language][post.category] || post.category}${post.isExample ? ` · ${w.example}` : ""}`));
@@ -1076,7 +1171,8 @@
     followButton.hidden = authorId === currentUserId;
     followButton.dataset.followUser = authorId;
     followButton.textContent = getFollowingIds(currentUserId).includes(authorId) ? text[language].followed : text[language].follow;
-    setText("#post-detail-place-category", `${locales[post.region].name[language]} · ${categories[language][post.category] || post.category}`);
+    const regionName = locales[post.region]?.name[language] || post.city || post.region;
+    setText("#post-detail-place-category", `${regionName} · ${categories[language][post.category] || post.category}`);
     setText("#post-detail-created-at", `${text[language].postDateLabel}: ${formatPostDate(post.createdAt)}`);
     setText("#post-detail-story", post.story);
     const liked = (post.likedBy || []).includes(currentUserId) || getLikedPostIds().includes(post.id);
@@ -1503,10 +1599,24 @@
   $("#start-button")?.addEventListener("click", () => {
     const result = saveProfile($("#setup-nickname").value, profilePhotoDraft, $("#setup-residence").value);
     if (!result.ok) { $("#setup-status").textContent = result.message; return; }
-    pendingSignupProfile = false; $("#profile-setup-screen").hidden = true; $(".map-screen").hidden = false; $("#profile-open-button").hidden = false;
-    setText("#signed-in-name", currentNickname); applyLanguage(); requestAnimationFrame(() => map?.invalidateSize());
+    pendingSignupProfile = false;
+    $("#profile-setup-screen").hidden = true;
+    $("#profile-open-button").hidden = false;
+    setText("#signed-in-name", currentNickname);
+    applyLanguage();
+    showWelcomeMap();
   });
   $("#profile-open-button")?.addEventListener("click", openProfilePage);
+  $("#home-logo")?.addEventListener("click", showWelcomeMap);
+  $("#welcome-map-start")?.addEventListener("click", () => {
+    $("#welcome-map-screen").hidden = true;
+    $(".map-screen").hidden = false;
+    $("#profile-open-button").hidden = false;
+    renderMarkers();
+    renderFeed();
+    requestAnimationFrame(() => map?.invalidateSize());
+    openPendingSharedPost();
+  });
   $("#back-to-map")?.addEventListener("click", returnFromProfile);
   $("#edit-profile-button")?.addEventListener("click", () => { const editor = $("#edit-profile-form"); editor.hidden = !editor.hidden; });
   $("#edit-photo")?.addEventListener("change", async () => { profilePhotoDraft = await readPhoto($("#edit-photo").files[0]) || ""; setAvatar($("#edit-avatar-preview"), { nickname: $("#edit-nickname").value, photo: profilePhotoDraft }); });
@@ -1603,7 +1713,7 @@
     const password = $("#auth-password").value;
     const result = demoAuth.login(nickname, password);
     if (!result.ok) { $("#auth-status").textContent = result.message; return; }
-    showApp(result.nickname);
+    showApp(result.nickname, true);
   });
 
   /* 회원가입 버튼은 현재 브라우저에 데모 계정을 만들고 바로 입장합니다. */

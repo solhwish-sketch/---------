@@ -7,8 +7,11 @@
   <title>Haru Pin ハルピン</title>
   <!-- 지도와 앱 화면 스타일, 기능을 불러옵니다. -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
   <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body class="welcome-mode">
@@ -64,10 +67,10 @@
     </section>
   </main>
 
-  <!-- 로그인 뒤에는 교환일기 피드와 지도를 함께 보여줍니다. -->
+  <!-- 로그인한 사용자가 전체 글을 둘러본 뒤 교환일기로 이동합니다. -->
   <div id="app-shell" hidden>
     <header class="app-header">
-      <h1>Haru Pin <span>ハルピン</span></h1>
+      <h1><button type="button" id="home-logo" class="app-logo" aria-label="Haru Pin 홈">Haru Pin <span>ハルピン</span></button></h1>
       <nav class="app-language-switch" aria-label="언어 선택">
         <button type="button" lang="ko" aria-pressed="true">한국어</button>
         <button type="button" lang="ja" aria-pressed="false">日本語</button>
@@ -77,6 +80,16 @@
         <button type="button" id="profile-open-button">프로필</button>
       </div>
     </header>
+
+    <!-- 로그인 직후 모든 게시글의 위치를 둘러보는 환영 지도입니다. -->
+    <main class="welcome-map-screen" id="welcome-map-screen" hidden>
+      <div id="welcome-map" role="region" aria-label="한국과 일본의 교환일기 지도"></div>
+      <section class="welcome-map-greeting" aria-live="polite">
+        <h2 id="welcome-map-greeting"></h2>
+        <p id="welcome-map-summary"></p>
+      </section>
+      <button type="button" id="welcome-map-start" class="welcome-map-start"></button>
+    </main>
 
     <main class="map-screen">
       <!-- Leaflet 지도는 피드 옆에서 장소를 확인하는 역할을 합니다. -->
