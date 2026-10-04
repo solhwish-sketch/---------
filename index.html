@@ -141,6 +141,45 @@
         <button type="button" id="feed-load-more" hidden>더 보기</button>
         <button type="button" id="mypage-button">마이페이지</button>
       </section>
+      <button type="button" id="diary-toggle" class="diary-toggle">📔 내 일기</button>
+      <!-- 비공개 일기와 팔로잉 일기를 확인하는 오른쪽 패널입니다. -->
+      <aside id="diary-panel" class="diary-panel" aria-label="내 일기" hidden>
+        <header class="diary-panel-header">
+          <h2 id="diary-panel-title">📔 내 일기</h2>
+          <button type="button" id="diary-close" aria-label="닫기">×</button>
+        </header>
+        <div class="diary-panel-tabs" role="tablist" aria-label="일기 보기">
+          <button type="button" data-diary-tab="mine" role="tab" aria-selected="true">내 일기</button>
+          <button type="button" data-diary-tab="following" role="tab" aria-selected="false">팔로잉 일기</button>
+        </div>
+        <p id="diary-privacy-note" class="diary-privacy-note"></p>
+        <section id="diary-compose-section" class="diary-compose-section">
+          <p id="diary-daily-status" class="diary-daily-status" role="status" aria-live="polite"></p>
+          <form id="diary-form">
+            <label id="diary-title-label" for="diary-title">제목 (선택)</label>
+            <input id="diary-title" maxlength="80">
+            <fieldset class="diary-moods">
+              <legend id="diary-mood-label">오늘의 기분</legend>
+              <label><input type="radio" name="diary-mood" value="😊" checked><span>😊</span></label>
+              <label><input type="radio" name="diary-mood" value="😌"><span>😌</span></label>
+              <label><input type="radio" name="diary-mood" value="🥰"><span>🥰</span></label>
+              <label><input type="radio" name="diary-mood" value="😢"><span>😢</span></label>
+              <label><input type="radio" name="diary-mood" value="😤"><span>😤</span></label>
+            </fieldset>
+            <label id="diary-body-label" for="diary-body">오늘의 일기</label>
+            <textarea id="diary-body" rows="4" maxlength="1000" required></textarea>
+            <span id="diary-char-count" class="diary-char-count">0 / 500</span>
+            <label id="diary-photo-label" for="diary-photo">사진 1장 (선택)</label>
+            <input id="diary-photo" type="file" accept="image/*">
+            <div id="diary-photo-preview" class="diary-photo-preview" hidden><img alt=""><button type="button" id="diary-photo-remove">×</button></div>
+            <div class="diary-form-actions">
+              <button type="submit" id="diary-submit"></button>
+              <button type="button" id="diary-cancel-edit" hidden></button>
+            </div>
+          </form>
+        </section>
+        <div id="diary-content" class="diary-content" aria-live="polite"></div>
+      </aside>
 
       <!-- 빨간색 + 버튼으로 게시글 쓰기를 시작합니다. -->
       <button type="button" id="compose-button" aria-label="새 게시글 작성">+</button>
@@ -213,9 +252,13 @@
               <button type="button" data-follow-list="following"></button>
             </div>
             <button type="button" id="profile-follow-button" class="profile-follow-button" hidden></button>
-            <button type="button" id="edit-profile-button">프로필 수정</button>
+          <button type="button" id="edit-profile-button">프로필 수정</button>
           </div>
-        </div>
+          </div>
+          <section id="profile-diary-section" class="profile-diary-section" hidden>
+            <h3 id="profile-diary-heading"></h3>
+            <div id="profile-diary-content"></div>
+          </section>
         <form id="edit-profile-form" class="profile-edit" hidden>
           <label id="edit-nickname-label" for="edit-nickname">닉네임</label>
           <input id="edit-nickname" maxlength="12">
@@ -234,6 +277,7 @@
           <button type="button" data-profile-tab="posts" role="tab" aria-selected="true">내 포스트</button>
           <button type="button" data-profile-tab="comments" role="tab" aria-selected="false">내 댓글</button>
           <button type="button" data-profile-tab="likes" role="tab" aria-selected="false">좋아요</button>
+          <button type="button" data-profile-tab="diary" role="tab" aria-selected="false">내 일기</button>
         </div>
         <div id="profile-content" class="profile-content" role="tabpanel"></div>
         <button type="button" id="policies-button" class="profile-policy-button">약관 및 정책</button>

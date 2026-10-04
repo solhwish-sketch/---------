@@ -11,6 +11,7 @@
   const PROFILES_KEY = "harupin-profiles-v1";
   const LIKES_KEY = "harupin-likes-v1";
   const FOLLOWS_KEY = "harupin-follows-v1";
+  const DIARIES_KEY = "harupin-diaries-v1";
   const locales = {
     jeonju: { name: { ko: "전주", ja: "全州" }, center: [35.8467, 127.1296], zoom: 14 },
     tokyo: { name: { ko: "도쿄", ja: "東京" }, center: [35.6812, 139.7671], zoom: 13 }
@@ -33,6 +34,7 @@
       storageError: "브라우저 저장소를 사용할 수 없어요. 브라우저 설정을 확인해주세요.",
       feed: "교환일기", mine: "마이페이지", all: "지역 피드 보기", write: "동네 이야기 나누기",
       feedAll: "전체", feedJeonju: "전주", feedTokyo: "도쿄", sortNewest: "최신순", sortPopular: "인기순", feedRegionLabel: "도시별 피드", feedSortLabel: "피드 정렬", mapPost: "지도에서 보기", loadMore: "더 보기", postDateLabel: "작성일",
+      diary: "내 일기", diaryMine: "내 일기", diaryFollowing: "팔로잉 일기", diaryPrivacy: "🔒 공개 범위: 나를 팔로우하는 사람만 볼 수 있어요.", diaryTitle: "제목 (선택)", diaryMood: "오늘의 기분", diaryBody: "오늘의 일기", diaryPhoto: "사진 1장 (선택)", diaryWrite: "오늘의 일기 쓰기", diarySave: "일기 저장", diaryUpdate: "수정 완료", diaryCancel: "취소", diaryDelete: "삭제", diaryEdit: "수정", diaryTodayExists: "오늘의 일기를 이미 썼어요 ✨ 내일 또 만나요", diaryDeleteConfirm: "일기를 삭제할까요? 삭제한 뒤 오늘 다시 쓸 수 없어요.", diaryEmpty: "아직 쓴 일기가 없어요.", diaryFollowingEmpty: "팔로잉 중인 사람의 일기가 아직 없어요.", diaryFollowRequired: "팔로우하면 일기를 볼 수 있어요 🔒", diaryMutual: "🤝 서로 이웃", diaryHeart: "하트", diaryComment: "댓글", diaryCommentPlaceholder: "짧은 댓글을 남겨주세요 (100자)", diaryCommentSubmit: "등록", diaryPhotoRemove: "사진 삭제", diaryStreak: (count) => `🔥 ${count}일 연속`, diaryCalendar: "달력", diaryList: "목록", diaryNoToday: "오늘은 아직 일기를 쓰지 않았어요.", diaryPhotoError: "사진을 읽지 못했어요.", diaryImageAlt: "일기 사진",
       welcomeGreeting: (nickname) => `안녕하세요, ${nickname}님! 오늘은 어떤 하루였나요?`, welcomeTotal: "전체 글", welcomeToday: "오늘 올라온 글", welcomeStart: "시작하기", homeLogo: "Haru Pin 홈", welcomeMapLabel: "한국과 일본의 교환일기 지도",
       residence: "거주 지역", place: "장소 이름", category: "카테고리",
       photo: "사진", story: "짧은 글", choose: "선택하세요", submit: "게시글 올리기",
@@ -58,6 +60,7 @@
       storageError: "ブラウザーの保存領域を利用できません。設定を確認してください。",
       feed: "交換日記", mine: "マイページ", all: "地域の投稿を見る", write: "街の話をシェア",
       feedAll: "すべて", feedJeonju: "全州", feedTokyo: "東京", sortNewest: "新着順", sortPopular: "人気順", feedRegionLabel: "都市別フィード", feedSortLabel: "並べ替え", mapPost: "地図で見る", loadMore: "もっと見る", postDateLabel: "投稿日",
+      diary: "日記", diaryMine: "自分の日記", diaryFollowing: "フォロー中の日記", diaryPrivacy: "🔒 公開範囲：自分をフォローしている人だけが読めます。", diaryTitle: "タイトル（任意）", diaryMood: "今日の気分", diaryBody: "今日の日記", diaryPhoto: "写真1枚（任意）", diaryWrite: "今日の日記を書く", diarySave: "日記を保存", diaryUpdate: "更新", diaryCancel: "キャンセル", diaryDelete: "削除", diaryEdit: "編集", diaryTodayExists: "今日の日記はもう書きました ✨ また明日！", diaryDeleteConfirm: "日記を削除しますか？削除後、今日は書き直せません。", diaryEmpty: "日記はまだありません。", diaryFollowingEmpty: "フォロー中の人の日記はまだありません。", diaryFollowRequired: "フォローすると日記を読めます 🔒", diaryMutual: "🤝 相互フォロー", diaryHeart: "ハート", diaryComment: "コメント", diaryCommentPlaceholder: "短いコメントを書く（100文字）", diaryCommentSubmit: "送信", diaryPhotoRemove: "写真を削除", diaryStreak: (count) => `🔥 ${count}日連続`, diaryCalendar: "カレンダー", diaryList: "リスト", diaryNoToday: "今日はまだ日記を書いていません。", diaryPhotoError: "写真を読み込めませんでした。", diaryImageAlt: "日記の写真",
       welcomeGreeting: (nickname) => `こんにちは、${nickname}さん！今日はどんな一日でしたか？`, welcomeTotal: "全投稿", welcomeToday: "今日の投稿", welcomeStart: "始める", homeLogo: "Haru Pin ホーム", welcomeMapLabel: "韓国と日本の交換日記マップ",
       residence: "居住地", place: "場所", category: "カテゴリー",
       photo: "写真", story: "ひとこと", choose: "選択してください", submit: "投稿する",
@@ -122,6 +125,12 @@
   let map;
   let welcomeMap;
   let welcomePostLayer;
+  let diaryPhotoDraft = "";
+  let editingDiaryId = "";
+  let activeDiaryTab = "mine";
+  let diaryViewMode = "list";
+  let diaryMonth = getDiaryDate().slice(0, 7);
+  let diaryMidnightTimer;
   let markers = [];
   let posts = loadPosts();
   let lastSearchResults = [];
@@ -343,6 +352,55 @@
     const following = getFollowData().following;
     return Object.keys(following).filter((followerId) => Array.isArray(following[followerId]) && following[followerId].includes(userId));
   }
+  // 한국과 일본의 공통 현지 날짜는 UTC+9 기준으로 계산합니다.
+  function getDiaryDate(timestamp = Date.now()) {
+    return new Date(timestamp + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  }
+  function getDiaries() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(DIARIES_KEY) || "[]");
+      return Array.isArray(saved) ? saved
+        .filter((diary) => diary && diary.id && diary.userId && /^\d{4}-\d{2}-\d{2}$/.test(diary.dateKey))
+        .map((diary) => ({
+          ...diary,
+          heartBy: Array.isArray(diary.heartBy) ? diary.heartBy : [],
+          comments: Array.isArray(diary.comments) ? diary.comments.filter((comment) => comment && typeof comment.text === "string") : []
+        })) : [];
+    } catch (error) {
+      console.warn("일기를 읽지 못했습니다.", error);
+      return [];
+    }
+  }
+  function saveDiaries(diaries) {
+    try {
+      localStorage.setItem(DIARIES_KEY, JSON.stringify(diaries));
+      return true;
+    } catch (error) {
+      console.error("일기를 저장하지 못했습니다.", error);
+      alert(text[language].saveError);
+      return false;
+    }
+  }
+  function visibleDiaryForViewer(diary, viewerId = currentUserId) {
+    return !diary.deleted && (diary.userId === viewerId || getFollowingIds(viewerId).includes(diary.userId));
+  }
+  function diaryDateLabel(dateKey) {
+    const date = new Date(`${dateKey}T12:00:00+09:00`);
+    return new Intl.DateTimeFormat(language === "ja" ? "ja-JP" : "ko-KR", {
+      year: "numeric", month: "long", day: "numeric", weekday: "short", timeZone: "Asia/Tokyo"
+    }).format(date);
+  }
+  function getDiaryStreak(userId) {
+    const dates = new Set(getDiaries().filter((diary) => diary.userId === userId && !diary.deleted).map((diary) => diary.dateKey));
+    let date = getDiaryDate();
+    if (!dates.has(date)) date = getDiaryDate(Date.now() - 86400000);
+    let streak = 0;
+    while (dates.has(date)) {
+      streak += 1;
+      date = getDiaryDate(Date.parse(`${date}T12:00:00+09:00`) - 86400000);
+    }
+    return streak;
+  }
   function setFollowing(userId, follow) {
     if (!currentUserId || !userId || userId === currentUserId) return false;
     const data = getFollowData();
@@ -452,6 +510,7 @@
     $("#profile-logout-button").hidden = !own;
     $("#delete-account-button").hidden = !own;
     $("#profile-tabs").hidden = !own;
+    $("#profile-diary-section").hidden = own;
     $("#policies-button").hidden = !own;
     const profile = getPublicProfile(userId);
     setText("#profile-name", profile.nickname);
@@ -467,6 +526,7 @@
     }
     renderProfileStats(userId);
     renderProfileTab();
+    renderProfileDiary(userId);
     requestAnimationFrame(() => map?.invalidateSize());
   }
   function openUserProfile(userId, origin = null) {
@@ -568,7 +628,10 @@
       const post = posts.find((item) => String(item.id) === activeDetailPostId);
       if (post) renderPostDetail(post);
     }
+    renderDiaries();
+    if (viewingProfileId) renderProfileDiary(viewingProfileId);
     renderFeed();
+    if ($("#diary-panel") && !$("#diary-panel").hidden) renderDiaries();
   }
   function nicknameAvailable(name) { return !Object.entries(getProfiles()).some(([id, profile]) => id !== currentUserId && profile.nickname.toLocaleLowerCase() === name.toLocaleLowerCase()); }
   function saveProfile(name, photo, residence) {
@@ -606,6 +669,10 @@
     if (!owner || activeProfileTab === "posts") entries = ownPosts.map((post) => ({ type: "post", post }));
     if (owner && activeProfileTab === "comments") entries = posts.flatMap((post) => (post.comments || []).map((comment, commentIndex) => ({ type: "comment", post, comment, commentIndex })).filter((entry) => isOwnComment(entry.post, entry.comment)));
     if (owner && activeProfileTab === "likes") entries = posts.filter((post) => getLikedPostIds().includes(post.id)).map((post) => ({ type: "like", post }));
+    if (owner && activeProfileTab === "diary") {
+      renderOwnDiaryHistory(target);
+      return;
+    }
     if (!entries.length) { const empty = document.createElement("p"); empty.textContent = text[language].noProfileItems; target.append(empty); return; }
     entries.forEach((entry) => {
       const card = document.createElement("article"); card.className = "profile-item"; card.dataset.profilePostId = entry.post.id; card.tabIndex = 0;
@@ -616,6 +683,263 @@
       if (owner && entry.type === "post") { const del = document.createElement("button"); del.type = "button"; del.textContent = text[language].delete; del.dataset.profileDelete = entry.post.id; card.append(del); }
       target.append(card);
     });
+  }
+
+  function makeDiaryCard(diary, { interactive = false, ownerControls = false, canEdit = false } = {}) {
+    const w = text[language];
+    const card = document.createElement("article");
+    card.className = "diary-card";
+    card.dataset.diaryId = diary.id;
+    const heading = document.createElement("div");
+    heading.className = "diary-card-heading";
+    const mood = document.createElement("span");
+    mood.className = "diary-mood";
+    mood.textContent = diary.mood || "😊";
+    const title = document.createElement("h3");
+    title.textContent = diary.title || diaryDateLabel(diary.dateKey);
+    heading.append(mood, title);
+    if (diary.userId !== currentUserId && getFollowingIds(diary.userId).includes(currentUserId)) {
+      const mutual = document.createElement("span");
+      mutual.className = "diary-mutual-badge";
+      mutual.textContent = w.diaryMutual;
+      heading.append(mutual);
+    }
+    const meta = document.createElement("p");
+    meta.className = "diary-card-meta";
+    const author = getPublicProfile(diary.userId).nickname;
+    meta.textContent = `${author} · ${diaryDateLabel(diary.dateKey)}`;
+    const body = document.createElement("p");
+    body.className = "diary-card-body";
+    body.textContent = diary.body || "";
+    card.append(heading, meta, body);
+    if (diary.photo) {
+      const image = document.createElement("img");
+      image.className = "diary-card-photo";
+      image.src = diary.photo;
+      image.alt = w.diaryImageAlt;
+      image.loading = "lazy";
+      card.append(image);
+    }
+    if (interactive) {
+      const actions = document.createElement("div");
+      actions.className = "diary-card-actions";
+      const heart = document.createElement("button");
+      heart.type = "button";
+      heart.dataset.diaryAction = "heart";
+      const reacted = (diary.heartBy || []).includes(currentUserId);
+      heart.textContent = `💙 ${w.diaryHeart} (${(diary.heartBy || []).length})${reacted ? " ✓" : ""}`;
+      actions.append(heart);
+      card.append(actions);
+      const comments = document.createElement("ul");
+      comments.className = "diary-comments";
+      (diary.comments || []).forEach((comment) => {
+        const item = document.createElement("li");
+        item.textContent = `${comment.nickname}: ${comment.text}`;
+        comments.append(item);
+      });
+      card.append(comments);
+      const form = document.createElement("form");
+      form.className = "diary-comment-form";
+      form.dataset.diaryComment = diary.id;
+      const input = document.createElement("input");
+      input.maxLength = 100;
+      input.placeholder = w.diaryCommentPlaceholder;
+      input.setAttribute("aria-label", w.diaryCommentPlaceholder);
+      input.required = true;
+      const submit = document.createElement("button");
+      submit.type = "submit";
+      submit.textContent = w.diaryCommentSubmit;
+      form.append(input, submit);
+      card.append(form);
+    }
+    if (ownerControls || canEdit) {
+      const actions = document.createElement("div");
+      actions.className = "diary-card-actions";
+      if (canEdit) {
+        const edit = document.createElement("button");
+        edit.type = "button";
+        edit.dataset.diaryAction = "edit";
+        edit.textContent = w.diaryEdit;
+        actions.append(edit);
+      }
+      if (ownerControls) {
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.dataset.diaryAction = "delete";
+        remove.textContent = w.diaryDelete;
+        actions.append(remove);
+      }
+      card.append(actions);
+    }
+    return card;
+  }
+
+  function renderDiaries() {
+    const target = $("#diary-content");
+    if (!target) return;
+    const followingTab = activeDiaryTab === "following";
+    $("#diary-compose-section").hidden = followingTab;
+    $("#diary-privacy-note").hidden = followingTab;
+    $$("[data-diary-tab]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.diaryTab === activeDiaryTab)));
+    target.replaceChildren();
+    if (!followingTab) {
+      const mine = getDiaries().filter((diary) => diary.userId === currentUserId && !diary.deleted)
+        .sort((a, b) => b.dateKey.localeCompare(a.dateKey));
+      if (!mine.length) {
+        const empty = document.createElement("p");
+        empty.className = "diary-empty";
+        empty.textContent = text[language].diaryNoToday;
+        target.append(empty);
+      } else mine.forEach((diary) => target.append(makeDiaryCard(diary, { ownerControls: true, canEdit: diary.dateKey === getDiaryDate() })));
+      syncDiaryForm();
+      return;
+    }
+    const following = new Set(getFollowingIds(currentUserId));
+    const entries = getDiaries().filter((diary) => !diary.deleted && following.has(diary.userId))
+      .sort((a, b) => b.dateKey.localeCompare(a.dateKey) || (Date.parse(b.updatedAt || b.createdAt) || 0) - (Date.parse(a.updatedAt || a.createdAt) || 0));
+    if (!entries.length) {
+      const empty = document.createElement("p");
+      empty.className = "diary-empty";
+      empty.textContent = text[language].diaryFollowingEmpty;
+      target.append(empty);
+      return;
+    }
+    entries.forEach((diary) => {
+      if (following.has(diary.userId)) target.append(makeDiaryCard(diary, { interactive: true }));
+    });
+  }
+
+  function syncDiaryForm() {
+    const today = getDiaryDate();
+    const diaries = getDiaries();
+    const todayDiary = diaries.find((diary) => diary.userId === currentUserId && diary.dateKey === today);
+    const editing = todayDiary && !todayDiary.deleted && editingDiaryId === todayDiary.id;
+    const blocked = Boolean(todayDiary && (!editing || todayDiary.deleted));
+    const form = $("#diary-form");
+    if (!form) return;
+    $("#diary-daily-status").textContent = blocked ? text[language].diaryTodayExists : "";
+    [...form.elements].forEach((element) => { element.disabled = blocked && element.id !== "diary-cancel-edit"; });
+    $("#diary-title").disabled = blocked;
+    $("#diary-body").disabled = blocked;
+    $("#diary-photo").disabled = blocked;
+    $$('input[name="diary-mood"]').forEach((input) => { input.disabled = blocked; });
+    $("#diary-submit").disabled = blocked;
+    $("#diary-submit").textContent = editing ? text[language].diaryUpdate : text[language].diaryWrite;
+    $("#diary-cancel-edit").hidden = !editing;
+    $("#diary-cancel-edit").textContent = text[language].diaryCancel;
+    if (!editing) {
+      form.reset();
+      diaryPhotoDraft = "";
+      $("#diary-photo-preview").hidden = true;
+      $("#diary-char-count").textContent = "0 / 500";
+    } else {
+      const diary = todayDiary;
+      $("#diary-title").value = diary.title || "";
+      $("#diary-body").value = diary.body || "";
+      const mood = $(`input[name="diary-mood"][value="${diary.mood || "😊"}"]`);
+      if (mood) mood.checked = true;
+      diaryPhotoDraft = diary.photo || "";
+      setDiaryPhotoPreview(diaryPhotoDraft);
+      $("#diary-char-count").textContent = `${[...diary.body].length} / 500`;
+    }
+  }
+
+  function setDiaryPhotoPreview(photo) {
+    const preview = $("#diary-photo-preview");
+    preview.hidden = !photo;
+    if (photo) {
+      const image = $("img", preview);
+      image.src = photo;
+      image.alt = text[language].diaryImageAlt;
+    } else $("img", preview).removeAttribute("src");
+  }
+
+  function renderProfileDiary(userId) {
+    const target = $("#profile-diary-content");
+    const section = $("#profile-diary-section");
+    if (!target || !section) return;
+    const own = userId === currentUserId;
+    section.hidden = own;
+    if (own) return;
+    const following = getFollowingIds(currentUserId).includes(userId);
+    setText("#profile-diary-heading", `${getPublicProfile(userId).nickname} · ${text[language].diary}`);
+    target.replaceChildren();
+    if (!following) {
+      const locked = document.createElement("p");
+      locked.className = "diary-locked";
+      locked.textContent = text[language].diaryFollowRequired;
+      target.append(locked);
+      return;
+    }
+    const entries = getDiaries().filter((diary) => diary.userId === userId && !diary.deleted)
+      .sort((a, b) => b.dateKey.localeCompare(a.dateKey));
+    if (!entries.length) {
+      const empty = document.createElement("p");
+      empty.className = "diary-empty";
+      empty.textContent = text[language].diaryEmpty;
+      target.append(empty);
+      return;
+    }
+    entries.forEach((diary) => {
+      if (getFollowingIds(currentUserId).includes(userId)) target.append(makeDiaryCard(diary));
+    });
+  }
+
+  function renderOwnDiaryHistory(target) {
+    const w = text[language];
+    const entries = getDiaries().filter((diary) => diary.userId === currentUserId && !diary.deleted)
+      .sort((a, b) => b.dateKey.localeCompare(a.dateKey));
+    const controls = document.createElement("div");
+    controls.className = "diary-history-controls";
+    const streak = document.createElement("strong");
+    streak.textContent = w.diaryStreak(getDiaryStreak(currentUserId));
+    const mode = document.createElement("button");
+    mode.type = "button";
+    mode.dataset.diaryView = diaryViewMode === "list" ? "calendar" : "list";
+    mode.textContent = diaryViewMode === "list" ? w.diaryCalendar : w.diaryList;
+    controls.append(streak, mode);
+    target.append(controls);
+    if (diaryViewMode === "calendar") {
+      const calendar = document.createElement("div");
+      calendar.className = "diary-calendar";
+      const heading = document.createElement("div");
+      heading.className = "diary-calendar-heading";
+      const previous = document.createElement("button");
+      previous.type = "button"; previous.dataset.diaryMonth = "-1"; previous.textContent = "‹";
+      const month = document.createElement("strong");
+      month.textContent = new Intl.DateTimeFormat(language === "ja" ? "ja-JP" : "ko-KR", { year: "numeric", month: "long", timeZone: "Asia/Tokyo" }).format(new Date(`${diaryMonth}-15T12:00:00+09:00`));
+      const next = document.createElement("button");
+      next.type = "button"; next.dataset.diaryMonth = "1"; next.textContent = "›";
+      heading.append(previous, month, next);
+      calendar.append(heading);
+      const grid = document.createElement("div");
+      grid.className = "diary-calendar-grid";
+      const offset = new Date(`${diaryMonth}-01T12:00:00+09:00`).getUTCDay();
+      for (let blank = 0; blank < offset; blank += 1) grid.append(document.createElement("span"));
+      const days = new Date(Date.UTC(Number(diaryMonth.slice(0, 4)), Number(diaryMonth.slice(5, 7)), 0)).getUTCDate();
+      const dates = new Set(entries.map((diary) => diary.dateKey));
+      for (let day = 1; day <= days; day += 1) {
+        const dateKey = `${diaryMonth}-${String(day).padStart(2, "0")}`;
+        const button = document.createElement("button");
+        button.type = "button"; button.textContent = String(day);
+        if (dates.has(dateKey)) { button.classList.add("has-diary"); button.dataset.diaryDate = dateKey; }
+        grid.append(button);
+      }
+      calendar.append(grid);
+      target.append(calendar);
+    }
+    const list = document.createElement("div");
+    list.className = "diary-history-list";
+    entries.forEach((diary) => {
+      if (diaryViewMode === "calendar" && !diary.dateKey.startsWith(diaryMonth)) return;
+      const card = makeDiaryCard(diary, { ownerControls: true, canEdit: diary.dateKey === getDiaryDate() });
+      list.append(card);
+    });
+    if (!list.childElementCount) {
+      const empty = document.createElement("p");
+      empty.className = "diary-empty"; empty.textContent = w.diaryEmpty; list.append(empty);
+    }
+    target.append(list);
   }
 
   // 예전 댓글의 userId가 없는 경우에는 비예시 글의 닉네임으로 작성자를 확인합니다.
@@ -743,8 +1067,26 @@
       const select = $(selector);
       if (select) [...select.options].forEach((option) => { option.textContent = locales[option.value].name[language]; });
     });
-    const tabLabels = { posts: w.myPosts, comments: w.myComments, likes: w.likesTab };
+    const tabLabels = { posts: w.myPosts, comments: w.myComments, likes: w.likesTab, diary: w.diaryMine };
     $$('[data-profile-tab]').forEach((button) => { button.textContent = tabLabels[button.dataset.profileTab]; });
+    setText("#diary-panel-title", `📔 ${w.diary}`);
+    $("#diary-panel")?.setAttribute("aria-label", w.diary);
+    $("#diary-panel [role=tablist]")?.setAttribute("aria-label", w.diary);
+    setText("#diary-toggle", `📔 ${w.diary}`);
+    $("#diary-toggle")?.setAttribute("aria-expanded", String(!$("#diary-panel").hidden));
+    $("#diary-close")?.setAttribute("aria-label", w.close);
+    $$("[data-diary-tab]").forEach((button) => {
+      button.textContent = button.dataset.diaryTab === "following" ? w.diaryFollowing : w.diaryMine;
+      button.setAttribute("aria-selected", String(button.dataset.diaryTab === activeDiaryTab));
+    });
+    setText("#diary-privacy-note", w.diaryPrivacy);
+    setText("#diary-title-label", w.diaryTitle);
+    setText("#diary-mood-label", w.diaryMood);
+    setText("#diary-body-label", w.diaryBody);
+    setText("#diary-photo-label", w.diaryPhoto);
+    setText("#diary-photo-remove", "×");
+    $("#diary-photo-remove")?.setAttribute("aria-label", w.diaryPhotoRemove);
+    setText("#profile-diary-heading", `${getPublicProfile(viewingProfileId || currentUserId).nickname} · ${w.diary}`);
     setText('label[for="auth-nickname"]', registrationMode ? (language === "ko" ? "아이디" : "ID") : w.nickname);
     setText('label[for="auth-password"]', w.password);
     setText("#auth-password-confirm-label", w.passwordConfirm);
@@ -804,7 +1146,10 @@
     const labels = { nickname: w.nickname, "post-region": w.residence, place: w.place, category: w.category, photo: w.photo, story: w.story };
     Object.entries(labels).forEach(([id, value]) => { const label = $(`label[for="${id}"]`); if (label) label.textContent = value; });
     setText("#post-form button[type=submit]", w.submit);
-    if ($("#profile-page") && !$("#profile-page").hidden) renderProfileTab();
+    if ($("#profile-page") && !$("#profile-page").hidden) {
+      renderProfileTab();
+      renderProfileDiary(viewingProfileId);
+    }
     const regionSelect = $("#post-region");
     if (regionSelect) {
       regionSelect.options[0].textContent = w.choose;
@@ -1516,6 +1861,207 @@
   });
 
   /* 피드 패널을 눌러 펼치거나 접습니다. */
+  function openDiaryPanel(tab = "mine") {
+    activeDiaryTab = tab;
+    $("#diary-panel").hidden = false;
+    $("#diary-toggle").setAttribute("aria-expanded", "true");
+    renderDiaries();
+  }
+  function closeDiaryPanel() {
+    $("#diary-panel").hidden = true;
+    $("#diary-toggle").setAttribute("aria-expanded", "false");
+  }
+  $("#diary-toggle")?.addEventListener("click", () => {
+    if ($("#diary-panel").hidden) openDiaryPanel();
+    else closeDiaryPanel();
+  });
+  $("#diary-close")?.addEventListener("click", closeDiaryPanel);
+  $$("[data-diary-tab]").forEach((button) => button.addEventListener("click", () => {
+    activeDiaryTab = button.dataset.diaryTab;
+    renderDiaries();
+  }));
+  $("#diary-body")?.addEventListener("input", (event) => {
+    const chars = [...event.target.value];
+    if (chars.length > 500) event.target.value = chars.slice(0, 500).join("");
+    $("#diary-char-count").textContent = `${[...event.target.value].length} / 500`;
+  });
+  $("#diary-photo")?.addEventListener("change", async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    try {
+      diaryPhotoDraft = await readResizedPhoto(file);
+      setDiaryPhotoPreview(diaryPhotoDraft);
+    } catch (error) {
+      console.error("일기 사진을 읽지 못했습니다.", error);
+      alert(text[language].diaryPhotoError);
+    }
+    event.target.value = "";
+  });
+  $("#diary-photo-remove")?.addEventListener("click", () => {
+    diaryPhotoDraft = "";
+    setDiaryPhotoPreview("");
+  });
+  $("#diary-cancel-edit")?.addEventListener("click", () => {
+    editingDiaryId = "";
+    syncDiaryForm();
+  });
+  $("#diary-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const dateKey = getDiaryDate();
+    const diaries = getDiaries();
+    const existing = diaries.find((diary) => diary.userId === currentUserId && diary.dateKey === dateKey);
+    const editing = existing && !existing.deleted && editingDiaryId === existing.id;
+    if (existing && !editing) {
+      $("#diary-daily-status").textContent = text[language].diaryTodayExists;
+      syncDiaryForm();
+      return;
+    }
+    const body = [...$("#diary-body").value.trim()];
+    if (!body.length || body.length > 500) {
+      $("#diary-body").focus();
+      return;
+    }
+    const mood = $('input[name="diary-mood"]:checked')?.value || "😊";
+    const timestamp = new Date().toISOString();
+    if (editing) {
+      if (existing.userId !== currentUserId || existing.dateKey !== dateKey || existing.deleted) return;
+      existing.title = $("#diary-title").value.trim();
+      existing.mood = mood;
+      existing.body = body.join("");
+      existing.photo = diaryPhotoDraft;
+      existing.updatedAt = timestamp;
+    } else {
+      diaries.push({
+        id: `diary-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        userId: currentUserId,
+        title: $("#diary-title").value.trim(),
+        mood,
+        body: body.join(""),
+        photo: diaryPhotoDraft,
+        dateKey,
+        createdAt: timestamp,
+        updatedAt: timestamp,
+        heartBy: [],
+        comments: [],
+        deleted: false
+      });
+    }
+    if (!saveDiaries(diaries)) return;
+    editingDiaryId = "";
+    renderDiaries();
+    if (viewingProfileId === currentUserId && activeProfileTab === "diary") renderProfileTab();
+  });
+  $("#diary-content")?.addEventListener("click", (event) => handleDiaryAction(event));
+  $("#profile-diary-content")?.addEventListener("click", (event) => handleDiaryAction(event));
+  function handleDiaryAction(event) {
+    const button = event.target.closest("[data-diary-action]");
+    if (!button) return;
+    const card = button.closest("[data-diary-id]");
+    const diaryId = card?.dataset.diaryId;
+    const diaries = getDiaries();
+    const diary = diaries.find((entry) => entry.id === diaryId && !entry.deleted);
+    if (!diary) return;
+    if (button.dataset.diaryAction === "heart") {
+      if (diary.userId === currentUserId || !getFollowingIds(currentUserId).includes(diary.userId)) return;
+      diary.heartBy = Array.isArray(diary.heartBy) ? diary.heartBy : [];
+      diary.heartBy = diary.heartBy.includes(currentUserId)
+        ? diary.heartBy.filter((id) => id !== currentUserId)
+        : [...diary.heartBy, currentUserId];
+      if (saveDiaries(diaries)) { renderDiaries(); if (viewingProfileId) renderProfileDiary(viewingProfileId); }
+      return;
+    }
+    if (button.dataset.diaryAction === "edit") {
+      if (diary.userId !== currentUserId || diary.dateKey !== getDiaryDate()) return;
+      editingDiaryId = diary.id;
+      activeDiaryTab = "mine";
+      if (!$("#profile-page").hidden) {
+        $("#profile-page").hidden = true;
+        $(".map-screen").hidden = false;
+        $("#profile-open-button").hidden = false;
+        viewingProfileId = "";
+        requestAnimationFrame(() => map?.invalidateSize());
+      }
+      openDiaryPanel("mine");
+      return;
+    }
+    if (button.dataset.diaryAction === "delete") {
+      if (diary.userId !== currentUserId || !confirm(text[language].diaryDeleteConfirm)) return;
+      diary.deleted = true;
+      diary.body = "";
+      diary.title = "";
+      diary.photo = "";
+      diary.heartBy = [];
+      diary.comments = [];
+      diary.updatedAt = new Date().toISOString();
+      if (saveDiaries(diaries)) {
+        editingDiaryId = "";
+        renderDiaries();
+        if (viewingProfileId) renderProfileDiary(viewingProfileId);
+        if (viewingProfileId === currentUserId && activeProfileTab === "diary") renderProfileTab();
+      }
+    }
+  }
+  document.addEventListener("submit", (event) => {
+    const form = event.target.closest("form[data-diary-comment]");
+    if (!form) return;
+    event.preventDefault();
+    const diaryId = form.dataset.diaryComment;
+    const diaries = getDiaries();
+    const diary = diaries.find((entry) => entry.id === diaryId && !entry.deleted);
+    if (!diary || diary.userId === currentUserId || !getFollowingIds(currentUserId).includes(diary.userId)) return;
+    const input = $("input", form);
+    const commentText = [...input.value.trim()].slice(0, 100).join("");
+    if (!commentText) return;
+    diary.comments = Array.isArray(diary.comments) ? diary.comments : [];
+    diary.comments.push({ userId: currentUserId, nickname: currentNickname, text: commentText, createdAt: new Date().toISOString() });
+    if (saveDiaries(diaries)) renderDiaries();
+  });
+  $("#profile-content")?.addEventListener("click", (event) => {
+    if (event.target.closest("[data-diary-action]")) {
+      handleDiaryAction(event);
+      return;
+    }
+    const mode = event.target.closest("[data-diary-view]");
+    if (mode) {
+      diaryViewMode = mode.dataset.diaryView;
+      renderProfileTab();
+      return;
+    }
+    const month = event.target.closest("[data-diary-month]");
+    if (month) {
+      const [year, monthNumber] = diaryMonth.split("-").map(Number);
+      const next = new Date(Date.UTC(year, monthNumber - 1 + Number(month.dataset.diaryMonth), 1, 12));
+      diaryMonth = `${next.getUTCFullYear()}-${String(next.getUTCMonth() + 1).padStart(2, "0")}`;
+      renderProfileTab();
+      return;
+    }
+    const date = event.target.closest("[data-diary-date]");
+    if (date) {
+      const diary = getDiaries().find((entry) => entry.userId === currentUserId && entry.dateKey === date.dataset.diaryDate && !entry.deleted);
+      if (diary) $(`[data-diary-id="${diary.id}"]`, $("#profile-content"))?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  });
+  function scheduleDiaryMidnight() {
+    window.clearTimeout(diaryMidnightTimer);
+    const now = Date.now();
+    const localNow = new Date(now + 9 * 60 * 60 * 1000);
+    const nextUtc9Midnight = Date.UTC(localNow.getUTCFullYear(), localNow.getUTCMonth(), localNow.getUTCDate() + 1) - 9 * 60 * 60 * 1000;
+    diaryMidnightTimer = window.setTimeout(() => {
+      if (!$("#diary-panel").hidden) renderDiaries();
+      if (viewingProfileId === currentUserId && activeProfileTab === "diary") renderProfileTab();
+      scheduleDiaryMidnight();
+    }, Math.max(1000, nextUtc9Midnight - now + 250));
+  }
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      if (!$("#diary-panel").hidden) renderDiaries();
+      if (viewingProfileId === currentUserId && activeProfileTab === "diary") renderProfileTab();
+      scheduleDiaryMidnight();
+    }
+  });
+  scheduleDiaryMidnight();
+
+  /* 피드 패널을 눌러 펼치거나 접습니다. */
   $("#feed-toggle")?.addEventListener("click", () => {
     const collapsed = feedSheet.classList.toggle("is-collapsed");
     $("#feed-toggle").setAttribute("aria-expanded", String(!collapsed));
@@ -1673,7 +2219,20 @@
   $("#withdraw-confirm")?.addEventListener("change", updateWithdraw); $("#withdraw-password")?.addEventListener("input", updateWithdraw);
   $("#withdraw-submit")?.addEventListener("click", () => {
     const userId = currentUserId, account = demoAuth.getAccount(); if (!account || $("#withdraw-submit").disabled) return;
+    const previousFollowData = getFollowData();
     if (!removeFollowRelationships(userId)) { alert(text[language].storageError); return; }
+    const remainingDiaries = getDiaries().flatMap((diary) => {
+      if (diary.userId === userId) return [];
+      return [{
+        ...diary,
+        heartBy: (diary.heartBy || []).filter((id) => id !== userId),
+        comments: (diary.comments || []).filter((comment) => comment.userId !== userId)
+      }];
+    });
+    if (!saveDiaries(remainingDiaries)) {
+      if (!saveFollowData(previousFollowData)) console.error("탈퇴 취소 후 팔로우 정보를 복구하지 못했습니다.");
+      return;
+    }
     let oldLikedIds = []; try { oldLikedIds = JSON.parse(localStorage.getItem(LIKES_KEY) || "{}")[userId] || []; } catch (_) {}
     posts = posts.filter((post) => post.authorId !== userId && (post.authorId || post.nickname !== currentNickname));
     posts.forEach((post) => { const removedLikes = (post.likedBy || []).filter((id) => id === userId).length || (oldLikedIds.includes(post.id) ? 1 : 0); post.likedBy = (post.likedBy || []).filter((id) => id !== userId); post.likes = Math.max(0, (post.likes || 0) - removedLikes); post.comments = (post.comments || []).filter((comment) => comment.userId !== userId && comment.nickname !== currentNickname); });
@@ -1691,6 +2250,7 @@
   $("#consent-all")?.addEventListener("change", (event) => { $$('[data-consent]').forEach((box) => { box.checked = event.target.checked; }); syncSignupConsent(); });
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
+    if (!$("#diary-panel").hidden) closeDiaryPanel();
     if (!$("#post-detail-modal").hidden) closePostDetail();
     if (!$("#comment-photo-viewer").hidden) $("#comment-photo-viewer").hidden = true;
     if (!$("#policy-modal").hidden) $("#policy-modal").hidden = true;
