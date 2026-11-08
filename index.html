@@ -167,14 +167,15 @@
           <h2 id="diary-panel-title">📔 내 일기</h2>
           <button type="button" id="diary-close" aria-label="닫기">×</button>
         </header>
-        <section class="diary-panel-intro" aria-live="polite">
+        <section id="diary-panel-intro" class="diary-panel-intro" aria-live="polite">
           <time id="diary-panel-today"></time>
           <p id="diary-panel-prompt"></p>
         </section>
         <div class="diary-panel-tabs" role="tablist" aria-label="일기 보기">
-          <button type="button" data-diary-tab="mine" role="tab" aria-selected="true">내 일기</button>
+          <button type="button" data-diary-tab="write" role="tab" aria-selected="true">내 일기 쓰기</button>
+          <button type="button" data-diary-tab="mine" role="tab" aria-selected="false">내 일기 보기</button>
           <button type="button" data-diary-tab="following" role="tab" aria-selected="false">팔로잉 일기</button>
-          <button type="button" data-diary-tab="map" role="tab" aria-selected="false">🗺 일기 지도</button>
+          <button type="button" data-diary-tab="map" role="tab" aria-selected="false">일기 지도</button>
         </div>
         <p id="diary-privacy-note" class="diary-privacy-note"></p>
         <section id="diary-compose-section" class="diary-compose-section">
@@ -195,6 +196,7 @@
             <span id="diary-char-count" class="diary-char-count">0 / 500</span>
             <label id="diary-photo-label" for="diary-photo">사진 1장 (선택)</label>
             <input id="diary-photo" type="file" accept="image/*">
+            <p id="diary-photo-status" role="status" aria-live="polite"></p>
             <div id="diary-photo-preview" class="diary-photo-preview" hidden><img alt=""><button type="button" id="diary-photo-remove">×</button></div>
             <fieldset id="diary-location-controls" class="diary-location-controls">
               <legend id="diary-location-label"></legend>
@@ -263,6 +265,12 @@
           <button type="submit" id="post-submit-button" disabled>게시글 올리기</button>
         </form>
       </section>
+      <!-- 모바일 하단 고정 탭입니다. 기존 지도·피드·마이페이지 기능으로 이동합니다. -->
+      <nav class="mobile-bottom-tabs" aria-label="주요 메뉴">
+        <button type="button" class="is-active" data-mobile-tab="map" aria-label="지도">🗺<span>지도</span></button>
+        <button type="button" data-mobile-tab="feed" aria-label="피드">☷<span>피드</span></button>
+        <button type="button" data-mobile-tab="mypage" aria-label="마이페이지">👤<span>마이페이지</span></button>
+      </nav>
     </main>
     <!-- 회원가입 직후 닉네임과 사진을 등록하는 화면입니다. -->
     <main class="profile-setup-screen" id="profile-setup-screen" hidden>
@@ -346,7 +354,7 @@
     <section class="modal-card post-detail-card">
       <button type="button" id="post-detail-close" class="modal-close" aria-label="닫기">×</button>
       <button type="button" id="post-detail-back" class="post-detail-back" hidden>← 뒤로</button>
-      <img id="post-detail-photo" class="post-detail-photo" alt="">
+      <img id="post-detail-photo" class="post-detail-photo" data-zoomable-photo="true" alt="">
       <h2 id="post-detail-title"></h2>
       <div class="post-detail-author">
         <button type="button" class="profile-link-image" id="post-detail-profile-link"><img id="post-detail-avatar" alt=""></button>
@@ -367,6 +375,7 @@
     </section>
   </div>
   <div id="comment-photo-viewer" class="app-modal comment-photo-viewer" hidden role="dialog" aria-modal="true" aria-label="댓글 사진"><button type="button" class="modal-close" id="comment-photo-viewer-close" aria-label="닫기">×</button><img id="comment-photo-viewer-image" alt="댓글 사진 크게 보기"></div>
+  <div id="photo-lightbox" class="app-modal photo-lightbox" hidden role="dialog" aria-modal="true" aria-label="사진 크게 보기"><button type="button" class="modal-close" id="photo-lightbox-close" aria-label="닫기">×</button><img id="photo-lightbox-image" alt=""></div>
   <div id="follow-list-modal" class="app-modal" hidden role="dialog" aria-modal="true" aria-labelledby="follow-list-title">
     <section class="modal-card">
       <button type="button" class="modal-close" data-close-follow-list aria-label="닫기">×</button>

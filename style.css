@@ -192,7 +192,8 @@ body.welcome-mode { min-height: 100svh; overflow-y: auto; background: linear-gra
 .policy-menu-item { display: block; width: 100%; margin: 8px 0; padding: 12px; background: #EAF7FC; color: #244956; text-align: left; font-weight: 700; }
 .post-detail-card { width: min(100%, 700px); }
 .post-detail-card h2 { margin-top: 14px; }
-.post-detail-photo { display: block; width: 100%; max-height: min(42vh, 420px); border-radius: 15px; background: #F3F7F8; object-fit: contain; }
+.post-detail-photo { display: block; width: 100%; max-width: 100%; height: auto; max-height: 300px; border-radius: 12px; background: #F3F7F8; object-fit: cover; cursor: zoom-in; }
+.post-card > img, .diary-card-photo { display: block; max-width: 100%; height: auto; max-height: 300px; margin: 8px 0; border-radius: 12px; object-fit: cover; cursor: zoom-in; }
 .post-detail-author { display: flex; align-items: center; gap: 10px; margin: 12px 0; }
 .post-detail-author img { width: 42px; height: 42px; border: 2px solid #D8EFF8; border-radius: 50%; object-fit: cover; }
 .profile-link-image, .profile-link-name { padding: 0; background: transparent; color: inherit; text-align: left; }
@@ -227,7 +228,7 @@ body.welcome-mode { min-height: 100svh; overflow-y: auto; background: linear-gra
 .comment-photo-preview-wrap { position: relative; width: fit-content; margin: 9px 0 0; }
 .comment-photo-preview-wrap img { display: block; width: 76px; height: 76px; border-radius: 10px; object-fit: cover; }
 .comment-photo-preview-wrap button { position: absolute; top: -7px; right: -7px; width: 24px; height: 24px; border-radius: 50%; background: #BA3F50; color: #fff; line-height: 1; }
-.comment-photo-thumb { display: block; width: auto; max-width: min(180px, 45vw); max-height: 130px; margin-top: 6px; border-radius: 9px; object-fit: cover; cursor: zoom-in; }
+.comment-photo-thumb { display: block; width: auto; max-width: min(180px, 45vw); max-height: 180px; margin-top: 6px; border-radius: 9px; object-fit: cover; cursor: zoom-in; }
 .comment-actions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
 .comment-actions button { min-height: 27px; padding: 4px 8px; background: #F1F7F9; color: #42555E; font-size: .75rem; }
 .category-marker-wrap { border: 0; background: transparent; }
@@ -235,6 +236,9 @@ body.welcome-mode { min-height: 100svh; overflow-y: auto; background: linear-gra
 .comment-photo-viewer { background: rgba(19, 27, 31, .88); }
 .comment-photo-viewer > img { max-width: min(94vw, 1100px); max-height: 88dvh; border-radius: 12px; object-fit: contain; }
 .comment-photo-viewer .modal-close { position: fixed; z-index: 1; top: max(12px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); background: rgba(255,255,255,.9); }
+.photo-lightbox { background: rgba(19, 27, 31, .9); }
+.photo-lightbox > img { max-width: 100%; max-height: 80vh; border-radius: 12px; object-fit: contain; }
+.photo-lightbox .modal-close { position: fixed; z-index: 1; top: max(12px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); background: rgba(255,255,255,.9); }
 .post-detail-comment-status { min-height: 1.2em; margin: 5px 0 0; color: #BA3F50; font-size: .82rem; }
 .comment-list li { margin: 4px 0; }
 .policy-notice { padding: 10px; border-radius: 10px; background: #FFF3DC; color: #765A2D; font-weight: 700; }
@@ -438,7 +442,7 @@ body.app-mode { height: 100%; overflow: hidden; }
   .welcome-card { padding: 24px 21px 20px; border-radius: 26px; }
   .post-detail-modal { padding: 10px; }
   .post-detail-card { max-height: 92dvh; padding: 18px 16px; border-radius: 18px; }
-  .post-detail-photo { max-height: 34vh; }
+  .post-detail-photo { max-height: 300px; }
   .post-detail-comment-form { gap: 6px; }
   .post-detail-comment-form button { padding-inline: 9px; font-size: .82rem; }
   #brand-title { margin-bottom: 20px; }
@@ -592,7 +596,7 @@ body.app-mode { height: 100%; overflow: hidden; }
 .diary-panel-intro { flex: 0 0 auto; margin: 12px 0 2px; padding: 15px 14px; border: 1px solid #DCEEF4; border-radius: 16px; background: linear-gradient(135deg, #F7F0E4, #EAF7FC); }
 .diary-panel-intro time { color: #527A89; font-size: .86rem; font-weight: 800; }
 .diary-panel-intro p { margin: 4px 0 0; color: #315D70; font-size: 1.18rem; font-weight: 900; }
-.diary-panel-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin: 12px 0 8px; }
+.diary-panel-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; margin: 12px 0 8px; }
 .diary-panel-tabs button { min-height: 40px; padding: 7px; background: #F0F5F7; color: var(--color-text); font-weight: 700; }
 .diary-panel-tabs button[aria-selected="true"] { background: var(--color-sky-blue); }
 .diary-privacy-note { flex: 0 0 auto; margin: 0 0 9px; padding: 9px 11px; border-radius: 12px; background: #F5EBDD; color: #685A43; font-size: .82rem; }
@@ -636,7 +640,8 @@ body.app-mode { height: 100%; overflow: hidden; }
 .diary-moods input:focus-visible + span { outline: 3px solid #357A96; outline-offset: 2px; }
 .diary-char-count { justify-self: end; color: #718087; font-size: .74rem; }
 .diary-photo-preview { position: relative; width: fit-content; }
-.diary-photo-preview img { display: block; width: auto; max-width: 180px; max-height: 120px; border-radius: 10px; object-fit: cover; }
+.diary-photo-preview img { display: block; width: auto; max-width: 100%; height: auto; max-height: 300px; border-radius: 12px; object-fit: cover; }
+#diary-photo-status { margin: 0; color: #BA3F50; font-size: .82rem; }
 .diary-photo-preview button { position: absolute; top: -7px; right: -7px; width: 25px; height: 25px; background: #BA3F50; color: #fff; }
 .diary-form-actions, .diary-card-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 5px; }
 .diary-form-actions button, .diary-card-actions button, .diary-comment-form button { min-height: 34px; padding: 6px 11px; background: #EAF7FC; color: #315D70; font-size: .82rem; font-weight: 700; }
@@ -650,7 +655,6 @@ body.app-mode { height: 100%; overflow: hidden; }
 .diary-mutual-badge { padding: 3px 8px; border-radius: 999px; background: #EAF7FC; color: #315D70; font-size: .72rem; font-weight: 800; }
 .diary-card-meta { margin: 5px 0; color: #718087; font-size: .77rem; }
 .diary-card-body { margin: 8px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
-.diary-card-photo { display: block; width: auto; max-width: 100%; max-height: 240px; margin: 8px 0; border-radius: 12px; object-fit: contain; }
 .diary-card-actions button[data-diary-action="delete"] { background: #F9E9E9; color: #8E3840; }
 .diary-comments { margin: 8px 0; padding-left: 18px; font-size: .82rem; }
 .diary-comments li { margin: 4px 0; overflow-wrap: anywhere; }
@@ -699,6 +703,152 @@ body.app-mode { height: 100%; overflow: hidden; }
   .profile-tabs button { padding-inline: 3px; font-size: .8rem; }
 }
 
+/* 앞선 호환용 모바일 규칙보다 우선 적용되는 최종 768px 레이아웃 보정입니다. */
+@media (max-width: 768px) {
+  /* 전체 화면 일기 패널이 상단 헤더보다 위에 표시되도록 모바일 레이어를 조정합니다. */
+  .map-screen { display: block; position: relative; z-index: 1001; height: calc(100dvh - 56px); }
+  .map-column { position: absolute; inset: 0; display: block; }
+  #map { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .map-controls { top: 10px; right: 10px; left: 10px; width: auto; max-height: none; overflow: visible; }
+  .feed-sheet { position: absolute; right: 0; bottom: 64px; left: 0; width: 100%; height: 35dvh; max-height: 85dvh; padding: 0 10px max(8px, env(safe-area-inset-bottom)); border: 0; border-radius: 20px 20px 0 0; }
+  .feed-sheet:not(.is-collapsed) { height: 85dvh; }
+  .feed-sheet.is-collapsed { height: 35dvh; max-height: 35dvh; }
+  .feed-sheet .feed-toolbar { display: block; }
+  .feed-sheet.is-collapsed .feed-toolbar, .feed-sheet.is-collapsed #post-list, .feed-sheet.is-collapsed #feed-load-more, .feed-sheet.is-collapsed #mypage-button { display: none; }
+  #post-list { display: flex; flex-direction: column; overflow-x: hidden; overflow-y: auto; }
+  #map-category-filters { position: absolute; right: 0; bottom: 64px; left: 0; padding: 6px 9px; overflow-x: auto; }
+  #map .leaflet-top.leaflet-right { top: 112px; right: 10px; }
+  #map .leaflet-bottom.leaflet-right { right: 8px; bottom: 76px; }
+  #compose-button { position: fixed; right: 14px; bottom: calc(64px + 35dvh + 12px); }
+  .feed-sheet:not(.is-collapsed) ~ #compose-button { bottom: calc(64px + 85dvh + 12px); }
+  .feed-sheet.is-collapsed ~ #compose-button { bottom: 76px; }
+  .compose-sheet { position: fixed; inset: 0; right: auto; bottom: auto; width: 100%; max-width: none; height: 100dvh; max-height: 100dvh; }
+
+  /* 시작 화면에서는 지도와 겹치지 않게 환영 카드와 버튼을 줄여 배치합니다. */
+  .welcome-map-greeting { top: 8px; width: calc(100% - 24px); padding: 8px 10px; border-radius: 14px; }
+  .welcome-map-greeting h2 { margin-bottom: 2px; font-size: 1rem; }
+  .welcome-map-greeting p { font-size: .76rem; }
+  .welcome-map-mode .welcome-map-start {
+    bottom: calc(env(safe-area-inset-bottom) + 76px);
+    left: 5vw;
+    width: 90vw;
+    min-width: 0;
+    min-height: 52px;
+    height: 52px;
+    padding: 0 12px;
+    border-radius: 16px;
+    font-size: 1rem;
+    transform: none;
+  }
+  .welcome-map-mode .welcome-map-start:hover { transform: translateY(-2px); }
+  .welcome-map-mode .app-header .user-actions .diary-toggle {
+    position: fixed;
+    z-index: 1201;
+    right: auto;
+    bottom: calc(env(safe-area-inset-bottom) + 12px);
+    left: 5vw;
+    width: 90vw;
+    min-height: 52px;
+    height: 52px;
+    justify-content: center;
+    border-radius: 16px;
+  }
+  .welcome-map-mode .app-header .user-actions .diary-toggle-label-desktop { display: none; }
+  .welcome-map-mode .app-header .user-actions .diary-toggle-label-mobile { display: inline; }
+  .diary-panel-tabs button { min-height: 44px; padding: 7px 5px; font-size: .9rem; }
+}
+
+/* 새 모바일 탭은 PC의 기존 화면을 가리지 않도록 데스크톱에서 숨깁니다. */
+@media (min-width: 769px) {
+  .mobile-bottom-tabs { display: none; }
+}
+
+/* 768px 이하 휴대폰 화면: 지도 위에 바텀시트를 겹치고, 모든 조작 영역을 크게 만듭니다. */
+@media (max-width: 768px) {
+  :root { --header-height: 56px; }
+  html, body { width: 100%; min-height: 100%; overflow-x: hidden; }
+  body.app-mode { height: 100dvh; min-height: 100dvh; overflow: hidden; }
+  #app-shell { height: 100dvh; min-height: 100dvh; }
+
+  /* 상단 바는 한 줄을 유지하고 좁은 화면에서는 아이콘 중심으로 축약합니다. */
+  .app-header { height: 56px; min-height: 56px; gap: 8px; padding: 6px 10px; }
+  .app-header h1, .app-logo { min-width: 0; font-size: 1rem; white-space: nowrap; }
+  .app-logo span { display: none; }
+  .app-language-switch { flex: 0 0 auto; gap: 0; padding: 2px; border-radius: 999px; background: rgba(255,255,255,.4); }
+  .app-language-switch button { min-width: 44px; min-height: 44px; padding: 4px 6px; white-space: nowrap; font-size: .72rem; }
+  .user-actions { flex: 0 0 auto; gap: 4px; }
+  #signed-in-name, .diary-toggle-label-desktop, .diary-toggle-label-mobile, #profile-open-button { display: none; }
+  .notifications-button, .diary-toggle { min-width: 44px; min-height: 44px; padding: 4px; background: rgba(255,255,255,.72); }
+  .diary-toggle { position: relative; inset: auto; display: inline-flex; box-shadow: none; }
+  .diary-toggle::before { content: "📔"; font-size: 1.15rem; }
+
+  /* 지도는 헤더 아래 전체를 차지하며, 검색과 도시는 서로 겹치지 않습니다. */
+  .map-screen { display: block; position: relative; height: calc(100dvh - 56px); min-height: 0; overflow: hidden; }
+  .map-column { position: absolute; z-index: 1; inset: 0; display: block; min-height: 0; }
+  #map { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .map-controls { top: 10px; right: 10px; left: 10px; width: auto; max-height: none; overflow: visible; transform: none; }
+  #place-search { height: 46px; min-height: 44px; padding-left: 14px; }
+  #search-input, .map-controls input { min-width: 0; font-size: 16px; }
+  #place-search button { flex-basis: 44px; width: 44px; height: 44px; }
+  .city-switch { justify-content: flex-start; gap: 8px; margin-top: 8px; }
+  .city-switch button { min-width: 64px; min-height: 44px; padding: 6px 12px; }
+  .search-results { top: 54px; max-height: 35dvh; }
+  #map .leaflet-top.leaflet-right { top: 112px; right: 10px; }
+  #map .leaflet-bottom.leaflet-right { right: 8px; bottom: 76px; }
+
+  /* 피드는 화면 아래에서 올라오며, 손잡이 버튼으로 35%와 85%를 오갑니다. */
+  .feed-sheet { position: absolute; z-index: 600; right: 0; bottom: 64px; left: 0; display: flex; height: 35dvh; max-height: 85dvh; min-height: 76px; padding: 0 10px max(8px, env(safe-area-inset-bottom)); border: 0; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 25px rgba(30,45,55,.2); transition: height 220ms ease; }
+  .feed-sheet:not(.is-collapsed) { height: 85dvh; }
+  .feed-sheet.is-collapsed { height: 35dvh; max-height: 35dvh; }
+  .sheet-handle { flex: 0 0 48px; min-height: 44px; justify-content: center; padding: 12px 42px 4px; white-space: nowrap; }
+  .handle-bar { display: block; top: 7px; width: 42px; height: 5px; }
+  .feed-toolbar { flex: 0 0 auto; max-width: 100%; padding-bottom: 6px; }
+  .feed-filter-group, #category-filters, .category-filters { flex-wrap: nowrap; justify-content: flex-start; gap: 8px; margin: 0 0 6px; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+  .feed-filter-group button, .category-filters button, #map-category-filters button { flex: 0 0 auto; min-width: 44px; min-height: 44px; padding: 7px 10px; font-size: .78rem; white-space: nowrap; }
+  #category-legend { display: flex; overflow-x: auto; white-space: nowrap; }
+  .feed-sheet.is-collapsed #category-legend, .feed-sheet.is-collapsed .category-legend { display: none; }
+  #post-list { display: flex; flex: 1 1 auto; flex-direction: column; gap: 8px; padding: 8px 2px; overflow-x: hidden; overflow-y: auto; }
+  .post-card { flex: 0 0 auto; min-height: 0; padding: 13px; }
+  .post-actions { gap: 8px; }
+  .post-actions button { min-width: 44px; min-height: 44px; padding: 8px 10px; font-size: .84rem; white-space: normal; }
+  #mypage-button { display: none; }
+  .feed-sheet.is-collapsed #post-list { display: none; }
+
+  /* 지도 아래 카테고리 줄은 하단 탭 위에 고정해 겹치지 않게 합니다. */
+  #map-category-filters { position: absolute; z-index: 550; right: 0; bottom: 64px; left: 0; justify-content: flex-start; margin: 0; padding: 6px 9px; border-top: 1px solid #E4ECEF; background: rgba(255,253,248,.94); }
+  #map-category-filters button { font-size: .76rem; }
+  #compose-button { position: fixed; z-index: 900; right: 14px; bottom: calc(64px + 35dvh + 12px); width: 52px; height: 52px; font-size: 2rem; }
+  .feed-sheet:not(.is-collapsed) ~ #compose-button { bottom: calc(64px + 85dvh + 12px); }
+  .feed-sheet.is-collapsed ~ #compose-button { bottom: 76px; }
+
+  /* 모바일 하단 탭은 항상 보이고, 안전 영역만큼 여백을 확보합니다. */
+  .mobile-bottom-tabs { position: fixed; z-index: 1100; right: 0; bottom: 0; left: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; min-height: 64px; padding: 6px 8px max(6px, env(safe-area-inset-bottom)); background: rgba(255,255,255,.97); box-shadow: 0 -2px 12px rgba(30,45,55,.16); }
+  .mobile-bottom-tabs button { display: grid; min-height: 44px; place-items: center; gap: 0; padding: 2px 4px; background: transparent; color: #58717B; font-size: 1.05rem; line-height: 1; white-space: nowrap; }
+  .mobile-bottom-tabs button span { font-size: .7rem; }
+  .mobile-bottom-tabs button.is-active { background: var(--color-beige); color: #315D70; font-weight: 800; }
+
+  /* 글쓰기, 글 상세, 프로필, 일기는 휴대폰 화면을 가득 채우는 창으로 엽니다. */
+  .compose-sheet, .app-modal .modal-card, .profile-setup-screen, .profile-page, .diary-panel { position: fixed; z-index: 3000; inset: 0; width: 100%; height: 100dvh; max-height: 100dvh; min-width: 0; margin: 0; padding: max(12px, env(safe-area-inset-top)) 14px max(12px, env(safe-area-inset-bottom)); overflow-y: auto; border: 0; border-radius: 0; }
+  .compose-sheet { right: auto; bottom: auto; max-width: none; }
+  .modal-card { border-radius: 0; }
+  .modal-close, #close-compose, #diary-close { width: 48px; height: 48px; font-size: 1.7rem; }
+  .profile-page { top: 56px; height: calc(100dvh - 56px); padding-top: 14px; }
+  .profile-setup-screen { top: 56px; height: calc(100dvh - 56px); }
+  .profile-back { min-width: 48px; min-height: 48px; font-size: 0; }
+  .profile-back::after { content: "×"; font-size: 1.8rem; }
+  .profile-summary { align-items: flex-start; gap: 12px; }
+  .profile-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .profile-tabs button, .profile-item button, .profile-panel input, .profile-panel select, .diary-panel input, .diary-panel textarea { min-height: 44px; font-size: 16px; }
+  .diary-panel { top: 0; padding-top: max(12px, env(safe-area-inset-top)); }
+  .diary-panel-header button { width: 48px; height: 48px; }
+  #post-form input, #post-form select, #post-form textarea { min-height: 44px; font-size: 16px; }
+  #post-form button[type="submit"], .diary-form-actions button { min-height: 48px; }
+  .post-detail-card { inset: 0; width: 100%; max-height: 100dvh; padding-top: 64px; }
+  .post-detail-actions { flex-wrap: wrap; gap: 8px; }
+  .post-detail-actions button, .post-detail-comment-form button { min-height: 44px; }
+  .post-detail-comment-form input { min-height: 44px; font-size: 16px; }
+}
+
 /* 모바일에서는 피드가 위, 지도가 아래에 이어집니다. */
 @media (max-width: 760px) {
   .map-screen {
@@ -731,4 +881,25 @@ body.app-mode { height: 100%; overflow: hidden; }
   #compose-button { right: 16px; bottom: 78px; }
   .feed-sheet.is-collapsed ~ #compose-button { bottom: 78px; }
   .compose-sheet { right: 8px; bottom: 8px; width: calc(100% - 16px); }
+}
+
+/* 가장 마지막 모바일 보정: 기존 760px 호환 규칙보다 우선해 지도와 바텀시트를 겹칩니다. */
+@media (max-width: 768px) {
+  .map-screen { display: block; position: relative; z-index: 1001; height: calc(100dvh - 56px); }
+  .map-column { position: absolute; inset: 0; display: block; }
+  #map { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .map-controls { top: 10px; right: 10px; left: 10px; width: auto; max-height: none; overflow: visible; }
+  .feed-sheet { position: absolute; right: 0; bottom: 64px; left: 0; width: 100%; height: 35dvh; max-height: 85dvh; padding: 0 10px max(8px, env(safe-area-inset-bottom)); border: 0; border-radius: 20px 20px 0 0; }
+  .feed-sheet:not(.is-collapsed) { height: 85dvh; }
+  .feed-sheet.is-collapsed { height: 35dvh; max-height: 35dvh; }
+  .feed-sheet .feed-toolbar { display: block; }
+  .feed-sheet.is-collapsed .feed-toolbar, .feed-sheet.is-collapsed #post-list, .feed-sheet.is-collapsed #feed-load-more, .feed-sheet.is-collapsed #mypage-button { display: none; }
+  #post-list { display: flex; flex-direction: column; overflow-x: hidden; overflow-y: auto; }
+  #map-category-filters { position: absolute; right: 0; bottom: 64px; left: 0; padding: 6px 9px; overflow-x: auto; }
+  #map .leaflet-top.leaflet-right { top: 112px; right: 10px; }
+  #map .leaflet-bottom.leaflet-right { right: 8px; bottom: 76px; }
+  #compose-button { position: fixed; right: 14px; bottom: calc(64px + 35dvh + 12px); }
+  .feed-sheet:not(.is-collapsed) ~ #compose-button { bottom: calc(64px + 85dvh + 12px); }
+  .feed-sheet.is-collapsed ~ #compose-button { bottom: 76px; }
+  .compose-sheet { position: fixed; inset: 0; right: auto; bottom: auto; width: 100%; max-width: none; height: 100dvh; max-height: 100dvh; }
 }

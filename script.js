@@ -28,6 +28,11 @@
   const categoryColors = { school: "#8B68C8", cafe: "#D58A36", food: "#E35B5B", walk: "#4AAB78" };
   const text = {
     ko: {
+      diaryWriteTab: "내 일기 쓰기", diaryMineTab: "내 일기 보기", diaryFollowingTab: "팔로잉 일기", diaryMapTab: "일기 지도",
+      diaryLimitMessage: "오늘은 이미 일기를 썼어요. 내 일기 보기에서 확인하세요",
+      photoTooLarge: "사진은 10MB 이하만 선택할 수 있어요.", photoReadError: "사진을 읽지 못했어요.",
+      storageFullMessage: "저장 공간이 부족해요. 사진을 줄이거나 일부 글을 삭제해 주세요",
+      photoViewerLabel: "사진 크게 보기", photoViewerAlt: "확대해서 보는 사진",
       appTitle: "Haru Pin ハルピン", tagline: "하루의 장소와 이야기를 잇다", languageHeading: "언어 설정", loginHeading: "로그인",
       profileBack: "← 뒤로", joinedAt: "가입일", residenceLabel: "거주지", postsCount: "게시글", followers: "팔로워", following: "팔로잉", follow: "팔로우", followed: "팔로잉 ✓", unfollowConfirm: "팔로우를 취소할까요?", noFollowList: "아직 목록이 없어요.", noJoinedDate: "정보 없음", profilePosts: "게시글",
       login: "로그인", signup: "처음이에요 / 회원가입", nickname: "닉네임", password: "비밀번호",
@@ -56,6 +61,11 @@
       translationConsent: "번역을 위해 선택한 글과 댓글 내용이 MyMemory 번역 API로 전송됩니다. 계속할까요?"
     },
     ja: {
+      diaryWriteTab: "日記を書く", diaryMineTab: "自分の日記", diaryFollowingTab: "フォロー中の日記", diaryMapTab: "日記マップ",
+      diaryLimitMessage: "今日はすでに日記を書いています。「自分の日記」で確認してください",
+      photoTooLarge: "写真は10MB以下のものを選択してください。", photoReadError: "写真を読み込めませんでした。",
+      storageFullMessage: "保存容量が不足しています。写真を小さくするか、一部の投稿を削除してください",
+      photoViewerLabel: "写真を拡大表示", photoViewerAlt: "拡大表示された写真",
       appTitle: "Haru Pin ハルピン", tagline: "一日の場所と思い出をつなぐ", languageHeading: "言語設定", loginHeading: "ログイン",
       profileBack: "← 戻る", joinedAt: "登録日", residenceLabel: "居住地", postsCount: "投稿", followers: "フォロワー", following: "フォロー中", follow: "フォロー", followed: "フォロー中 ✓", unfollowConfirm: "フォローを解除しますか？", noFollowList: "リストはまだありません。", noJoinedDate: "情報なし", profilePosts: "投稿",
       login: "ログイン", signup: "初めての方 / 新規登録", nickname: "ニックネーム", password: "パスワード",
@@ -103,6 +113,12 @@
   const searchForm = $("#place-search");
   if (!mapElement || !feed || !form) return;
 
+  /* 모바일에서는 처음에 지도가 많이 보이도록 피드를 접어 둡니다. */
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    feedSheet.classList.add("is-collapsed");
+    $("#feed-toggle")?.setAttribute("aria-expanded", "false");
+  }
+
   function readLanguage() {
     try { return localStorage.getItem(LANGUAGE_KEY) === "ja" ? "ja" : "ko"; }
     catch (_) { return "ko"; }
@@ -131,6 +147,7 @@
   let tutorialIndex = 0;
   let translationConsentGranted = false;
   let profilePhotoDraft = "";
+  let postPhotoDraft = "";
   let commentPhotoDraft = "";
   let draftLocation = null;
   let draftMarker = null;
@@ -149,7 +166,7 @@
   let diaryFormInitialized = false;
   let diaryFormDateKey = "";
   let editingDiaryId = "";
-  let activeDiaryTab = "mine";
+  let activeDiaryTab = "write";
   let diaryViewMode = "list";
   let diaryMonth = getDiaryDate().slice(0, 7);
   let diaryMidnightTimer;
@@ -253,6 +270,7 @@
   // 환영 지도에서 한국과 일본, 현재까지 작성된 모든 게시글을 함께 보여줍니다.
   function showWelcomeMap() {
     if (!composePanel.hidden) closeCompose();
+    document.body.classList.add("welcome-map-mode");
     $("#profile-setup-screen").hidden = true;
     $("#profile-page").hidden = true;
     $(".map-screen").hidden = true;
@@ -433,7 +451,7 @@
       return true;
     } catch (error) {
       console.error("일기를 저장하지 못했습니다.", error);
-      alert(text[language].saveError);
+      alert(text[language].storageFullMessage);
       return false;
     }
   }
@@ -887,6 +905,7 @@
   }
   function setAvatar(image, profile = getProfile(currentUserId)) { if (image) image.src = avatarSource(profile); }
   function openProfileSetup() {
+    document.body.classList.remove("welcome-map-mode");
     $(".map-screen").hidden = true; $("#welcome-map-screen").hidden = true; $("#profile-page").hidden = true; $("#profile-setup-screen").hidden = false;
     $("#profile-open-button").hidden = true;
     const profile = getProfile(currentUserId); $("#setup-nickname").value = profile?.nickname || "";
@@ -894,6 +913,7 @@
     profilePhotoDraft = profile?.photo || ""; setAvatar($("#setup-avatar"), { nickname: $("#setup-nickname").value, photo: profilePhotoDraft }); $("#setup-status").textContent = "";
   }
   function openProfilePage() {
+    document.body.classList.remove("welcome-map-mode");
     profileHistory = [];
     profileOrigin = { kind: "map" };
     showProfile(currentUserId);
@@ -949,6 +969,7 @@
   }
   function showProfile(userId) {
     if (!userId) return;
+    document.body.classList.remove("welcome-map-mode");
     viewingProfileId = userId;
     const own = userId === currentUserId;
     $(".map-screen").hidden = true;
@@ -1196,6 +1217,7 @@
     if (diary.photo) {
       const image = document.createElement("img");
       image.className = "diary-card-photo";
+      image.dataset.zoomablePhoto = "true";
       image.src = diary.photo;
       image.alt = w.diaryImageAlt;
       image.loading = "lazy";
@@ -1261,27 +1283,32 @@
     if (!target) return;
     const mapTab = activeDiaryTab === "map";
     const followingTab = activeDiaryTab === "following";
-    $("#diary-compose-section").hidden = followingTab || mapTab;
-    $("#diary-privacy-note").hidden = followingTab;
+    const writeTab = activeDiaryTab === "write";
+    $("#diary-compose-section").hidden = !writeTab;
+    $("#diary-panel-intro").hidden = writeTab;
+    $("#diary-privacy-note").hidden = writeTab || followingTab;
     $("#diary-map-section").hidden = !mapTab;
-    target.hidden = mapTab;
+    target.hidden = mapTab || writeTab;
     $$("[data-diary-tab]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.diaryTab === activeDiaryTab)));
     if (mapTab) {
       renderDiaryMap();
       return;
     }
     target.replaceChildren();
+    if (writeTab) {
+      syncDiaryForm();
+      initializeDiaryLocationPicker();
+      return;
+    }
     if (!followingTab) {
       const mine = getDiaries().filter((diary) => diary.userId === currentUserId && visibleDiaryForViewer(diary))
         .sort((a, b) => b.dateKey.localeCompare(a.dateKey));
       if (!mine.length) {
         const empty = document.createElement("p");
         empty.className = "diary-empty";
-        empty.textContent = text[language].diaryNoToday;
+        empty.textContent = text[language].diaryEmpty;
         target.append(empty);
       } else mine.forEach((diary) => target.append(makeDiaryCard(diary, { ownerControls: true, canEdit: diary.dateKey === getDiaryDate() })));
-      syncDiaryForm();
-      initializeDiaryLocationPicker();
       return;
     }
     const entries = getDiaries().filter((diary) => diary.userId !== currentUserId && visibleDiaryForViewer(diary))
@@ -1305,7 +1332,7 @@
     updateDiaryToggleState();
     const form = $("#diary-form");
     if (!form) return;
-    $("#diary-daily-status").textContent = blocked ? text[language].diaryTodayExists : "";
+    $("#diary-daily-status").textContent = blocked ? text[language].diaryLimitMessage : "";
     [...form.elements].forEach((element) => { element.disabled = blocked && element.id !== "diary-cancel-edit"; });
     $("#diary-title").disabled = blocked;
     $("#diary-body").disabled = blocked;
@@ -1320,6 +1347,7 @@
       if (resetDraft) {
         form.reset();
         diaryPhotoDraft = "";
+        $("#diary-photo-status").textContent = "";
         $("#diary-photo-preview").hidden = true;
         $("#diary-char-count").textContent = "0 / 500";
         setDiaryLocation(null);
@@ -1480,12 +1508,12 @@
     if (action === "delete") {
       if (!confirm(text[language].deleteCommentConfirm)) return;
       const [removed] = comments.splice(index, 1);
-      if (!savePosts(text[language].commentSaveError)) { comments.splice(index, 0, removed); return; }
+      if (!savePosts(text[language].storageFullMessage)) { comments.splice(index, 0, removed); return; }
     } else {
       if (!comment.photo || !confirm(text[language].deleteCommentPhotoConfirm)) return;
       const photo = comment.photo;
       comment.photo = "";
-      if (!savePosts(text[language].commentSaveError)) { comment.photo = photo; return; }
+      if (!savePosts(text[language].storageFullMessage)) { comment.photo = photo; return; }
     }
     renderFeed();
     if (!$("#post-detail-modal").hidden && activeDetailPostId === String(post.id)) renderPostDetail(post);
@@ -1515,7 +1543,7 @@
   }
 
   /* 게시글과 반응을 브라우저에 저장해 새로고침 뒤에도 유지합니다. */
-  function savePosts(errorMessage = text[language].saveError) {
+  function savePosts(errorMessage = text[language].storageFullMessage) {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(posts)); }
     catch (error) { alert(errorMessage); console.warn("게시글을 저장하지 못했습니다.", error); return false; }
     renderWelcomeMapSummary();
@@ -1575,10 +1603,18 @@
     updateDiaryToggleState();
     $("#diary-close")?.setAttribute("aria-label", w.close);
     $$("[data-diary-tab]").forEach((button) => {
-      button.textContent = button.dataset.diaryTab === "following" ? w.diaryFollowing
-        : button.dataset.diaryTab === "map" ? w.diaryMap : w.diaryMine;
+      const tabLabels = {
+        write: w.diaryWriteTab,
+        mine: w.diaryMineTab,
+        following: w.diaryFollowingTab,
+        map: w.diaryMapTab
+      };
+      button.textContent = tabLabels[button.dataset.diaryTab];
       button.setAttribute("aria-selected", String(button.dataset.diaryTab === activeDiaryTab));
     });
+    $("#photo-lightbox")?.setAttribute("aria-label", w.photoViewerLabel);
+    $("#photo-lightbox-close")?.setAttribute("aria-label", w.close);
+    $("#photo-lightbox-image")?.setAttribute("alt", w.photoViewerAlt);
     setText("#diary-privacy-note", w.diaryPrivacy);
     setText("#diary-title-label", w.diaryTitle);
     setText("#diary-mood-label", w.diaryMood);
@@ -1841,6 +1877,8 @@
   /* 새 게시글을 만들 때 지도에서 고른 위치를 임시 핀으로 표시합니다. */
   function openCompose(location = null, editPost = null) {
     postEditId = editPost ? String(editPost.id) : "";
+    postPhotoDraft = "";
+    $("#photo").value = "";
     setText("#post-form-status", "");
     draftLocation = location;
     if (draftMarker) draftMarker.remove();
@@ -1874,6 +1912,8 @@
   function closeCompose() {
     composePanel.hidden = true;
     document.body.classList.remove("compose-open");
+    postPhotoDraft = "";
+    $("#photo").value = "";
     draftLocation = null;
     if (draftMarker) draftMarker.remove();
     draftMarker = null;
@@ -1946,6 +1986,7 @@
     card.append(story);
     if (post.photo) {
       const image = document.createElement("img");
+      image.dataset.zoomablePhoto = "true";
       image.src = post.photo;
       image.alt = w.photoAlt;
       image.loading = "lazy";
@@ -2312,34 +2353,67 @@
     });
   }
 
-  // 댓글 사진은 최대 변을 800px로 맞춰 브라우저 저장 공간을 아낍니다.
-  async function readResizedPhoto(file) {
+  // 사진은 10MB 이하만 받고, 긴 변이 1024px를 넘을 때만 JPEG로 줄입니다.
+  async function readResizedPhoto(file, maxDimension = 1024, quality = 0.8) {
+    if (file.size > 10 * 1024 * 1024) throw new Error("photo-too-large");
     const source = await readPhoto(file);
     if (!source) return "";
     const image = await new Promise((resolve, reject) => {
       const element = new Image(); element.onload = () => resolve(element); element.onerror = reject; element.src = source;
     });
-    const ratio = Math.min(1, 800 / Math.max(image.naturalWidth, image.naturalHeight));
+    const longestSide = Math.max(image.naturalWidth, image.naturalHeight);
+    if (longestSide <= maxDimension) return source;
+    const ratio = maxDimension / longestSide;
     const canvas = document.createElement("canvas");
     canvas.width = Math.max(1, Math.round(image.naturalWidth * ratio));
     canvas.height = Math.max(1, Math.round(image.naturalHeight * ratio));
     const context = canvas.getContext("2d");
+    if (!context) throw new Error("사진을 줄이지 못했습니다.");
     context.fillStyle = "#fff"; context.fillRect(0, 0, canvas.width, canvas.height);
     context.drawImage(image, 0, 0, canvas.width, canvas.height);
-    return canvas.toDataURL("image/jpeg", 0.82);
+    return canvas.toDataURL("image/jpeg", quality);
   }
+
+  $("#photo")?.addEventListener("change", async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      postPhotoDraft = "";
+      return;
+    }
+    try {
+      postPhotoDraft = await readResizedPhoto(file);
+      setText("#post-form-status", "");
+    } catch (error) {
+      postPhotoDraft = "";
+      if (error instanceof Error && error.message === "photo-too-large") {
+        setText("#post-form-status", text[language].photoTooLarge);
+      } else {
+        console.warn("게시글 사진을 읽지 못했습니다.", error);
+        setText("#post-form-status", text[language].photoReadError);
+      }
+    }
+  });
 
   /* 새 게시글 저장과 입력 폼 제출을 처리합니다. */
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!form.reportValidity()) return;
+    setText("#post-form-status", "");
     if (!$("#posting-agreement").checked) { $("#posting-agreement").focus(); return; }
     const nickname = $("#nickname").value.trim();
     const region = $("#post-region").value;
     let photo = "";
     const previousPost = postEditId ? posts.find((entry) => String(entry.id) === postEditId) : null;
-    try { photo = $("#photo").files[0] ? await readPhoto($("#photo").files[0]) : previousPost?.photo || ""; }
-    catch (error) { console.warn("사진을 읽지 못했습니다.", error); }
+    try { photo = $("#photo").files[0] ? postPhotoDraft || await readResizedPhoto($("#photo").files[0]) : previousPost?.photo || ""; }
+    catch (error) {
+      if (error instanceof Error && error.message === "photo-too-large") {
+        setText("#post-form-status", text[language].photoTooLarge);
+      } else {
+        console.warn("사진을 읽지 못했습니다.", error);
+        setText("#post-form-status", text[language].photoReadError);
+      }
+      return;
+    }
     const place = $("#place").value.trim(), story = $("#story").value.trim();
     if ([...place].length > 50 || [...story].length > 1000) {
       setText("#post-form-status", [...place].length > 50 ? text[language].titleLimit : text[language].storyLimit);
@@ -2356,13 +2430,24 @@
       }
     }
     if (previousPost) {
+      const originalPost = {
+        place: previousPost.place,
+        story: previousPost.story,
+        region: previousPost.region,
+        category: previousPost.category,
+        photo: previousPost.photo,
+        editedAt: previousPost.editedAt
+      };
       previousPost.place = place;
       previousPost.story = story;
       previousPost.region = region;
       previousPost.category = $("#category").value;
       previousPost.photo = photo;
       previousPost.editedAt = new Date().toISOString();
-      savePosts();
+      if (!savePosts()) {
+        Object.assign(previousPost, originalPost);
+        return;
+      }
       closeCompose();
       renderFeed(); renderMarkers();
       return;
@@ -2376,9 +2461,12 @@
       likes: 0, reactions: [], comments: [], createdAt: new Date().toISOString(), isExample: false
     };
     posts.unshift(post);
+    if (!savePosts()) {
+      posts.shift();
+      return;
+    }
     currentNickname = nickname;
     try { localStorage.setItem(PROFILE_KEY, nickname); } catch (_) { /* 저장이 막힌 브라우저에서도 이어서 사용합니다. */ }
-    savePosts();
     form.reset();
     $("#post-submit-button").disabled = true;
     closeCompose();
@@ -2396,7 +2484,7 @@
 
   /* 카드의 좋아요, 이모티콘, 댓글, 삭제 버튼을 처리합니다. */
   feed.addEventListener("click", (event) => {
-    if (event.target.closest("img[data-comment-photo]")) return;
+    if (event.target.closest("img[data-comment-photo], img[data-zoomable-photo]")) return;
     const follow = event.target.closest("[data-follow-user]");
     if (follow) { toggleFollow(follow.dataset.followUser); return; }
     const profileLink = event.target.closest("[data-profile-id]");
@@ -2477,15 +2565,33 @@
       $("#comment-photo-preview").src = commentPhotoDraft;
       $("#comment-photo-preview-wrap").hidden = false;
       $("#post-detail-comment-status").textContent = "";
-    } catch (error) { console.warn("댓글 사진을 읽지 못했습니다.", error); alert(text[language].saveError); }
+    } catch (error) {
+      if (error instanceof Error && error.message === "photo-too-large") {
+        $("#post-detail-comment-status").textContent = text[language].photoTooLarge;
+      } else {
+        console.warn("댓글 사진을 읽지 못했습니다.", error);
+        $("#post-detail-comment-status").textContent = text[language].photoReadError;
+      }
+    }
     event.target.value = "";
   });
   $("#comment-photo-remove")?.addEventListener("click", clearCommentPhotoDraft);
   $("#comment-photo-viewer-close")?.addEventListener("click", () => { $("#comment-photo-viewer").hidden = true; });
   $("#comment-photo-viewer")?.addEventListener("click", (event) => { if (event.target === $("#comment-photo-viewer")) $("#comment-photo-viewer").hidden = true; });
+  $("#photo-lightbox-close")?.addEventListener("click", () => { $("#photo-lightbox").hidden = true; });
+  $("#photo-lightbox")?.addEventListener("click", (event) => { if (event.target === $("#photo-lightbox")) $("#photo-lightbox").hidden = true; });
   document.addEventListener("click", (event) => {
     const image = event.target.closest("img[data-comment-photo]"); if (!image) return;
     $("#comment-photo-viewer-image").src = image.src; $("#comment-photo-viewer").hidden = false;
+  });
+  document.addEventListener("click", (event) => {
+    const image = event.target.closest("img[data-zoomable-photo]");
+    if (!image) return;
+    $("#photo-lightbox-image").src = image.src;
+    $("#photo-lightbox").hidden = false;
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") $("#photo-lightbox").hidden = true;
   });
   $("#post-detail-like")?.addEventListener("click", () => {
     const post = posts.find((item) => String(item.id) === activeDetailPostId); if (!post) return;
@@ -2520,7 +2626,7 @@
     if (!body && !commentPhotoDraft) { $("#post-detail-comment-status").textContent = text[language].commentEmpty; return; }
     post.comments = post.comments || [];
     post.comments.push({ id: `comment-${Date.now()}-${Math.random().toString(36).slice(2, 5)}`, userId: currentUserId, nickname: currentNickname, text: body, photo: commentPhotoDraft });
-    if (!savePosts(text[language].commentSaveError)) { post.comments.pop(); return; }
+    if (!savePosts(text[language].storageFullMessage)) { post.comments.pop(); return; }
     addNotification(userIdForPost(post), "comment", currentUserId, post.id);
     $("#post-detail-comment-form").reset(); clearCommentPhotoDraft(); $("#post-detail-comment-status").textContent = ""; renderFeed(); renderPostDetail(post);
   });
@@ -2575,6 +2681,7 @@
       if (!notice) return;
       notice.read = true; saveNotifications(notices); renderNotifications();
       $("#notifications-panel").hidden = true; $("#notifications-button").setAttribute("aria-expanded", "false");
+      document.body.classList.remove("welcome-map-mode");
       $("#welcome-map-screen").hidden = true; $(".map-screen").hidden = false;
       $("#profile-page").hidden = true; viewingProfileId = ""; profileHistory = [];
       const post = posts.find((item) => String(item.id) === notice.postId);
@@ -2631,7 +2738,7 @@
   $("#tutorial-help-button")?.addEventListener("click", showTutorial);
 
   /* 피드 패널을 눌러 펼치거나 접습니다. */
-  function openDiaryPanel(tab = "mine") {
+  function openDiaryPanel(tab = "write") {
     activeDiaryTab = tab;
     $("#diary-panel").hidden = false;
     $("#diary-toggle").setAttribute("aria-expanded", "true");
@@ -2683,14 +2790,20 @@
     try {
       diaryPhotoDraft = await readResizedPhoto(file);
       setDiaryPhotoPreview(diaryPhotoDraft);
+      $("#diary-photo-status").textContent = "";
     } catch (error) {
-      console.error("일기 사진을 읽지 못했습니다.", error);
-      alert(text[language].diaryPhotoError);
+      if (error instanceof Error && error.message === "photo-too-large") {
+        $("#diary-photo-status").textContent = text[language].photoTooLarge;
+      } else {
+        console.error("일기 사진을 읽지 못했습니다.", error);
+        $("#diary-photo-status").textContent = text[language].photoReadError;
+      }
     }
     event.target.value = "";
   });
   $("#diary-photo-remove")?.addEventListener("click", () => {
     diaryPhotoDraft = "";
+    $("#diary-photo-status").textContent = "";
     setDiaryPhotoPreview("");
   });
   $("#diary-cancel-edit")?.addEventListener("click", () => {
@@ -2704,7 +2817,7 @@
     const existing = diaries.find((diary) => diary.userId === currentUserId && diary.dateKey === dateKey);
     const editing = existing && !existing.deleted && editingDiaryId === existing.id;
     if (existing && !editing) {
-      $("#diary-daily-status").textContent = text[language].diaryTodayExists;
+      $("#diary-daily-status").textContent = text[language].diaryLimitMessage;
       syncDiaryForm();
       return;
     }
@@ -2746,6 +2859,7 @@
     if (!saveDiaries(diaries)) return;
     if (!editing) getFollowerIds(currentUserId).forEach((followerId) => addNotification(followerId, "diary", currentUserId));
     editingDiaryId = "";
+    activeDiaryTab = "mine";
     renderDiaries();
     if (viewingProfileId === currentUserId && activeProfileTab === "diary") renderProfileTab();
   });
@@ -2946,6 +3060,23 @@
     showMine = true; renderFeed(); applyLanguage();
   });
 
+  /* 모바일 하단 탭은 기존 화면 전환 기능을 호출해 데이터와 localStorage 동작을 유지합니다. */
+  $$('[data-mobile-tab]').forEach((button) => button.addEventListener("click", () => {
+    const tab = button.dataset.mobileTab;
+    $$('[data-mobile-tab]').forEach((item) => item.classList.toggle("is-active", item === button));
+    if (tab === "map") {
+      feedSheet.classList.add("is-collapsed");
+      $("#feed-toggle")?.setAttribute("aria-expanded", "false");
+      map?.invalidateSize();
+    } else if (tab === "feed") {
+      feedSheet.classList.remove("is-collapsed");
+      $("#feed-toggle")?.setAttribute("aria-expanded", "true");
+      feed?.focus({ preventScroll: true });
+    } else {
+      $("#profile-open-button")?.click();
+    }
+  }));
+
   $("#compose-button")?.addEventListener("click", () => openCompose());
   $("#posting-agreement")?.addEventListener("change", (event) => { $("#post-submit-button").disabled = !event.target.checked; });
   $("#close-compose")?.addEventListener("click", closeCompose);
@@ -2971,6 +3102,7 @@
   $("#profile-open-button")?.addEventListener("click", openProfilePage);
   $("#home-logo")?.addEventListener("click", showWelcomeMap);
   $("#welcome-map-start")?.addEventListener("click", () => {
+    document.body.classList.remove("welcome-map-mode");
     $("#welcome-map-screen").hidden = true;
     $(".map-screen").hidden = false;
     $("#profile-open-button").hidden = false;
