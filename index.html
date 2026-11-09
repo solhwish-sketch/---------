@@ -131,6 +131,15 @@
         </div>
       </div>
 
+      <!-- 모바일에서 피드 글을 지도에서 확인하고 피드로 돌아갑니다. -->
+      <aside id="mobile-map-selection" class="mobile-map-selection" aria-live="polite" hidden>
+        <div class="mobile-map-selection-copy">
+          <strong id="mobile-map-selection-title"></strong>
+          <p id="mobile-map-selection-meta"></p>
+        </div>
+        <button type="button" id="mobile-map-return-feed"></button>
+      </aside>
+
       <!-- 도시 통합 공개 피드와 필터입니다. -->
       <section class="feed-sheet" id="feed-sheet" aria-labelledby="feed-heading">
         <button class="sheet-handle" id="feed-toggle" type="button" aria-expanded="true" aria-controls="post-list">
@@ -369,9 +378,8 @@
       <div class="post-detail-actions"><button type="button" id="post-detail-like"></button><button type="button" id="post-detail-bookmark"></button><button type="button" id="post-detail-share"></button><button type="button" data-report-type="post" id="post-detail-report"></button><button type="button" id="post-detail-edit" hidden></button></div>
       <h3 id="post-detail-comments-title"></h3>
       <ul id="post-detail-comments" class="post-detail-comments"></ul>
-      <form id="post-detail-comment-form" class="post-detail-comment-form"><label class="visually-hidden" for="post-detail-comment-input" id="post-detail-comment-label"></label><input id="post-detail-comment-input" maxlength="500"><button type="button" id="comment-photo-attach" aria-label="사진 첨부">📷</button><input id="comment-photo-file" type="file" accept="image/*" hidden><button type="submit" id="post-detail-comment-submit"></button></form>
       <p id="post-detail-comment-status" class="post-detail-comment-status" role="status" aria-live="polite"></p>
-      <div id="comment-photo-preview-wrap" class="comment-photo-preview-wrap" hidden><img id="comment-photo-preview" alt="첨부 사진 미리보기"><button type="button" id="comment-photo-remove" aria-label="사진 삭제">×</button></div>
+      <form id="post-detail-comment-form" class="post-detail-comment-form"><label class="visually-hidden" for="post-detail-comment-input" id="post-detail-comment-label"></label><input id="post-detail-comment-input" maxlength="500"><button type="button" id="comment-photo-attach" aria-label="사진 첨부">📷</button><input id="comment-photo-file" type="file" accept="image/*" hidden><button type="submit" id="post-detail-comment-submit"></button><div id="comment-photo-preview-wrap" class="comment-photo-preview-wrap" hidden><img id="comment-photo-preview" alt="첨부 사진 미리보기"><button type="button" id="comment-photo-remove" aria-label="사진 삭제">×</button></div></form>
     </section>
   </div>
   <div id="comment-photo-viewer" class="app-modal comment-photo-viewer" hidden role="dialog" aria-modal="true" aria-label="댓글 사진"><button type="button" class="modal-close" id="comment-photo-viewer-close" aria-label="닫기">×</button><img id="comment-photo-viewer-image" alt="댓글 사진 크게 보기"></div>

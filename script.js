@@ -43,7 +43,7 @@
       accountExists: "이미 가입된 아이디예요. 로그인해주세요.", signupDone: "가입이 완료됐어요. 환영합니다!",
       storageError: "브라우저 저장소를 사용할 수 없어요. 브라우저 설정을 확인해주세요.",
       feed: "피드", mine: "마이페이지", all: "지역 피드 보기", write: "동네 이야기 나누기",
-      feedAll: "전체", feedJeonju: "전주", feedTokyo: "도쿄", sortNewest: "최신순", sortPopular: "인기순", feedRegionLabel: "도시별 피드", feedSortLabel: "피드 정렬", categoryMapFilterLabel: "지도 카테고리 필터", mapPost: "지도에서 보기", loadMore: "더 보기", postDateLabel: "작성일",
+      feedAll: "전체", feedJeonju: "전주", feedTokyo: "도쿄", sortNewest: "최신순", sortPopular: "인기순", feedRegionLabel: "도시별 피드", feedSortLabel: "피드 정렬", categoryMapFilterLabel: "지도 카테고리 필터", mapPost: "지도에서 보기", mapPopupPost: "글 보기", mapReturnFeed: "피드로 돌아가기", mapSelectionLabel: "선택한 게시글", loadMore: "더 보기", postDateLabel: "작성일",
       diary: "내 일기", diaryToggle: "📔 내 일기", diaryToggleMobile: "📔 내 일기 쓰기", diaryDone: "✓ 오늘 완료", diaryIntro: "오늘의 일기를 남겨보세요", diaryMine: "내 일기", diaryFollowing: "팔로잉 일기", diaryMap: "🗺 일기 지도", diaryPrivacy: "🔒 일기는 나를 팔로우하는 사람에게만 보여요. 일기 위치도 본인과 팔로워에게만 공개돼요.", diaryTitle: "제목 (선택)", diaryMood: "오늘의 기분", diaryBody: "오늘의 일기", diaryPhoto: "사진 1장 (선택)", diaryLocation: "📍 장소 추가 (선택)", diaryLocationSearch: "장소 검색 (Nominatim)", diaryLocationSearchButton: "검색", diaryLocationSearchPlaceholder: "장소 이름을 검색하세요", diaryLocationLoading: "장소를 찾고 있어요…", diaryLocationEmpty: "장소를 찾지 못했어요.", diaryLocationError: "장소를 검색하지 못했어요. 잠시 후 다시 시도해 주세요.", diaryLocationMapLabel: "지도를 클릭해 일기 위치를 선택", diaryLocationRemove: "장소 삭제", diaryLocationSelected: "선택한 위치", diaryLocationAt: (lat, lng) => `지도에서 선택 (${lat.toFixed(5)}, ${lng.toFixed(5)})`, diaryMapPrivacy: "나와 내가 팔로우하는 사람의 일기 위치만 표시됩니다.", diaryMapEmpty: "표시할 일기 장소가 아직 없어요.", diaryMapPopup: (date, author, mood, body) => `<strong>${date}</strong><br>${author} · ${mood}<br>${body}`, diaryLocationLink: (name) => `📍 ${name}`, diaryWrite: "오늘의 일기 쓰기", diarySave: "일기 저장", diaryUpdate: "수정 완료", diaryCancel: "취소", diaryDelete: "삭제", diaryEdit: "수정", diaryTodayExists: "오늘의 일기를 이미 썼어요 ✨ 내일 또 만나요", diaryDeleteConfirm: "일기를 삭제할까요? 삭제한 뒤 오늘 다시 쓸 수 없어요.", diaryEmpty: "아직 쓴 일기가 없어요.", diaryFollowingEmpty: "팔로잉 중인 사람의 일기가 아직 없어요.", diaryFollowRequired: "팔로우하면 일기를 볼 수 있어요 🔒", diaryMutual: "🤝 서로 이웃", diaryHeart: "하트", diaryComment: "댓글", diaryCommentPlaceholder: "짧은 댓글을 남겨주세요 (100자)", diaryCommentSubmit: "등록", diaryPhotoRemove: "사진 삭제", diaryStreak: (count) => `🔥 ${count}일 연속`, diaryCalendar: "달력", diaryList: "목록", diaryNoToday: "오늘은 아직 일기를 쓰지 않았어요.", diaryPhotoError: "사진을 읽지 못했어요.", diaryImageAlt: "일기 사진",
       welcomeGreeting: (nickname) => `안녕하세요, ${nickname}님! 오늘은 어떤 하루였나요?`, welcomeTotal: "전체 글", welcomeToday: "오늘 올라온 글", welcomeStart: "시작하기", homeLogo: "Haru Pin 홈", welcomeMapLabel: "한국과 일본의 피드 지도",
       residence: "거주 지역", place: "장소 이름", category: "카테고리",
@@ -76,7 +76,7 @@
       accountExists: "このIDは登録済みです。ログインしてください。", signupDone: "登録が完了しました。ようこそ！",
       storageError: "ブラウザーの保存領域を利用できません。設定を確認してください。",
       feed: "フィード", mine: "マイページ", all: "地域の投稿を見る", write: "街の話をシェア",
-      feedAll: "すべて", feedJeonju: "全州", feedTokyo: "東京", sortNewest: "新着順", sortPopular: "人気順", feedRegionLabel: "都市別フィード", feedSortLabel: "並べ替え", categoryMapFilterLabel: "地図のカテゴリー絞り込み", mapPost: "地図で見る", loadMore: "もっと見る", postDateLabel: "投稿日",
+      feedAll: "すべて", feedJeonju: "全州", feedTokyo: "東京", sortNewest: "新着順", sortPopular: "人気順", feedRegionLabel: "都市別フィード", feedSortLabel: "並べ替え", categoryMapFilterLabel: "地図のカテゴリー絞り込み", mapPost: "地図で見る", mapPopupPost: "投稿を見る", mapReturnFeed: "フィードに戻る", mapSelectionLabel: "選択した投稿", loadMore: "もっと見る", postDateLabel: "投稿日",
       diary: "マイ日記", diaryToggle: "📔 マイ日記", diaryToggleMobile: "📔 マイ日記を書く", diaryDone: "✓ 今日完了", diaryIntro: "今日の日記を書いてみましょう", diaryMine: "自分の日記", diaryFollowing: "フォロー中の日記", diaryMap: "🗺 日記マップ", diaryPrivacy: "🔒 日記は自分をフォローしている人だけに表示されます。日記の位置情報も本人とフォロワーだけに公開されます。", diaryTitle: "タイトル（任意）", diaryMood: "今日の気分", diaryBody: "今日の日記", diaryPhoto: "写真1枚（任意）", diaryLocation: "📍 場所を追加（任意）", diaryLocationSearch: "場所を検索（Nominatim）", diaryLocationSearchButton: "検索", diaryLocationSearchPlaceholder: "場所の名前を検索", diaryLocationLoading: "場所を検索しています…", diaryLocationEmpty: "場所が見つかりませんでした。", diaryLocationError: "場所を検索できませんでした。しばらくしてからもう一度お試しください。", diaryLocationMapLabel: "地図をクリックして日記の場所を選択", diaryLocationRemove: "場所を削除", diaryLocationSelected: "選択した場所", diaryLocationAt: (lat, lng) => `地図で選択 (${lat.toFixed(5)}, ${lng.toFixed(5)})`, diaryMapPrivacy: "自分と自分がフォローしている人の日記の場所だけが表示されます。", diaryMapEmpty: "表示できる日記の場所はまだありません。", diaryMapPopup: (date, author, mood, body) => `<strong>${date}</strong><br>${author} · ${mood}<br>${body}`, diaryLocationLink: (name) => `📍 ${name}`, diaryWrite: "今日の日記を書く", diarySave: "日記を保存", diaryUpdate: "更新", diaryCancel: "キャンセル", diaryDelete: "削除", diaryEdit: "編集", diaryTodayExists: "今日の日記はもう書きました ✨ また明日！", diaryDeleteConfirm: "日記を削除しますか？削除後、今日は書き直せません。", diaryEmpty: "日記はまだありません。", diaryFollowingEmpty: "フォロー中の人の日記はまだありません。", diaryFollowRequired: "フォローすると日記を読めます 🔒", diaryMutual: "🤝 相互フォロー", diaryHeart: "ハート", diaryComment: "コメント", diaryCommentPlaceholder: "短いコメントを書く（100文字）", diaryCommentSubmit: "送信", diaryPhotoRemove: "写真を削除", diaryStreak: (count) => `🔥 ${count}日連続`, diaryCalendar: "カレンダー", diaryList: "リスト", diaryNoToday: "今日はまだ日記を書いていません。", diaryPhotoError: "写真を読み込めませんでした。", diaryImageAlt: "日記の写真",
       welcomeGreeting: (nickname) => `こんにちは、${nickname}さん！今日はどんな一日でしたか？`, welcomeTotal: "全投稿", welcomeToday: "今日の投稿", welcomeStart: "始める", homeLogo: "Haru Pin ホーム", welcomeMapLabel: "韓国と日本のフィードマップ",
       residence: "居住地", place: "場所", category: "カテゴリー",
@@ -171,6 +171,9 @@
   let diaryMonth = getDiaryDate().slice(0, 7);
   let diaryMidnightTimer;
   let markers = [];
+  let selectedMapPostId = "";
+  let selectedMapMarker = null;
+  let mobileFeedScrollTop = 0;
   let posts = loadPosts();
   let lastSearchResults = [];
   let searchRequest;
@@ -1874,6 +1877,43 @@
   // 피드의 지도 버튼은 도시를 바꾸고 해당 장소의 핀을 지도 중심에 둡니다.
   function focusPostOnMap(post) {
     if (!post || !map) return;
+    if (window.matchMedia("(max-width: 768px)").matches) {
+      mobileFeedScrollTop = feed.scrollTop;
+      map.closePopup();
+      selectedMapPostId = String(post.id);
+      if (post.region !== currentRegion) switchRegion(post.region);
+      renderMarkers();
+      setMobileTab("map");
+      $("#feed-sheet").classList.add("is-collapsed");
+      $("#feed-toggle")?.setAttribute("aria-expanded", "false");
+      $("#mobile-map-selection-title").textContent = post.place || text[language].place;
+      $("#mobile-map-selection-meta").textContent = `${post.nickname || ""} · ${categories[language][post.category] || post.category || ""} · ${formatPostDate(post.createdAt)}`;
+      $("#mobile-map-selection").setAttribute("aria-label", text[language].mapSelectionLabel);
+      $("#mobile-map-return-feed").textContent = text[language].mapReturnFeed;
+      $("#mobile-map-selection").hidden = false;
+      $("#compose-button").hidden = true;
+      map.invalidateSize();
+      if (!Number.isFinite(post.lat) || !Number.isFinite(post.lng)) return;
+      const point = [post.lat, post.lng];
+      const marker = selectedMapMarker || markers.find((item) => item.options.postId === String(post.id)) ||
+        markers.find((item) => {
+          const position = item.getLatLng();
+          return Math.abs(position.lat - post.lat) < 0.000001 && Math.abs(position.lng - post.lng) < 0.000001;
+        });
+      marker?.openPopup();
+      if (marker) keepMobilePopupInView(marker.getPopup());
+      if (map.getCenter().distanceTo(L.latLng(point)) >= 1 || map.getZoom() !== 16) {
+        const restorePopup = () => {
+          if (selectedMapPostId !== String(post.id) || $("#app-shell").dataset.mobileView !== "map" || !marker) return;
+          marker.openPopup();
+          keepMobilePopupInView(marker.getPopup());
+        };
+        map.once("moveend", restorePopup);
+        map.flyTo(point, 16, { duration: 0.8 });
+        window.setTimeout(restorePopup, 950);
+      }
+      return;
+    }
     if (post.region !== currentRegion) switchRegion(post.region);
     if (Number.isFinite(post.lat) && Number.isFinite(post.lng)) {
       map.setView([post.lat, post.lng], Math.max(map.getZoom(), 16));
@@ -2201,11 +2241,12 @@
     if (!map) return;
     markers.forEach((marker) => marker.remove());
     markers = [];
+    selectedMapMarker = null;
     posts.filter((post) =>
     !isPostHidden(post) && !isBlockedContent(post) &&
       post.region === currentRegion &&
-      (categoryFilter === "all" || post.category === categoryFilter) &&
-      (activeSearchPostIds === null || activeSearchPostIds.includes(String(post.id))) &&
+      (String(post.id) === selectedMapPostId || (categoryFilter === "all" || post.category === categoryFilter)) &&
+      (String(post.id) === selectedMapPostId || activeSearchPostIds === null || activeSearchPostIds.includes(String(post.id))) &&
       Number.isFinite(post.lat) && Number.isFinite(post.lng)
     ).forEach((post) => {
       const color = categoryColors[post.category] || "#72838B";
@@ -2217,14 +2258,41 @@
           iconAnchor: [15, 34]
         })
       }).addTo(map);
-      marker.bindPopup(`<strong>${escapeHtml(post.place)}</strong><br>${escapeHtml(post.nickname)}`);
-      marker.on("click", () => {
-        focusPost(post);
+      marker.options.postId = String(post.id);
+      if (String(post.id) === selectedMapPostId) selectedMapMarker = marker;
+      const popup = document.createElement("div");
+      popup.className = "post-map-popup";
+      const place = document.createElement("strong");
+      place.textContent = post.place || "";
+      const meta = document.createElement("p");
+      meta.textContent = `${post.nickname || ""} · ${categories[language][post.category] || post.category || ""}`;
+      const detailButton = document.createElement("button");
+      detailButton.type = "button";
+      detailButton.className = "post-map-popup-detail";
+      detailButton.textContent = text[language].mapPopupPost;
+      detailButton.addEventListener("click", (event) => {
+        L.DomEvent.stopPropagation(event);
         openPostDetail(post);
+      });
+      const mobileViewport = window.matchMedia("(max-width: 768px)").matches;
+      popup.append(place, meta);
+      if (mobileViewport) popup.append(detailButton);
+      marker.bindPopup(popup, mobileViewport ? {
+        maxWidth: 260,
+        minWidth: 160,
+        autoPan: true,
+        autoPanPadding: [20, 80]
+      } : {});
+      marker.on("click", () => {
+        if (!window.matchMedia("(max-width: 768px)").matches) {
+          focusPost(post);
+          openPostDetail(post);
+        } else keepMobilePopupInView(marker.getPopup());
       });
       markers.push(marker);
     });
   }
+  window.matchMedia("(max-width: 768px)").addEventListener("change", renderMarkers);
 
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
@@ -2343,6 +2411,8 @@
   function initializeMap() {
     if (!window.L) { mapElement.textContent = "Leaflet 지도를 불러오지 못했습니다."; return; }
     map = L.map(mapElement, { zoomControl: true }).setView(locales[currentRegion].center, locales[currentRegion].zoom);
+    // 모바일 팝업은 지도 필터와 하단 탭, 선택 카드에 가리지 않게 안쪽으로 옮깁니다.
+    map.on("popupopen", (event) => keepMobilePopupInView(event.popup));
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
@@ -2351,6 +2421,34 @@
     renderMarkers();
     /* 처음 지도 크기가 정해진 뒤 Leaflet에 화면 크기를 알려줍니다. */
     setTimeout(() => map.invalidateSize(), 0);
+  }
+
+  function keepMobilePopupInView(popup) {
+    if (!popup || !map || !window.matchMedia("(max-width: 768px)").matches) return;
+    const popupElement = popup.getElement();
+    if (!popupElement) {
+      window.setTimeout(() => keepMobilePopupInView(popup), 0);
+      return;
+    }
+    const popupRect = popupElement.getBoundingClientRect();
+    const mapRect = map.getContainer().getBoundingClientRect();
+    if (!popupRect) return;
+    const filterTop = $("#map-category-filters").getBoundingClientRect().top;
+    const bottomTabTop = $(".mobile-bottom-tabs").getBoundingClientRect().top;
+    const selectionTop = $("#mobile-map-selection").hidden
+      ? Number.POSITIVE_INFINITY
+      : $("#mobile-map-selection").getBoundingClientRect().top;
+    const leftEdge = mapRect.left + 12;
+    const rightEdge = mapRect.right - 12;
+    const topEdge = mapRect.top + 12;
+    const bottomEdge = Math.min(filterTop, bottomTabTop, selectionTop) - 8;
+    const panX = popupRect.right > rightEdge
+      ? popupRect.right - rightEdge
+      : popupRect.left < leftEdge ? popupRect.left - leftEdge : 0;
+    const panY = popupRect.bottom > bottomEdge
+      ? popupRect.bottom - bottomEdge
+      : popupRect.top < topEdge ? popupRect.top - topEdge : 0;
+    if (panX || panY) map.panBy([panX, panY], { animate: false });
   }
 
   /* 선택한 사진을 읽어 게시글에 함께 저장합니다. */
@@ -2556,7 +2654,7 @@
     if (card) { event.preventDefault(); openPostDetail(posts.find((item) => String(item.id) === card.dataset.postId)); }
   });
   function clearCommentPhotoDraft() {
-    commentPhotoDraft = ""; $("#comment-photo-file").value = ""; $("#comment-photo-preview").removeAttribute("src"); $("#comment-photo-preview-wrap").hidden = true;
+    commentPhotoDraft = ""; $("#comment-photo-file").value = ""; $("#comment-photo-preview").removeAttribute("src"); $("#comment-photo-preview-wrap").hidden = true; $(".post-detail-card").classList.remove("has-comment-photo-preview");
   }
   const closePostDetail = () => { $("#post-detail-modal").hidden = true; activeDetailPostId = ""; clearCommentPhotoDraft(); };
   $("#post-detail-close")?.addEventListener("click", closePostDetail);
@@ -2575,6 +2673,7 @@
       commentPhotoDraft = await readResizedPhoto(file);
       $("#comment-photo-preview").src = commentPhotoDraft;
       $("#comment-photo-preview-wrap").hidden = false;
+      $(".post-detail-card").classList.add("has-comment-photo-preview");
       $("#post-detail-comment-status").textContent = "";
     } catch (error) {
       if (error instanceof Error && error.message === "photo-too-large") {
@@ -3089,6 +3188,17 @@
       setMobileTab("mypage");
     }
   }));
+  $("#mobile-map-return-feed")?.addEventListener("click", () => {
+    $("#mobile-map-selection").hidden = true;
+    map?.closePopup();
+    selectedMapPostId = "";
+    $("#compose-button").hidden = false;
+    renderMarkers();
+    $("#feed-sheet").classList.remove("is-collapsed");
+    $("#feed-toggle")?.setAttribute("aria-expanded", "true");
+    setMobileTab("feed");
+    requestAnimationFrame(() => { feed.scrollTop = mobileFeedScrollTop; });
+  });
 
   $("#compose-button")?.addEventListener("click", () => openCompose());
   $("#posting-agreement")?.addEventListener("change", (event) => { $("#post-submit-button").disabled = !event.target.checked; });
