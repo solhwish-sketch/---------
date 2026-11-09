@@ -967,12 +967,22 @@
     const time = new Intl.DateTimeFormat(locale, { hour: "numeric", minute: "2-digit", hour12: true }).format(date);
     return `${parts.year}.${parts.month}.${parts.day} (${parts.weekday}) ${time}`;
   }
+  function setMobileTab(tab) {
+    $("#app-shell").dataset.mobileView = tab;
+    $$('[data-mobile-tab]').forEach((button) => {
+      const active = button.dataset.mobileTab === tab;
+      button.classList.toggle("is-active", active);
+      if (active) button.setAttribute("aria-current", "page");
+      else button.removeAttribute("aria-current");
+    });
+  }
   function showProfile(userId) {
     if (!userId) return;
     document.body.classList.remove("welcome-map-mode");
+    setMobileTab("mypage");
     viewingProfileId = userId;
     const own = userId === currentUserId;
-    $(".map-screen").hidden = true;
+    $(".map-screen").hidden = window.matchMedia("(max-width: 768px)").matches ? false : true;
     $("#profile-setup-screen").hidden = true;
     $("#profile-page").hidden = false;
     setText("#back-to-map", own && !profileHistory.length ? text[language].backMap : text[language].profileBack);
@@ -1039,6 +1049,7 @@
     }
     const origin = profileOrigin;
     viewingProfileId = "";
+    setMobileTab("map");
     $("#profile-page").hidden = true;
     $(".map-screen").hidden = false;
     $("#profile-open-button").hidden = false;
@@ -3063,7 +3074,8 @@
   /* 모바일 하단 탭은 기존 화면 전환 기능을 호출해 데이터와 localStorage 동작을 유지합니다. */
   $$('[data-mobile-tab]').forEach((button) => button.addEventListener("click", () => {
     const tab = button.dataset.mobileTab;
-    $$('[data-mobile-tab]').forEach((item) => item.classList.toggle("is-active", item === button));
+    if (tab !== "mypage" && !$("#profile-page").hidden) $("#back-to-map")?.click();
+    setMobileTab(tab);
     if (tab === "map") {
       feedSheet.classList.add("is-collapsed");
       $("#feed-toggle")?.setAttribute("aria-expanded", "false");
@@ -3074,6 +3086,7 @@
       feed?.focus({ preventScroll: true });
     } else {
       $("#profile-open-button")?.click();
+      setMobileTab("mypage");
     }
   }));
 
