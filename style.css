@@ -928,7 +928,7 @@ body.app-mode { height: 100%; overflow: hidden; }
   .diary-toggle::before { content: "📔"; font-size: 1.15rem; }
 
   /* 기본 지도 화면은 지도만 보이고, 하단 탭으로 피드와 마이페이지를 전환합니다. */
-  .map-screen { position: relative; z-index: auto; width: 100%; height: calc(100dvh - 56px); min-height: 0; overflow: hidden; }
+  .map-screen { position: relative; z-index: auto; isolation: auto; width: 100%; height: calc(100dvh - 56px); min-height: 0; overflow: hidden; }
   .map-column { position: absolute; inset: 0; display: block; min-width: 0; min-height: 0; }
   #map { position: absolute; inset: 0; width: 100%; height: 100%; }
   .feed-sheet { display: none; }
@@ -1024,7 +1024,28 @@ body.app-mode { height: 100%; overflow: hidden; }
   .app-modal .modal-actions { position: sticky; bottom: 0; display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding: 10px 0 max(12px, env(safe-area-inset-bottom)); background: #FFFEFC; }
   .app-modal .modal-actions button { flex: 1 1 120px; min-height: 48px; }
   .post-detail-card { display: flex; flex-direction: column; }
-  .post-detail-card .post-detail-comment-form { position: sticky; bottom: 0; flex: 0 0 auto; padding: 8px 0 max(12px, env(safe-area-inset-bottom)); background: #FFFEFC; }
+  .post-detail-card { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+  .post-detail-card .post-detail-comment-form {
+    position: fixed;
+    z-index: 20;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    margin: 0;
+    padding: 8px 14px max(12px, env(safe-area-inset-bottom));
+    border-top: 1px solid #E8EEF0;
+    background: #FFFEFC;
+  }
+  .post-detail-card .comment-photo-preview-wrap {
+    position: fixed;
+    z-index: 21;
+    right: 14px;
+    bottom: calc(60px + max(12px, env(safe-area-inset-bottom)));
+    margin: 0;
+  }
   .post-detail-comment-form input { min-width: 0; min-height: 44px; font-size: 16px; }
   .post-detail-comments { max-height: none; overflow: visible; }
 
@@ -1055,4 +1076,89 @@ body.app-mode { height: 100%; overflow: hidden; }
   .diary-location-search { gap: 8px; }
   .diary-location-search button { min-width: 44px; min-height: 44px; }
   .diary-location-picker-map { height: 200px; min-height: 200px; touch-action: none; overscroll-behavior: contain; }
+}
+
+@media (max-width: 768px) {
+  /* 로그인·회원가입이 길어져도 카드 안에서 끝까지 스크롤할 수 있게 합니다. */
+  .welcome-screen {
+    display: grid;
+    place-items: start center;
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    padding: max(18px, env(safe-area-inset-top)) 13px max(18px, env(safe-area-inset-bottom));
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+  .welcome-card { margin: 0 auto; padding: 24px 18px 20px; }
+  .auth-form input { min-height: 46px; font-size: 16px; }
+  #signup-consents { min-width: 0; padding: 10px; }
+  #signup-consents label { flex-wrap: wrap; gap: 7px; }
+  #signup-consents label > span { flex: 1 1 150px; min-width: 0; overflow-wrap: anywhere; }
+  #signup-consents label [data-policy] { flex: 0 0 auto; min-height: 44px; }
+
+  /* 시작 안내 지도에서는 일기 버튼을 상단 아이콘 자리에 두어 시작 버튼과 분리합니다. */
+  .welcome-map-mode .app-header .user-actions .diary-toggle {
+    position: relative;
+    inset: auto;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+  }
+
+  /* 화면 폭이 좁아져도 카드 내용과 입력값은 줄바꿈하고 잘리지 않게 합니다. */
+  .post-card, .profile-item, .diary-card, .diary-location-preview, .modal-content,
+  #withdraw-modal p, #withdraw-modal label, .notifications-panel,
+  .notification-item, .follow-list-item, .profile-summary-details {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  #post-form input[type="file"], #diary-form input[type="file"],
+  .profile-panel input[type="file"] { width: 100%; min-height: 44px; font-size: 16px; }
+  #post-form .posting-warning, #signup-consents label, #report-form label,
+  .tutorial-skip, .modal-card > label { align-items: center; overflow-wrap: anywhere; }
+  [data-policy], .profile-policy-button, .profile-summary button,
+  .profile-stats button, .profile-back, .profile-follow-button,
+  .inline-follow-button, .post-detail-back, .translation-row button,
+  .comment-tools button, .comment-actions button, .diary-form-actions button,
+  .diary-card-actions button, .diary-comment-form button,
+  .diary-history-controls button, .diary-calendar-heading button,
+  .diary-location-preview button, .diary-location-results button,
+  .diary-photo-preview button, .comment-photo-preview-wrap button,
+  .notifications-panel header button, .blocked-user-row button,
+  .profile-safety-actions button, .search-reset, #feed-load-more,
+  .post-detail-comment-form button, .diary-panel-header button {
+    min-width: 44px;
+    min-height: 44px;
+    white-space: normal;
+  }
+  .profile-summary { align-items: flex-start; gap: 12px; }
+  .profile-summary > .profile-avatar { flex: 0 0 88px; width: 88px; height: 88px; }
+  .profile-summary-details { flex: 1 1 0; }
+  .profile-stats { gap: 6px; }
+  .profile-stats span, .profile-stats button { overflow-wrap: anywhere; }
+  .profile-edit { min-width: 0; padding: 12px; }
+  .profile-content, .profile-item { min-width: 0; }
+  .profile-logout, .delete-account-button { min-height: 44px; }
+
+  /* 사진 지우기와 댓글·일기 반응도 작은 아이콘 대신 충분히 큰 터치 영역을 가집니다. */
+  .comment-photo-preview-wrap button, .diary-photo-preview button {
+    top: -8px;
+    right: -8px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+  }
+  .post-detail-comment-form { align-items: stretch; gap: 8px; }
+  .post-detail-comment-form #comment-photo-attach { flex: 0 0 44px; width: 44px; min-width: 44px; min-height: 44px; }
+  .post-detail-comment-form button[type="submit"] { flex: 0 0 auto; min-width: 44px; min-height: 44px; }
+  .diary-moods { flex-wrap: wrap; justify-content: flex-start; gap: 8px; }
+  .diary-moods label { flex: 0 0 44px; min-width: 44px; min-height: 44px; }
+  .diary-moods span { width: 44px; height: 44px; }
+  .diary-card-actions, .diary-form-actions, .diary-comment-form,
+  .comment-actions, .profile-safety-actions, .modal-actions { flex-wrap: wrap; gap: 8px; }
+  .diary-comment-form input, .diary-location-preview input { min-width: 0; font-size: 16px; }
+  .diary-location-results button { text-align: left; }
+  #diary-content, #diary-map-section, #diary-map { min-width: 0; }
 }
